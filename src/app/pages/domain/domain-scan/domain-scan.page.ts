@@ -66,21 +66,37 @@ export class DomainScanPage implements OnInit, OnDestroy {
         }
       })
     ).subscribe(data => {
+      console.log(data);
       if (data.monitor === 'Web Site Scanning' && data.status === 'Finished') {
-        this.tempResult = data;
         setTimeout(() => {
           this.defineRoutering();
         }, 1500);
       } else {
-        this.tempResult = data;
         if (data.monitor === 'Web Site Scanning' && data.status === 'Started' ) {
-         this.status.started = true;
+          this.status.started = true;
         } else {
+          this.tempResult = data;
           this.status.process = true;
           this.doTricksWithUI(data);
         }
       }
     });
+  }
+
+  doTricksWithUI(data) {
+      let interval: number;
+      if (this.action === 'addDomain') {
+        interval = 0.01724;
+      } else if (this.action === 'security-scan') {
+        interval = 0.071423;
+      } else if (this.action === 'speed-scan') {
+        interval = 0.07692;
+      } else if (this.action === 'seo-scan') {
+        interval = 0.041666;
+      }
+      this.percentage  = this.percentage + interval;
+      this.progresShow = this.intparse.transform(this.percentage * 100);
+      this.addNewMonitor();
   }
 
   ngOnDestroy() {
@@ -99,7 +115,6 @@ export class DomainScanPage implements OnInit, OnDestroy {
         });
         this.activatedRoute.queryParams.subscribe(params => {
           if (params) {
-            console.log(params);
             this.action = params.action;
             if (params.action === 'addDomain') {
               const parameter = {
@@ -134,27 +149,6 @@ export class DomainScanPage implements OnInit, OnDestroy {
     });
   }
 
-  doTricksWithUI(data) {
-    console.log(data);
-    if (data.status === 'Started') {
-      this.currentMonitor = data.monitor;
-      this.changelabelOfCurrentMonitor();
-    } else {
-      let interval: number;
-      if (this.action === 'addDomain') {
-        interval = 0.1;
-      } else if (this.action === 'security-scan') {
-        interval = 0.071423;
-      } else if (this.action === 'speed-scan') {
-        interval = 0.07692;
-      } else if (this.action === 'seo-scan') {
-        interval = 0.041666;
-      }
-      this.percentage  = this.percentage + interval;
-      this.progresShow = this.intparse.transform(this.percentage * 100);
-      this.addNewMonitor();
-    }
-  }
 
   changelabelOfCurrentMonitor() {
     setTimeout(() => {
@@ -163,7 +157,7 @@ export class DomainScanPage implements OnInit, OnDestroy {
   }
 
   addNewMonitor(){
-    let ele = `<div class='special'><ion-label class="slide-in-bottom">${ this.tempResult.monitor } ...`;
+    let ele = `<div class='special'><ion-label class="slide-in-bottom">${ this.tempResult.status } ...`;
     ele += `</ion-label>`;
     // tslint:disable-next-line: max-line-length
     ele += `<ion-label class="slide-in-bottom">${ this.tempResult.result }<ion-label><svg  xmlns="http://www.w3.org/2000/svg" class="check" width="166" height="151" viewBox="0 0 166 150.9">`;

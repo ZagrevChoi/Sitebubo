@@ -29,6 +29,10 @@ ion-content {
 			position: absolute;
 			top: 0;
 		}
+		&.monitor-name {
+			padding: 5px;
+			background-color: #F66967;
+		}
 	}
 	div.completed {
 		width: 100%;
@@ -57,7 +61,7 @@ ion-content {
 		}
 	}
 	div.results {
-		height: 35%;
+		height: 31%;
 		display: flex;
 		flex-direction: column;
 		justify-content: flex-end;
@@ -78,14 +82,15 @@ ion-content {
     }
 	}
 	div.footer {
-		height: 7%;
+		height: 11%;
 		width: 100%;
 		display: flex;
-		justify-content: center;
+		justify-content: space-around;
 		align-items: center;
 		color: white;
 		text-align: center;
 		font-size: 18px;
+		flex-direction: column;
 	}
 	div.status {
 		margin-top: 5%;
