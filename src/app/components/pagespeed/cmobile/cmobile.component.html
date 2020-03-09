@@ -1,13 +1,13 @@
 <div class="header">
   <ion-button mode="md" class="previous" slot="icon-only" [disabled]="!desktopData?.arrow.prev" (click)="getAnotherResult('prev');">
-    <ion-icon ios="ios-arrow-back" md="ios-arrow-back"></ion-icon>
+    <ion-icon name="arrow-back-outline"></ion-icon>
   </ion-button>
   <div class="dates-compare">
     <ion-label class="last-checked">{{ desktopData?.dates[0].datetime | datetime }}</ion-label>
     <ion-label class="previous-checked" *ngIf="desktopData?.dates[1]">vs {{ desktopData?.dates[1].datetime | datetime }}</ion-label>
   </div>
   <ion-button mode="md" class="next" slot="icon-only" [disabled]="!desktopData?.arrow.next" (click)="getAnotherResult('next');">
-    <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward"></ion-icon>
+    <ion-icon name="arrow-forward-outline"></ion-icon>
   </ion-button>
 </div>
 
@@ -46,10 +46,10 @@
     <ion-list-header>
       <ion-label>Metrics</ion-label>
       <ion-segment mode="ios" class="metrics-segment" [value]="metricsFilter" (ionChange)="changeMetricsFilter($event)">
-        <ion-segment-button mode="ios" value="0">
+        <ion-segment-button value="0">
           <ion-icon class="initial"></ion-icon>
         </ion-segment-button>
-        <ion-segment-button mode="ios" value="1">
+        <ion-segment-button value="1">
           <ion-icon class="details"></ion-icon>
         </ion-segment-button>
       </ion-segment>

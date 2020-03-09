@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { IonInput, Events } from '@ionic/angular';
+import { IonInput } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 import { DomainApiService } from 'src/app/apis/domain/domain-api.service';
 import { IongadgetService } from 'src/app/services/ionGadgets/iongadget.service';
+import { Events } from 'src/app/services/events/events.service';
 
 @Component({
   selector: 'app-add-site',

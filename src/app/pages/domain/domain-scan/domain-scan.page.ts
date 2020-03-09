@@ -61,7 +61,7 @@ export class DomainScanPage implements OnInit, OnDestroy {
           return of(x);
         } else {
           return of(x).pipe(
-            concatMap((data) => of(data).pipe(delay(1500)))
+            concatMap((data) => of(data).pipe(delay(1000)))
           );
         }
       })
@@ -206,66 +206,4 @@ export class DomainScanPage implements OnInit, OnDestroy {
       }, 2000);
     }
   }
-
-  // deleteDomain() {
-  //   this.ionService.showLoading();
-  //   this.domainAPI.deleteDomain(this.domainName, this.userID, this.token).subscribe((result) => {
-  //     this.ionService.closeLoading();
-  //     this.router.navigate(['domain-list'], { replaceUrl: true });
-  //   }, err => {
-  //     console.log(err);
-  //     this.ionService.closeLoading();
-  //     this.router.navigate(['domain-list'], { replaceUrl: true });
-  //   });
-  // }
-
-  // generateReport() {
-    //   this.reportAPI.generateReport(this.domainName, this.userID, this.token).subscribe((result) => {
-      //     if (result.RESPONSECODE ===  1) {
-  //       this.percentage = 100;
-  //       this.completed = true;
-  //     } else {
-  //       this.ionService.presentToast(result.RESPONSE);
-  //       this.deleteDomain();
-  //     }
-  //   }, err => {
-  //     this.ionService.presentToast('Server API Problem');
-  //     this.deleteDomain();
-  //   });
-  // }
-
-  // manualScan() {
-  //   this.reportAPI.
-  //   manualScan(this.tempService.dashboardParams.domainName, this.tempService.dashboardParams.domainUserID, this.userID, this.token)
-  //   .subscribe((result) => {
-  //     if (result.RESPONSECODE === 1) {
-  //       this.percentage = 100;
-  //       this.completed = true;
-  //       if (this.planID === 1) {
-  //         this.admobservice.showInterstitial().then((res) => {
-  //           if (res) {
-  //             setTimeout(() => {
-  //               this.router.navigate(['tabs/seo'], { replaceUrl: true, queryParams: { reload: true } });
-  //             }, 2000);
-  //           }
-  //         });
-  //       } else {
-  //         setTimeout(() => {
-  //           this.router.navigate(['tabs/seo'], { replaceUrl: true, queryParams: { reload: true } });
-  //         }, 2000);
-  //       }
-  //     } else {
-  //       this.ionService.presentToast(result.RESPONSE);
-  //       setTimeout(() => {
-  //         this.router.navigate(['tabs/seo'], { replaceUrl: true });
-  //       }, 2000);
-  //     }
-  //   }, err => {
-  //     this.ionService.presentToast('Server API Problem');
-  //     setTimeout(() => {
-  //       this.router.navigate(['tabs/seo'], { replaceUrl: true });
-  //     }, 2000);
-  //   });
-  // }
-
 }

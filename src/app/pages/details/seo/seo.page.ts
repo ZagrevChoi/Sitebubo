@@ -1,8 +1,8 @@
-import { Events } from '@ionic/angular';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { Router, NavigationExtras } from '@angular/router';
+import { Router } from '@angular/router';
 import { TempService } from './../../../services/temp/temp.service';
 import { GeneralService } from './../../../services/generalComponents/general.service';
+import { Events } from 'src/app/services/events/events.service';
 @Component({
   selector: 'app-seo',
   templateUrl: './seo.page.html',

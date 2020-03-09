@@ -2,7 +2,8 @@ import { Component, OnInit, ViewChild, ChangeDetectorRef} from '@angular/core';
 import { GeneralService } from './../../../services/generalComponents/general.service';
 import { TempService } from './../../../services/temp/temp.service';
 import { Router } from '@angular/router';
-import { IonSlides, Events} from '@ionic/angular';
+import { IonSlides } from '@ionic/angular';
+import { Events } from 'src/app/services/events/events.service';
 
 @Component({
   selector: 'app-speed',

@@ -1,5 +1,5 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
-import { Platform, Events } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 // modules
@@ -13,7 +13,7 @@ import { GeneralService } from './services/generalComponents/general.service';
 import { StorageService } from './services/storage/storage.service';
 import { IongadgetService } from './services/ionGadgets/iongadget.service';
 import { NetworkService } from './services/network/network.service';
-
+import { Events } from './services/events/events.service';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -144,7 +144,7 @@ export class AppComponent {
 
     logout() {
         this.generalService.logOut();
-        this.events.publish('log_out');
+        this.events.publish('log_out', true);
     }
 
     ChangePlan() {

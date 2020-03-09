@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppRate } from '@ionic-native/app-rate/ngx';
 import { Storage } from '@ionic/storage';
-import { ModalController, PopoverController, Events, ActionSheetController } from '@ionic/angular';
+import { ModalController, PopoverController, ActionSheetController } from '@ionic/angular';
 // apis
 import { AuthApiService } from './../../apis/auth/auth-api.service';
 import { NotificationApiService } from './../../apis/notification/notification-api.service';
@@ -13,6 +13,7 @@ import { ReportApiService } from './../../apis/report/report-api.service';
 // services
 import { IongadgetService } from '../ionGadgets/iongadget.service';
 import { TempService } from './../temp/temp.service';
+import { Events } from '../events/events.service';
 // modals
 import { MonitorIssuesPage } from './../../pages/modals/monitor-issues/monitor-issues.page';
 import { NotificationListPage } from './../../pages/modals/notification-list/notification-list.page';

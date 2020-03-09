@@ -1,13 +1,13 @@
 <div class="header">
   <ion-button mode="md" class="previous" slot="icon-only" [disabled]="!speedData?.arrow.prev" (click)="getAnotherResult('prev');">
-    <ion-icon ios="ios-arrow-back" md="ios-arrow-back"></ion-icon>
+    <ion-icon name="arrow-back-outline"></ion-icon>
   </ion-button>
   <div class="dates-compare">
     <ion-label class="last-checked">{{ speedData?.dates[0].datetime | datetime }}</ion-label>
     <ion-label class="previous-checked" *ngIf="speedData?.dates[1]">vs {{ speedData?.dates[1].datetime | datetime }}</ion-label>
   </div>
   <ion-button mode="md" class="next" slot="icon-only" [disabled]="!speedData?.arrow.next" (click)="getAnotherResult('next');">
-    <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward"></ion-icon>
+    <ion-icon name="arrow-forward-outline"></ion-icon>
   </ion-button>
 </div>
 
@@ -16,7 +16,7 @@
     <ion-card mode="ios" class="round-progress">
       <ion-button mode="ios" expand="block" class="filter" (click)="changeDisplayData('desktop')">
         <ion-label>{{ desktopDisplayData?.title }}</ion-label>
-        <ion-icon ios="ios-arrow-down" md="ios-arrow-down"></ion-icon>
+        <ion-icon name="chevron-down-outline"></ion-icon>
       </ion-button>
       <circle-progress
         [percent]="desktopDisplayData?.status?.percentage"
@@ -65,7 +65,7 @@
     <ion-card mode="ios" class="round-progress">
       <ion-button mode="ios" expand="full" class="filter" (click)="changeDisplayData('mobile')">
         <ion-label>{{ mobileDisplayData?.title }}</ion-label>
-        <ion-icon ios="ios-arrow-down" md="ios-arrow-down"></ion-icon>
+        <ion-icon name="chevron-down-outline"></ion-icon>
       </ion-button>
       <circle-progress
         [percent]="mobileDisplayData?.status?.percentage"

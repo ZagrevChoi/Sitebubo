@@ -1,11 +1,11 @@
 import { ActivatedRoute } from '@angular/router';
 import { Storage } from '@ionic/storage';
 import { GeneralService } from './../../../services/generalComponents/general.service';
-import { Events } from '@ionic/angular';
 import { TempService } from './../../../services/temp/temp.service';
 import { Component, ViewChild, ChangeDetectorRef, OnInit, OnDestroy } from '@angular/core';
 import { IongadgetService } from 'src/app/services/ionGadgets/iongadget.service';
 import { AdmobService } from 'src/app/services/admob/admob.service';
+import { Events } from 'src/app/services/events/events.service';
 @Component({
   selector: 'app-tabs',
   templateUrl: 'tabs.page.html',
@@ -33,7 +33,7 @@ export class TabsPage implements OnInit, OnDestroy {
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe((params) => {
       if (params.reload) {
-        this.events.publish('reloadresult');
+        this.events.publish('reloadresult', true);
       }
     });
     this.defineAdmobShow();

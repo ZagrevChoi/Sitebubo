@@ -4,8 +4,8 @@ import { TempService } from './../../../services/temp/temp.service';
 import { MonitorApiService } from 'src/app/apis/monitor/monitor-api.service';
 import { IongadgetService } from 'src/app/services/ionGadgets/iongadget.service';
 import { Router } from '@angular/router';
-import { Events } from '@ionic/angular';
 import { GeneralService } from 'src/app/services/generalComponents/general.service';
+import { Events } from 'src/app/services/events/events.service';
 
 @Component({
   selector: 'app-csecurity',

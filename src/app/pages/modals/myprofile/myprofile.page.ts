@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
-import { ModalController, IonInput, Events } from '@ionic/angular';
+import { ModalController, IonInput } from '@ionic/angular';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { IongadgetService } from 'src/app/services/ionGadgets/iongadget.service';
 import { UserApiService } from 'src/app/apis/user/user-api.service';
+import { Events } from 'src/app/services/events/events.service';
 
 @Component({
   selector: 'app-myprofile',

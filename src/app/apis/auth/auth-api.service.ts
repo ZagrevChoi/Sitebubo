@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Events } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { BaseApiService } from './../base/base-api.service';
 import { Facebook } from '@ionic-native/facebook/ngx';
+import { Events } from 'src/app/services/events/events.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,10 +15,10 @@ export class AuthApiService extends BaseApiService {
     public https: HttpClient,
     public router: Router,
     public storage: Storage,
-    public events: Events,
-    public facebook: Facebook
+    public facebook: Facebook,
+    public events: Events
     ) {
-    super(https, router, storage, events, facebook);
+    super(https, router, storage,  facebook, events);
   }
 
   login(email, password, deviceID, deviceName): any {

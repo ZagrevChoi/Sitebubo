@@ -207,7 +207,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
   ];
   module.exports.metadata = {
     "cordova-admob-sdk": "0.24.1",
-    "cordova-plugin-add-swift-support": "2.0.2",
     "cordova-promise-polyfill": "0.0.2",
     "cordova-plugin-admob-free": "0.27.0",
     "cordova-plugin-dialogs": "2.0.2",
@@ -215,8 +214,8 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-plugin-apprate": "1.5.0",
     "cordova-plugin-device": "2.0.2",
     "cordova-plugin-background-mode": "0.7.3",
-    "cordova-plugin-facebook4": "6.2.0",
-    "cordova-plugin-fcm-with-dependecy-updated": "4.1.1",
+    "cordova-plugin-facebook4": "6.3.0",
+    "cordova-plugin-fcm-with-dependecy-updated": "4.2.0",
     "cordova-plugin-inappbrowser": "3.2.0",
     "cordova-plugin-inapppurchase": "1.1.0",
     "cordova-plugin-ionic-keyboard": "2.2.0",
@@ -226,7 +225,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-plugin-statusbar": "2.4.2",
     "cordova-plugin-whitelist": "1.3.3",
     "es6-promise-plugin": "4.2.2",
-    "cordova-plugin-x-socialsharing": "5.6.3",
+    "cordova-plugin-x-socialsharing": "5.6.4",
     "cordova-plugin-youtube-video-player": "2.3.0",
     "cordova-sqlite-storage": "4.0.0"
   };

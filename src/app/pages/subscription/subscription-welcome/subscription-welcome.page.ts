@@ -1,4 +1,3 @@
-import { Events } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Storage } from '@ionic/storage';
@@ -6,6 +5,7 @@ import { GeneralService } from './../../../services/generalComponents/general.se
 import { IongadgetService } from 'src/app/services/ionGadgets/iongadget.service';
 import { SubscriptionApiService } from 'src/app/apis/subscription/subscription-api.service';
 import { TransactionApiService } from 'src/app/apis/transaction/transaction-api.service';
+import { Events } from 'src/app/services/events/events.service';
 
 @Component({
   selector: 'app-subscription-welcome',
