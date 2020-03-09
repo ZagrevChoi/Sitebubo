@@ -189,19 +189,19 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       ]
     },
     {
-      "id": "cordova-plugin-youtube-video-player.YoutubeVideoPlayer",
-      "file": "plugins/cordova-plugin-youtube-video-player/plugins/com.bunkerpalace.cordova.YoutubeVideoPlayer/www/YoutubeVideoPlayer.js",
-      "pluginId": "cordova-plugin-youtube-video-player",
-      "clobbers": [
-        "YoutubeVideoPlayer"
-      ]
-    },
-    {
       "id": "cordova-sqlite-storage.SQLitePlugin",
       "file": "plugins/cordova-sqlite-storage/www/SQLitePlugin.js",
       "pluginId": "cordova-sqlite-storage",
       "clobbers": [
         "SQLitePlugin"
+      ]
+    },
+    {
+      "id": "com.bunkerpalace.cordova.YoutubeVideoPlayer.YoutubeVideoPlayer",
+      "file": "plugins/com.bunkerpalace.cordova.YoutubeVideoPlayer/plugins/com.bunkerpalace.cordova.YoutubeVideoPlayer/www/YoutubeVideoPlayer.js",
+      "pluginId": "com.bunkerpalace.cordova.YoutubeVideoPlayer",
+      "clobbers": [
+        "YoutubeVideoPlayer"
       ]
     }
   ];
@@ -226,7 +226,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-plugin-whitelist": "1.3.3",
     "es6-promise-plugin": "4.2.2",
     "cordova-plugin-x-socialsharing": "5.6.4",
-    "cordova-plugin-youtube-video-player": "2.3.0",
-    "cordova-sqlite-storage": "4.0.0"
+    "cordova-sqlite-storage": "4.0.0",
+    "com.bunkerpalace.cordova.YoutubeVideoPlayer": "1.0.5"
   };
 });

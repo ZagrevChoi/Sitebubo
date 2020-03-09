@@ -126,7 +126,7 @@ export class ExDomainsPage implements OnInit {
       if (this.domains) {
         this.domains.forEach(element => {
           if (!element.checked) {
-            temp.push(element.domain_name);
+            temp.push({domain: element.domain_name});
           }
         });
       }

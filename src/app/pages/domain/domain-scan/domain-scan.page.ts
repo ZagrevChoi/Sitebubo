@@ -61,7 +61,7 @@ export class DomainScanPage implements OnInit, OnDestroy {
           return of(x);
         } else {
           return of(x).pipe(
-            concatMap((data) => of(data).pipe(delay(1000)))
+            concatMap((data) => of(data).pipe(delay(800)))
           );
         }
       })

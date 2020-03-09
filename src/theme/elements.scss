@@ -403,10 +403,10 @@ ion-label {
     position: absolute;
     z-index: 1;
     &.readySubmit {
-      color: #FE7A80 !important;
+      --color: #FE7A80 !important;
       --color-activated: rgb(197, 81, 81) !important;
       &.button-disabled {
-        color: rgb(172, 172, 172) !important;
+        --color: rgb(172, 172, 172) !important;
       }
       font-weight: 550;
       right: 10px;
