@@ -66,7 +66,7 @@ export class CancelMembershipPage implements OnInit {
             this.generalService.updatePlanInfo(this.userID, this.token).then((temp) => {
               console.log(temp);
               if (temp) {
-                this.router.navigate(['membership'], {replaceUrl: true});
+                this.router.navigate(['view-membership'], {replaceUrl: true});
               }
             });
           } else {
@@ -112,8 +112,8 @@ export class CancelMembershipPage implements OnInit {
   }
 
   downgradeDomains(downgradeData) {
-    this.ionService.showLoading();
     return new Promise((resolve, reject) => {
+      this.ionService.showLoading();
       this.subscriptionAPI.downgradePlan(downgradeData.domains, this.userID, this.token, downgradeData.feedback).subscribe((result) => {
         this.ionService.closeLoading();
         console.log(result);

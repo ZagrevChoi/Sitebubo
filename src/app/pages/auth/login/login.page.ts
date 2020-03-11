@@ -50,7 +50,6 @@ export class LoginPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.setHeaderAnimation();
     this.initForm();
     this.getToken();
   }
@@ -76,17 +75,6 @@ export class LoginPage implements OnInit {
         }
       });
     });
-  }
-
-  setHeaderAnimation() {
-    // this.keyboard.onKeyboardWillShow().subscribe(() => {
-    //   document.getElementById('logo').style.display = 'none';
-    //   document.getElementById('login').style.minHeight = '100vh';
-    // });
-    // this.keyboard.onKeyboardWillHide().subscribe(() => {
-    //   document.getElementById('logo').style.display = 'flex';
-    //   document.getElementById('login').style.minHeight = '66vh';
-    // });
   }
 
   initForm() {
