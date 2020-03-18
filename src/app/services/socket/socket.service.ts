@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
+import { NotificationApiService } from 'src/app/apis/notification/notification-api.service';
+
 @Injectable({
   providedIn: 'root'
 })
 export class SocketService {
 
   constructor(
-    private socket: Socket
+    private socket: Socket,
+    private notificationAPI: NotificationApiService
   ) { }
 
   defineEventHandlers(eventName, fnHandler) {
@@ -34,6 +37,17 @@ export class SocketService {
       fnHandler(data);
     });
     this.socket.emit('request-seo-scanning', params);
+  }
+
+  watchScanStatus(params, fnHandler) {
+    console.log(params);
+    this.socket.on('scan-status', (result) => {
+      console.log('===============================', result.status);
+      if (result.status) {
+        fnHandler(params.domain_name);
+      }
+    });
+    this.socket.emit('request-scan-status', params);
   }
 
   watchChanges(eventName, domainUrl, data) {

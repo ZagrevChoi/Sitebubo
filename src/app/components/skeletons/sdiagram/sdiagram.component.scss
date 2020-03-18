@@ -1,0 +1,36 @@
+div.header {
+    width: 100%;
+    height: 50px;
+    padding: 15px;
+}
+ion-card {
+    margin-top: 40px;
+    .button {
+        display: block;
+        width: 50%;
+        height: 40px;
+        border-radius: 20px;
+        margin: auto;
+        margin-top: 15px;
+    }
+    .circle {
+        height: 150px;
+        width: 150px;
+        display: block;
+        margin: auto;
+        border-radius: 50%;
+        margin-top: 30px;
+    }
+    .chart {
+        height: 150px;
+        width: 90%;
+        display: block;
+        margin: 20px auto;
+    }
+    .markers {
+        height: 30px;
+        width: 80%;
+        display: block;
+        margin: 15px auto;
+    }
+}

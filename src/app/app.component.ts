@@ -37,8 +37,10 @@ export class AppComponent {
     private cdr: ChangeDetectorRef,
     private ionService: IongadgetService,
     private storageService: StorageService,
-    private network: NetworkService
+    private network: NetworkService,
+    private fcm: FCM
   ) {
+      this.treatFCM();
       this.network.initNetwork();
       this.listenEvents();
       this.initializeApp();
@@ -60,7 +62,7 @@ export class AppComponent {
     });
   }
 
-  veryifyToken() {
+    veryifyToken() {
         return new Promise((resolve, reject) => {
             this.storage.get('userInfo').then((user) => {
                 if (user) {
@@ -116,6 +118,16 @@ export class AppComponent {
             this.cdr.detectChanges();
         });
 
+    }
+
+    treatFCM() {
+        this.fcm.onNotification().subscribe((res) => {
+            if (res.wasTapped) {
+                // alert(JSON.stringify(res));
+            } else {
+                // alert(JSON.stringify(res));
+            }
+        });
     }
 
     openDomainList() {

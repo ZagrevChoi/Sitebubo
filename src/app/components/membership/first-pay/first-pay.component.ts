@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 })
 export class FirstPayComponent implements OnInit {
   @Input() details: any;
+  @Input() newUser: any;
   constructor(
     private router: Router
   ) { }
@@ -16,5 +17,9 @@ export class FirstPayComponent implements OnInit {
 
   gotoDomainList() {
     this.router.navigate(['domain-list'], {replaceUrl: true});
+  }
+
+  upgrade() {
+    this.router.navigate(['plans']);
   }
 }

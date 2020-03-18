@@ -8,5 +8,8 @@
   <ion-icon class="c-paypal" *ngIf="details.payment_method === 'Paypal'"></ion-icon>
   <ion-icon class="c-inapp" *ngIf="details.payment_method === 'Inapp'"></ion-icon>
   <ion-label class="c-norfnt">{{details.name}} Plan</ion-label>
-  <ion-button block class="c-greenButton red" (click)="gotoDomainList()">My Sites</ion-button>
+  <!-- <ion-button *ngIf="!newUser" mode="md" expand="block" class="c-greenButton red" (click)="upgrade()">
+    {{ details.id !== 4 ? "Upgrade" : "Change" }}
+  </ion-button> -->
+  <!-- <ion-button block class="c-greenButton red" (click)="gotoDomainList()">My Sites</ion-button> -->
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { MonitorApiService } from 'src/app/apis/monitor/monitor-api.service';
 import { IongadgetService } from 'src/app/services/ionGadgets/iongadget.service';
 import { TempService } from 'src/app/services/temp/temp.service';
@@ -30,7 +30,8 @@ export class CdesktopComponent implements OnInit {
     private tempService: TempService,
     private options: ConstantsService,
     private dateTimePipe: DatetimePipe,
-    private iab: InAppBrowser
+    private iab: InAppBrowser,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -43,13 +44,12 @@ export class CdesktopComponent implements OnInit {
 
   initData() {
     const params = this.tempService.dashboardParams;
-    this.ionService.showLoading();
     this.monitorAPI.getDeskopSpeed(this.filter, params.domainName, params.domainUserID, this.userID, this.token)
     .subscribe((result) => {
-      this.ionService.closeLoading();
       console.log(result);
       if (result.RESPONSECODE === 1) {
         this.desktopData = result.data;
+        this.cdr.detectChanges();
         this.displayData = result.data.performance[0];
         this.changeStatusBarColor(this.displayData);
         this.setChatrtValues(this.desktopData.chart);
@@ -57,7 +57,6 @@ export class CdesktopComponent implements OnInit {
         this.ionService.presentToast('No data from server.');
       }
     }, err => {
-      this.ionService.closeLoading();
       this.ionService.presentToast('Error from Server Api.');
     });
   }

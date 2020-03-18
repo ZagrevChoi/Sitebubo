@@ -69,7 +69,7 @@
   </ng-template>
 </ng-container>
 
-<div class="secondary">  
+<div class="secondary" *ngIf="orders">  
   <ng-container *ngFor="let item of orders">
     <ng-template [ngIf] = "item === 'google-analytics-conversion-rate'">
       <ion-card id="google-analytics-conversion-rate" class="conversion-rate" (click)="jumpToPage('conversion')">
@@ -135,3 +135,24 @@
     </ng-template>
   </ng-container>
 </div>
+
+<ion-list *ngIf="!orders" style="margin-top: 20px">
+  <ion-card>
+    <ion-skeleton-text animated style="height: 87px;"></ion-skeleton-text>
+  </ion-card>
+  <ion-card style="margin-top: 15px;">
+    <ion-skeleton-text animated style="height: 87px;"></ion-skeleton-text>
+  </ion-card>
+  <ion-card style="margin-top: 15px;">
+    <ion-skeleton-text animated style="height: 87px;"></ion-skeleton-text>
+  </ion-card>
+  <ion-card style="margin-top: 15px;">
+    <ion-skeleton-text animated style="height: 87px;"></ion-skeleton-text>
+  </ion-card>
+  <ion-card style="margin-top: 15px;">
+    <ion-skeleton-text animated style="height: 87px;"></ion-skeleton-text>
+  </ion-card>
+  <ion-card style="margin-top: 15px;">
+    <ion-skeleton-text animated style="height: 87px;"></ion-skeleton-text>
+  </ion-card>
+</ion-list>

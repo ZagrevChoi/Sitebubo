@@ -156,7 +156,7 @@ export class DomainScanPage implements OnInit, OnDestroy {
     }, 1000);
   }
 
-  addNewMonitor(){
+  addNewMonitor() {
     let ele = `<div class='special'><ion-label class="slide-in-bottom">${ this.tempResult.status } ...`;
     ele += `</ion-label>`;
     // tslint:disable-next-line: max-line-length

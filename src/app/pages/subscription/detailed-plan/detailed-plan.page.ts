@@ -50,7 +50,9 @@ export class DetailedPlanPage implements OnInit {
 
   ngOnInit() {
     this.storage.get('planInfo').then((info) => {
-      this.oldPlan = info.name + 'Plan';
+      if (info) {
+        this.oldPlan = info.name + ' Plan';
+      }
     });
     this.definePlatform().then((res) => {
       if (res) {
@@ -333,6 +335,7 @@ export class DetailedPlanPage implements OnInit {
                 isNewUser: this.isNewUser,
                 platform: 'android',
                 status: 'upgrade',
+                isFreeTrial: this.freeTrial,
                 oldPlan: this.oldPlan
               }
             };

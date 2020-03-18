@@ -42,6 +42,10 @@ import { CpuComponent } from './serverMonitor/cpu/cpu.component';
 import { DiskComponent } from './serverMonitor/disk/disk.component';
 import { OverviewComponent } from './serverMonitor/overview/overview.component';
 import { NetworkComponent } from './serverMonitor/network/network.component';
+import { SdiagramComponent } from './skeletons/sdiagram/sdiagram.component';
+import { ScardComponent } from './skeletons/scard/scard.component';
+import { SthreechartsComponent } from './skeletons/sthreecharts/sthreecharts.component';
+import { SdatatableComponent } from './skeletons/sdatatable/sdatatable.component';
 
 @NgModule({
     declarations: [
@@ -70,6 +74,10 @@ import { NetworkComponent } from './serverMonitor/network/network.component';
         DiskComponent,
         OverviewComponent,
         NetworkComponent,
+        SdiagramComponent,
+        SthreechartsComponent,
+        ScardComponent,
+        SdatatableComponent,
         CamelCasePipe,
         SmallCasePipe,
         FloatonePipe,
@@ -134,7 +142,11 @@ import { NetworkComponent } from './serverMonitor/network/network.component';
         CpuComponent,
         DiskComponent,
         OverviewComponent,
-        NetworkComponent
+        NetworkComponent,
+        SdiagramComponent,
+        ScardComponent,
+        SthreechartsComponent,
+        SdatatableComponent
     ]
 })
 export class ComponentsModule {}

@@ -55,22 +55,24 @@ export class CancelMembershipPage implements OnInit {
   }
 
   activateFreePlan(cancelData) {
-    this.ionService.showLoading();
+    this.ionService.showSpecificLoading('Please wait. This might take a while ...');
     this.subscriptionAPI.activatefreesubscription(1, this.userID, this.token).subscribe((result) => {
-      console.log(result);
       if (result.RESPONSECODE === 1) {
         this.downgradeDomains(cancelData).then((res) => {
-          console.log(res);
           this.ionService.closeLoading();
           if (res) {
             this.generalService.updatePlanInfo(this.userID, this.token).then((temp) => {
               console.log(temp);
               if (temp) {
-                this.router.navigate(['view-membership'], {replaceUrl: true});
+                this.router.navigate(['subscription-welcome'],  { queryParams: {
+                  isNewUser: false,
+                  oldPlan: this.currentPlanName + ' Plan',
+                  platform: 'android',
+                  status: 'downgrade'
+                }});
               }
             });
           } else {
-            this.ionService.closeLoading();
             this.ionService.presentToast('Downgrading plan failed.');
           }
         }).catch((err) => {
@@ -113,10 +115,7 @@ export class CancelMembershipPage implements OnInit {
 
   downgradeDomains(downgradeData) {
     return new Promise((resolve, reject) => {
-      this.ionService.showLoading();
       this.subscriptionAPI.downgradePlan(downgradeData.domains, this.userID, this.token, downgradeData.feedback).subscribe((result) => {
-        this.ionService.closeLoading();
-        console.log(result);
         if (result.RESPONSECODE === 1) {
           resolve(true);
         } else {

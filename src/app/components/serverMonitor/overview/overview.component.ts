@@ -54,12 +54,9 @@ export class OverviewComponent implements OnInit {
   }
 
   initData(filter) {
-    this.ionService.showLoading();
     const params = this.tempService.dashboardParams;
     this.monitorAPI.getOverviewDetails(filter, params.domainName, params.domainUserID, this.userID, this.token)
     .subscribe((result) => {
-      console.log(result);
-      this.ionService.closeLoading();
       if (result.RESPONSECODE === 1) {
         this.overViewData = result.data.data;
         this.drawChart(result.data.data.chart);
@@ -68,7 +65,6 @@ export class OverviewComponent implements OnInit {
         this.ionService.presentToast('There is no data.');
       }
     }, err => {
-      this.ionService.closeLoading();
       this.ionService.presentToast('Fectching Data failed due to api.');
     });
   }

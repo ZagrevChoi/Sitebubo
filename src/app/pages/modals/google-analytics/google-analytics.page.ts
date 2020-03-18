@@ -87,7 +87,7 @@ export class GoogleAnalyticsPage implements OnInit, AfterViewInit {
       this.ionService.showLoading();
       const keys = {
         name: 'view-id',
-        value: this.viewID
+        value: this.viewID.trim()
       };
       const temp = [];
       temp.push(keys);

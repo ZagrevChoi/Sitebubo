@@ -12,7 +12,7 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-<ion-content *ngIf = 'showContent'>
+<ion-content *ngIf='showContent'>
   <!-- <app-sdomain-list *ngIf='filterType === 0'></app-sdomain-list> -->
   <ion-label class='noResult' *ngIf='filterType === 1 && !domains'>You have no domains added</ion-label>
   <!-- <ion-label class='noResult' *ngIf='filterType === 2 && myDomList.length < 1'></ion-label> -->
@@ -40,6 +40,7 @@
     </ion-reorder-group>
   </ion-list>
 </ion-content> 
+<app-sdomain-list *ngIf="!showContent"></app-sdomain-list>
 <ion-fab class='feedback-fab'vertical="bottom" horizontal="start" slot="fixed">
   <ion-fab-button mode='md' class='feedback' (click)='openFeedback()'>
       <ion-icon class='feedback'></ion-icon>
