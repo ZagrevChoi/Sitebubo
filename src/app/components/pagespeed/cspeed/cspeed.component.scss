@@ -158,6 +158,11 @@ mat-expansion-panel {
   }
 }
 
+ion-label.black {
+  font-weight: 500;
+  color: black !important;
+  margin-bottom: 10px;
+}
 ion-label.spec-des {
   padding-left: 11px;
 }

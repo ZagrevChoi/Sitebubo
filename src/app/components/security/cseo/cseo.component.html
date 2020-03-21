@@ -77,6 +77,7 @@
             </ion-item>
           </mat-expansion-panel-header>
           <mat-panel-description >
+            <ion-label class="spec-des black" *ngIf="item.short_desc && item.short_desc !== ''">{{ item.short_desc }}</ion-label>
             <ion-label class="spec-des">
               {{ item.description }}
               <a class="hyperlink" *ngIf="item.learnMoreUrl" (click)="linkToLearnMore(item.learnMoreUrl)">[Learn more]</a>

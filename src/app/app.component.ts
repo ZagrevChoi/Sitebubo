@@ -121,11 +121,13 @@ export class AppComponent {
     }
 
     treatFCM() {
+        this.fcm.subscribeToTopic('all');
         this.fcm.onNotification().subscribe((res) => {
+            alert(JSON.stringify(res));
             if (res.wasTapped) {
-                // alert(JSON.stringify(res));
+                // alert('tapped===============' +  JSON.stringify(res));
             } else {
-                // alert(JSON.stringify(res));
+                // alert('not tapped===============' + JSON.stringify(res));
             }
         });
     }
