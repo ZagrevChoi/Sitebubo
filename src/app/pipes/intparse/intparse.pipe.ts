@@ -8,5 +8,4 @@ export class IntparsePipe implements PipeTransform {
   transform(numberValue): any {
     return Math.round(numberValue);
   }
-
 }

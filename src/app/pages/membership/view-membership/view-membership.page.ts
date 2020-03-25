@@ -4,6 +4,8 @@ import { Storage } from '@ionic/storage';
 import { IongadgetService } from 'src/app/services/ionGadgets/iongadget.service';
 import { TransactionApiService } from 'src/app/apis/transaction/transaction-api.service';
 import { GeneralService } from 'src/app/services/generalComponents/general.service';
+import { SubscriptionApiService } from 'src/app/apis/subscription/subscription-api.service';
+import { promise } from 'protractor';
 
 @Component({
   selector: 'app-view-membership',
@@ -18,13 +20,15 @@ export class ViewMembershipPage implements OnInit {
   freeTrial: boolean;
   transactions = [];
   displayValue = 0;
+  plansList: any;
   constructor(
-    private ionSerivce: IongadgetService,
+    private ionService: IongadgetService,
     private navCtrl: NavController,
     private storage: Storage,
     private cdr: ChangeDetectorRef,
     private transactionAPI: TransactionApiService,
-    private generalService: GeneralService
+    private generalService: GeneralService,
+    private subscriptionApi: SubscriptionApiService
   ) { }
 
   ngOnInit() {
@@ -54,23 +58,21 @@ export class ViewMembershipPage implements OnInit {
       });
   }
 
-  getLastPaymentHistory() {
-    return new Promise((resolve, reject) => {
-      this.transactionAPI.getLastPaymentHistory(this.userID, this.token).subscribe((result) => {
-        if (result.RESPONSECODE === 1) {
-          console.log(result);
-        } else  {
-          this.ionSerivce.presentToast(result.RESPONSE);
-        }
-      });
-    });
-  }
+  // getLastPaymentHistory() {
+  //   return new Promise((resolve, reject) => {
+  //     this.transactionAPI.getLastPaymentHistory(this.userID, this.token).subscribe((result) => {
+  //       if (result.RESPONSECODE === 1) {
+  //         console.log(result);
+  //       } else  {
+  //         this.ionSerivce.presentToast(result.RESPONSE);
+  //       }
+  //     });
+  //   });
+  // }
 
   getTransactionHistory() {
-    this.ionSerivce.showLoading();
     return new Promise((resolve, reject) => {
       this.transactionAPI.getTransactionHistory(this.userID, this.token).subscribe(result => {
-        this.ionSerivce.closeLoading();
         console.log(result);
         if (result.RESPONSECODE === 1) {
           if (result.data && result.data.length > 0) {
@@ -80,18 +82,19 @@ export class ViewMembershipPage implements OnInit {
           }
           resolve(true);
         } else {
-          this.ionSerivce.presentToast(result.RESPONSE);
+          this.ionService.presentToast(result.RESPONSE);
           reject(false);
         }
       }, err => {
-        this.ionSerivce.closeLoading();
       });
     });
   }
 
   defineDisplay() {
     if (this.subscriptionID === 1) {
-      this.displayValue = 1;
+      this.getSubscriptions(this.userID, this.token).then((res) => {
+        this.displayValue = 1;
+      });
     } else if (this.subscriptionID > 1 && this.freeTrial === true) {
       this.displayValue = 2;
     } else  {
@@ -102,16 +105,35 @@ export class ViewMembershipPage implements OnInit {
         }
       });
     }
-    this.ionSerivce.closeLoading();
+    this.ionService.closeLoading();
     this.cdr.detectChanges();
   }
+
+  getSubscriptions(userID, token): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.ionService.showLoading();
+      this.subscriptionApi.getSubscriptionPlan(userID, token).subscribe(async (plans) => {
+        this.ionService.closeLoading();
+        if (plans.RESPONSECODE === 1) {
+          this.plansList = plans.data.reverse();
+          resolve(true);
+        } else {
+          this.ionService.showAlert('Error while fetching Plans', 'Something might be wrong from the api');
+          reject(false);
+        }
+      }, err => {
+        this.ionService.showAlert('Connection Error to the Server', 'Couldnot fetch the plans');
+        reject(false);
+      });
+    });
+}
 
   back() {
     this.navCtrl.back();
   }
 
   toggleMenu() {
-    this.ionSerivce.toggleMenu();
+    this.ionService.toggleMenu();
   }
 
   openFeedback() {

@@ -62,7 +62,6 @@ export class BaseApiService {
    }
 
    public filterResponse(response) {
-    // response['RESPONSE'] = 'Access denied. Please give me valid token';
     if (response.RESPONSE === 'Access denied. Please give me valid token') {
       console.log('Denied Token');
       this.events.publish('denied_token', true);

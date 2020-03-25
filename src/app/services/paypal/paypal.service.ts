@@ -10,9 +10,9 @@ export class PaypalService {
     private iab: InAppBrowser
   ) { }
 
-  async payNow(userID, planID, token, freetrial): Promise<any> {
+  async payNow(userID, planID, token, freetrial, type): Promise<any> {
     return new Promise(async (resolve, reject) => {
-      let url = 'https://app.sitebubo.com/payments_pro/redirectpaypal?user_id=' + userID + '&plan_id=' + planID;
+      let url = 'https://app.sitebubo.com/payments_pro/redirectpaypal?user_id=' + userID + '&plan_id=' + planID + '&type=' + type;
       url += '&token=' + token;
       if (freetrial) {
         url += '&freetrial=yes';

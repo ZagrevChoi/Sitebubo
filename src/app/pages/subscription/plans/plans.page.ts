@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NavController, Platform } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import { SubscriptionApiService } from 'src/app/apis/subscription/subscription-api.service';
 import { IongadgetService } from 'src/app/services/ionGadgets/iongadget.service';
 import { Storage } from '@ionic/storage';
-import { InAppPurchase } from '@ionic-native/in-app-purchase/ngx';
-
 @Component({
   selector: 'app-plans',
   templateUrl: './plans.page.html',
@@ -15,7 +13,6 @@ export class PlansPage implements OnInit {
   newUser: boolean;
   products: any;
   plansList: any;
-  subscriptionID: any;
   plat: string;
   constructor(
     private storage: Storage,
@@ -24,16 +21,10 @@ export class PlansPage implements OnInit {
     private navCtrl: NavController,
     private subscriptionApi: SubscriptionApiService,
     private ionService: IongadgetService,
-    private platform: Platform,
-    private iap: InAppPurchase
   ) { }
 
   ngOnInit() {
-    this.platform.ready().then(() => {
-      const platforms = this.platform.platforms();
-      this.plat = platforms[1];
-      this.initData();
-    });
+    this.initData();
   }
 
   ionViewWillEnter() {
@@ -44,11 +35,6 @@ export class PlansPage implements OnInit {
           this.newUser = params.newUser;
         }
       });
-    });
-    this.storage.get('planInfo').then((info) => {
-      if (info.id !== undefined) {
-        this.subscriptionID = info.id;
-      }
     });
   }
 
@@ -84,14 +70,14 @@ export class PlansPage implements OnInit {
     this.navCtrl.back();
   }
 
-  selectPlan(id, name, price ) {
-    this.router.navigate(['detailed-plan'], { queryParams: { planID: id, planName: name, planPrice: price } });
-  }
+  // selectPlan(id, name, price ) {
+  //   this.router.navigate(['detailed-plan'], { queryParams: { planID: id, planName: name, planPrice: price } });
+  // }
 
-  restore() {
-    this.iap.restorePurchases().then((res) => {
-      console.log(JSON.stringify(res));
-      this.ionService.presentToast('Successfully restored.');
-    });
-  }
+  // restore() {
+  //   this.iap.restorePurchases().then((res) => {
+  //     console.log(JSON.stringify(res));
+  //     this.ionService.presentToast('Successfully restored.');
+  //   });
+  // }
 }

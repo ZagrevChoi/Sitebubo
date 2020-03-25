@@ -9,7 +9,7 @@ import { IongadgetService } from 'src/app/services/ionGadgets/iongadget.service'
   templateUrl: './notification-setting.page.html',
   styleUrls: ['./notification-setting.page.scss'],
 })
-export class NotificationSettingPage implements OnInit, OnChanges {
+export class NotificationSettingPage implements OnInit {
   userID: number;
   token: string;
   filterType = 1;
@@ -27,9 +27,6 @@ export class NotificationSettingPage implements OnInit, OnChanges {
     this.initData();
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
-  }
 
   ionViewWillEnter() {
   }

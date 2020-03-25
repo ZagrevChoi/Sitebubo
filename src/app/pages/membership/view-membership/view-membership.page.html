@@ -12,10 +12,10 @@
   </ion-toolbar>
 </ion-header>
 <ion-content [ngSwitch]="displayValue">
-  <app-old-free *ngSwitchCase="1" [details]="planInfo"></app-old-free>
+  <app-subscription-plan *ngSwitchCase="1" [plansList]="plansList"></app-subscription-plan>
   <app-free-trial *ngSwitchCase="2" [details]="planInfo"></app-free-trial>
   <app-no-trial *ngSwitchCase="4" [details]="planInfo"></app-no-trial>
-  <app-first-pay *ngSwitchCase="3" [details]="planInfo"></app-first-pay>
+  <!-- <app-first-pay *ngSwitchCase="3" [details]="planInfo"></app-first-pay> -->
   <ion-fab class="feedback-fab" vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button mode="md" class="feedback" (click)="openFeedback()">
         <ion-icon class="feedback"></ion-icon>

@@ -460,15 +460,74 @@ export class GeneralService {
     return new Promise(async (resolve) => {
       let header: string;
       if (key === 'speed') {
-        // tslint:disable-next-line: max-line-length
-        header = 'You have ' + (data.speedtotalscan) + '/' +  (data.speedtotalscan + data.speedscanfinished) + ' scans remaining this month. Would you like to scan this site?';
+        if (data.speedtotalscan <= 0) {
+          this.ionService.presentToast('You have exceeded the number of manula scan for the current plan.');
+          resolve(false);
+        } else if (data.speedtotalscan + data.speedscanfinished === 0) {
+          this.askToUpgrade();
+          resolve(false);
+        } else {
+          // tslint:disable-next-line: max-line-length
+          header = 'You have ' + (data.speedtotalscan) + '/' +  (data.speedtotalscan + data.speedscanfinished) + ' scans remaining this month. Would you like to scan this site?';
+          this.lanuchScanningModal(header).then((res) => {
+            resolve(res);
+          });
+        }
       } else if (key === 'seo') {
-        // tslint:disable-next-line: max-line-length
-        header = 'You have ' + (data.seototalscan) + '/' +  (data.seototalscan + data.seoscanfinished) + ' scans remaining this month. Would you like to scan this site?';
+        if (data.seototalscan <= 0) {
+          this.ionService.presentToast('You have exceeded the number of manula scan for the current plan.');
+          resolve(false);
+        } else if (data.seototalscan + data.seoscanfinished === 0) {
+          this.askToUpgrade();
+          resolve(false);
+        } else {
+          // tslint:disable-next-line: max-line-length
+          header = 'You have ' + (data.seototalscan) + '/' +  (data.seototalscan + data.seoscanfinished) + ' scans remaining this month. Would you like to scan this site?';
+          this.lanuchScanningModal(header).then((res) => {
+            resolve(res);
+          });
+        }
       } else if (key === 'security') {
-        // tslint:disable-next-line: max-line-length
-        header = 'You have ' + (data.securitytotalscan) + '/' +  (data.securitytotalscan + data.securityscanfinished) + ' scans remaining this month. Would you like to scan this site?';
+        if (data.securitytotalscan <= 0) {
+          this.ionService.presentToast('You have exceeded the number of manula scan for the current plan.');
+          resolve(false);
+        } else if (data.securitytotalscan + data.securityscanfinished === 0) {
+          this.askToUpgrade();
+          resolve(false);
+        } else {
+          // tslint:disable-next-line: max-line-length
+          header = 'You have ' + (data.securitytotalscan) + '/' +  (data.securitytotalscan + data.securityscanfinished) + ' scans remaining this month. Would you like to scan this site?';
+          this.lanuchScanningModal(header).then((res) => {
+            resolve(res);
+          });
+        }
       }
+    });
+  }
+
+  async askToUpgrade() {
+        const action = await this.actionCtrl.create({
+          header: 'You have to upgrade the current subscription plan to enable manual scans. Do you want to upgrade now ?',
+          buttons: [
+            {
+              text: 'Upgrade',
+              icon: 'happy',
+              handler: () => {
+                this.router.navigate(['plans']);
+              }
+            },
+            {
+              text: 'Cancel',
+              icon: 'hand',
+              role: 'cancel'
+            }
+          ],
+        });
+        await action.present();
+  }
+
+  async lanuchScanningModal(header): Promise<any> {
+    return new Promise(async (resolve) => {
       const action = await this.actionCtrl.create({
         // tslint:disable-next-line: object-literal-shorthand
         header: header,

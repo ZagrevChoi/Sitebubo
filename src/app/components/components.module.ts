@@ -46,6 +46,7 @@ import { SdiagramComponent } from './skeletons/sdiagram/sdiagram.component';
 import { ScardComponent } from './skeletons/scard/scard.component';
 import { SthreechartsComponent } from './skeletons/sthreecharts/sthreecharts.component';
 import { SdatatableComponent } from './skeletons/sdatatable/sdatatable.component';
+import { SubscriptionPlanComponent } from './subscriptions/subscription-plan/subscription-plan.component';
 
 @NgModule({
     declarations: [
@@ -78,6 +79,7 @@ import { SdatatableComponent } from './skeletons/sdatatable/sdatatable.component
         SthreechartsComponent,
         ScardComponent,
         SdatatableComponent,
+        SubscriptionPlanComponent,
         CamelCasePipe,
         SmallCasePipe,
         FloatonePipe,
@@ -146,7 +148,8 @@ import { SdatatableComponent } from './skeletons/sdatatable/sdatatable.component
         SdiagramComponent,
         ScardComponent,
         SthreechartsComponent,
-        SdatatableComponent
+        SdatatableComponent,
+        SubscriptionPlanComponent
     ]
 })
 export class ComponentsModule {}

@@ -8,7 +8,6 @@ import { ExDomainsPage } from './../../modals/ex-domains/ex-domains.page';
 import { PaypalService } from './../../../services/paypal/paypal.service';
 import { SubscriptionApiService } from 'src/app/apis/subscription/subscription-api.service';
 import { InAppPurchase } from '@ionic-native/in-app-purchase/ngx';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-detailed-plan',
@@ -291,73 +290,73 @@ export class DetailedPlanPage implements OnInit {
   }
 
   gotoPaypal(downgradeData = null) {
-    if (parseInt(this.planID, 10) === 1) {
-      this.ionService.showLoading();
-      this.gotoFreePlan().then((result) => {
-        this.ionService.closeLoading();
-        if (result) {
-          this.downgradeDomains(downgradeData).then(res => {
-            this.router.navigate(['subscription-welcome'],  { queryParams: {
-              isNewUser: this.isNewUser,
-              oldPlan: this.oldPlan,
-              platform: 'android',
-              status: 'downgrade'
-            }});
-          });
-        }
-       }).catch((err) => {
-         this.ionService.closeLoading();
-       });
-    } else {
-      this.paypal.payNow(this.userID, parseInt(this.planID, 10), this.token, this.freeTrial).then((result) => {
-        this.ionService.closeLoading();
-        if (result === 'success') {
-          if (downgradeData !== null) {
-            this.downgradeDomains(downgradeData).then(res => {
-              if (res) {
-                const params: NavigationExtras = {
-                  queryParams: {
-                    isNewUser: this.isNewUser,
-                    platform: 'android',
-                    status: 'downgrade',
-                    oldPlan: this.oldPlan
-                  }
-                };
-                this.router.navigate(['subscription-welcome'], params);
-              }
-            }).catch((err) => {
-              this.ionService.closeLoading();
-              this.ionService.presentToast('Downgrading failed due to server api');
-            });
-          } else {
-            const params: NavigationExtras = {
-              queryParams: {
-                isNewUser: this.isNewUser,
-                platform: 'android',
-                status: 'upgrade',
-                isFreeTrial: this.freeTrial,
-                oldPlan: this.oldPlan
-              }
-            };
-            this.router.navigate(['subscription-welcome'], params);
-          }
-        } else if (result === 'pending') {
-          let message = 'Already you have one subscriptions is pending.';
-          message += 'So please wait untill status need to update. Then we can change the subscription';
-          this.ionService.presentToast(message);
-        } else if (result === 'free-trial-failed') {
-          const message = 'You are not able to use free trial. There will be something wrong. Please contact support.';
-          this.ionService.presentToast(message);
-        } else if (result === 'cancelled') {
-          this.ionService.presentToast('Subscription Activation Failed. Please try again');
-        } else {
-          const message = 'Payment Connection Failed. Please try again';
-          this.ionService.presentToast(message);
-        }
-      }).catch((err) => {
-        this.ionService.presentToast('Subscription Activation Failed. Please try again');
-      });
-    }
+    // if (parseInt(this.planID, 10) === 1) {
+    //   this.ionService.showLoading();
+    //   this.gotoFreePlan().then((result) => {
+    //     this.ionService.closeLoading();
+    //     if (result) {
+    //       this.downgradeDomains(downgradeData).then(res => {
+    //         this.router.navigate(['subscription-welcome'],  { queryParams: {
+    //           isNewUser: this.isNewUser,
+    //           oldPlan: this.oldPlan,
+    //           platform: 'android',
+    //           status: 'downgrade'
+    //         }});
+    //       });
+    //     }
+    //    }).catch((err) => {
+    //      this.ionService.closeLoading();
+    //    });
+    // } else {
+    //   this.paypal.payNow(this.userID, parseInt(this.planID, 10), this.token, this.freeTrial).then((result) => {
+    //     this.ionService.closeLoading();
+    //     if (result === 'success') {
+    //       if (downgradeData !== null) {
+    //         this.downgradeDomains(downgradeData).then(res => {
+    //           if (res) {
+    //             const params: NavigationExtras = {
+    //               queryParams: {
+    //                 isNewUser: this.isNewUser,
+    //                 platform: 'android',
+    //                 status: 'downgrade',
+    //                 oldPlan: this.oldPlan
+    //               }
+    //             };
+    //             this.router.navigate(['subscription-welcome'], params);
+    //           }
+    //         }).catch((err) => {
+    //           this.ionService.closeLoading();
+    //           this.ionService.presentToast('Downgrading failed due to server api');
+    //         });
+    //       } else {
+    //         const params: NavigationExtras = {
+    //           queryParams: {
+    //             isNewUser: this.isNewUser,
+    //             platform: 'android',
+    //             status: 'upgrade',
+    //             isFreeTrial: this.freeTrial,
+    //             oldPlan: this.oldPlan
+    //           }
+    //         };
+    //         this.router.navigate(['subscription-welcome'], params);
+    //       }
+    //     } else if (result === 'pending') {
+    //       let message = 'Already you have one subscriptions is pending.';
+    //       message += 'So please wait untill status need to update. Then we can change the subscription';
+    //       this.ionService.presentToast(message);
+    //     } else if (result === 'free-trial-failed') {
+    //       const message = 'You are not able to use free trial. There will be something wrong. Please contact support.';
+    //       this.ionService.presentToast(message);
+    //     } else if (result === 'cancelled') {
+    //       this.ionService.presentToast('Subscription Activation Failed. Please try again');
+    //     } else {
+    //       const message = 'Payment Connection Failed. Please try again';
+    //       this.ionService.presentToast(message);
+    //     }
+    //   }).catch((err) => {
+    //     this.ionService.presentToast('Subscription Activation Failed. Please try again');
+    //   });
+    // }
   }
 
   downgradeDomains(downgradeData) {

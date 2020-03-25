@@ -467,20 +467,40 @@ form {
   border-style: solid;
   border-width: 0 1px 1px 0;
   content: '';
-  /* display: inline-block; */
   padding: 4px !important;
   transform: rotate(45deg);
-  /* vertical-align: middle; */
   display: flex;
   align-items: center;
 }
+
+
 mat-expansion-panel {
   border-radius: 0px;
   border-bottom: 1px solid lightgray;
   box-shadow: none !important;
+  &.special {
+    .mat-expansion-panel-body {
+      padding: 0 !important;
+    }
+    .mat-expansion-panel-header.description {
+      // flex-direction: row-reverse;
+      .mat-content {
+        padding-right: 9px;
+      }
+      .mat-expansion-indicator::after {
+        border-style: solid;
+        border-width: 0 2px 2px 0;
+        display: inline-block;
+        padding: 4px !important;
+        margin-right: 5px;
+        vertical-align: middle;
+        color: #3880ff;
+      }
+    }
+  }
   mat-expansion-panel-header {
-    font-weight: bold !important;
-    padding: 0 24px !important;
+    // font-weight: bold;
+    padding: 0 24px;
     background: transparent !important;
     ion-label {
       padding-left: 10px;
