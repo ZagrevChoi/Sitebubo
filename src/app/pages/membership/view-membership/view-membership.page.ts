@@ -51,7 +51,6 @@ export class ViewMembershipPage implements OnInit {
         this.subscriptionID = planInfo.id;
         this.freeTrial = planInfo.free_trial;
         this.defineDisplay();
-        // this.cdr.detectChanges();
       });
   }
 
