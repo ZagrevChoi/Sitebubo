@@ -21,6 +21,7 @@ export class ViewMembershipPage implements OnInit {
   transactions = [];
   displayValue = 0;
   plansList: any;
+  freeTrialAvailable: boolean;
   constructor(
     private ionService: IongadgetService,
     private navCtrl: NavController,
@@ -115,7 +116,8 @@ export class ViewMembershipPage implements OnInit {
       this.subscriptionApi.getSubscriptionPlan(userID, token).subscribe(async (plans) => {
         this.ionService.closeLoading();
         if (plans.RESPONSECODE === 1) {
-          this.plansList = plans.data.reverse();
+          this.plansList = plans.data.plan.reverse();
+          this.freeTrialAvailable = plans.data.freeTrial_available;
           resolve(true);
         } else {
           this.ionService.showAlert('Error while fetching Plans', 'Something might be wrong from the api');

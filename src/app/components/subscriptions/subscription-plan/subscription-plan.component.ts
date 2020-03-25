@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { PaypalService } from 'src/app/services/paypal/paypal.service';
 import { SubscriptionApiService } from 'src/app/apis/subscription/subscription-api.service';
@@ -14,10 +14,10 @@ import { ExDomainsPage } from 'src/app/pages/modals/ex-domains/ex-domains.page';
 })
 export class SubscriptionPlanComponent implements OnInit {
   @Input() plansList: Array<any>;
+  @Input() freeTrialAvailable: boolean;
   currentPlanID: number;
   currnetPlanName: string;
   oldPlanName: string;
-  freeTrial: boolean;
   daysLeft: number;
   isNewUser: boolean;
   userID: number;
@@ -115,7 +115,7 @@ export class SubscriptionPlanComponent implements OnInit {
         this.ionService.closeLoading();
       });
     } else {
-      this.paypal.payNow(this.userID, newPlanID, this.token, this.freeTrial, durationType)
+      this.paypal.payNow(this.userID, newPlanID, this.token, this.freeTrialAvailable, durationType)
       .then((res) => {
         this.ionService.closeLoading();
         if (res === 'success') {
@@ -142,7 +142,7 @@ export class SubscriptionPlanComponent implements OnInit {
                 isNewUser: this.isNewUser,
                 platform: 'android',
                 status: 'upgrade',
-                isFreeTrial: this.freeTrial,
+                isFreeTrial: this.freeTrialAvailable,
                 oldPlan: this.oldPlanName
               }
             };

@@ -14,6 +14,7 @@ export class PlansPage implements OnInit {
   products: any;
   plansList: any;
   plat: string;
+  freeTrialAvailable: boolean;
   constructor(
     private storage: Storage,
     private router: Router,
@@ -55,7 +56,9 @@ export class PlansPage implements OnInit {
         this.ionService.closeLoading();
         if (plans.RESPONSECODE === 1) {
           console.log(plans);
-          this.plansList = plans.data.reverse();
+          this.plansList = plans.data.plan.reverse();
+          // this.plansList = [plans.data['3'], plans.data['2'], plans.data['1'], plans.data['0']];
+          this.freeTrialAvailable = plans.data.freeTrial_available;
         } else {
           this.ionService.showAlert('Error while fetching Plans', 'Something might be wrong from the api');
         }
