@@ -29,6 +29,7 @@
     "@ionic-native/facebook": "^5.19.1",
     "@ionic-native/fcm": "^5.19.1",
     "@ionic-native/in-app-browser": "^5.22.0",
+    "@ionic-native/in-app-purchase": "^5.23.0",
     "@ionic-native/network": "^5.19.1",
     "@ionic-native/social-sharing": "^5.19.1",
     "@ionic-native/splash-screen": "^5.0.0",
@@ -49,6 +50,7 @@
     "cordova-plugin-facebook4": "^6.2.0",
     "cordova-plugin-fcm-with-dependecy-updated": "^4.1.1",
     "cordova-plugin-inappbrowser": "^3.2.0",
+    "cordova-plugin-inapppurchase": "^1.2.0",
     "cordova-plugin-ionic-keyboard": "^2.2.0",
     "cordova-plugin-ionic-webview": "^4.1.3",
     "cordova-plugin-nativestorage": "^2.3.2",
@@ -127,7 +129,8 @@
         "ANDROID_SUPPORT_V4_VERSION": "24.1.1+"
       },
       "cordova-plugin-inappbrowser": {},
-      "com.bunkerpalace.cordova.YoutubeVideoPlayer": {}
+      "com.bunkerpalace.cordova.YoutubeVideoPlayer": {},
+      "cordova-plugin-inapppurchase": {}
     },
     "platforms": [
       "android"
