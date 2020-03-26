@@ -77,13 +77,13 @@ export class DomainScanPage implements OnInit, OnDestroy {
         } else {
           this.tempResult = data;
           this.status.process = true;
-          this.doTricksWithUI(data);
+          this.doTricksWithUI();
         }
       }
     });
   }
 
-  doTricksWithUI(data) {
+  doTricksWithUI() {
       let interval: number;
       if (this.action === 'addDomain') {
         interval = 0.01724;

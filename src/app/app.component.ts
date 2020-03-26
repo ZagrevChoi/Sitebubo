@@ -40,7 +40,7 @@ export class AppComponent {
     private network: NetworkService,
     private fcm: FCM
   ) {
-      this.treatFCM();
+    //   this.treatFCM();
       this.network.initNetwork();
       this.listenEvents();
       this.initializeApp();
@@ -120,17 +120,17 @@ export class AppComponent {
 
     }
 
-    treatFCM() {
-        this.fcm.subscribeToTopic('all');
-        this.fcm.onNotification().subscribe((res) => {
-            alert(JSON.stringify(res));
-            if (res.wasTapped) {
-                // alert('tapped===============' +  JSON.stringify(res));
-            } else {
-                // alert('not tapped===============' + JSON.stringify(res));
-            }
-        });
-    }
+    // treatFCM() {
+    //     this.fcm.subscribeToTopic('all');
+    //     this.fcm.onNotification().subscribe((res) => {
+    //         alert(JSON.stringify(res));
+    //         if (res.wasTapped) {
+    //             // alert('tapped===============' +  JSON.stringify(res));
+    //         } else {
+    //             // alert('not tapped===============' + JSON.stringify(res));
+    //         }
+    //     });
+    // }
 
     openDomainList() {
         this.router.navigate(['domain-list']);

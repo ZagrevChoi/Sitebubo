@@ -60,19 +60,7 @@ export class ViewMembershipPage implements OnInit {
       });
   }
 
-  // getLastPaymentHistory() {
-  //   return new Promise((resolve, reject) => {
-  //     this.transactionAPI.getLastPaymentHistory(this.userID, this.token).subscribe((result) => {
-  //       if (result.RESPONSECODE === 1) {
-  //         console.log(result);
-  //       } else  {
-  //         this.ionSerivce.presentToast(result.RESPONSE);
-  //       }
-  //     });
-  //   });
-  // }
-
-  getTransactionHistory() {
+  getTransactionHistory(): Promise<boolean> {
     return new Promise((resolve, reject) => {
       this.transactionAPI.getTransactionHistory(this.userID, this.token).subscribe(result => {
         console.log(result);
