@@ -24,8 +24,8 @@
     <div class="details" #desktopTitle>
       <ion-label class="display">{{ displayData?.score }}</ion-label>
       <ion-label class="difference" 
-      [ngClass]="{'positive': displayData?.difference?.alert === 'positive','equal-color': displayData?.difference?.alert === 'equal', 'negative': displayData?.difference?.alert === 'nagative'}">
-      {{ displayData?.difference?.text }}</ion-label>
+      [ngClass]="{'positive': displayData?.difference?.alert === 'positive','equal-color': (displayData?.difference?.alert === 'equal' || !displayData?.difference), 'negative': displayData?.difference?.alert === 'nagative'}">
+      {{ displayData?.difference?.text ? displayData?.difference?.text: '+0 (--+%)' }}</ion-label>
     </div>
     <div class="colors">
       <ion-chip class="red-chip">
@@ -187,6 +187,7 @@
     </ion-list>
   </ion-card>
 </div>
+
 <div class="skeleton" *ngIf="!desktopData">
   <app-sdiagram></app-sdiagram>
 </div>

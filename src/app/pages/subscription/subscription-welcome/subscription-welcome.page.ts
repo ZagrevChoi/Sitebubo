@@ -149,7 +149,6 @@ export class SubscriptionWelcomePage implements OnInit {
       this.subscriptionAPI.currentSubscription(user.id, user.token).subscribe((result) => {
         console.log(result.data);
         if (result.RESPONSECODE === 1) {
-          this.storage.set('planInfo', result.data).then(() => {
             this.events.publish('planInfo_set', result.data);
             this.subscriptionID = result.data.id;
             this.newPlan = result.data.name + ' Plan';
@@ -160,7 +159,6 @@ export class SubscriptionWelcomePage implements OnInit {
             this.details = temp;
             console.log(this.details);
             this.getTransactionHistory(user.id, user.token).then((res) => {
-              console.log('Number of ========', res);
               if (res === 1) {
                 this.firstPay = true;
               } else {
@@ -178,7 +176,6 @@ export class SubscriptionWelcomePage implements OnInit {
                 });
               }
             });
-          });
         } else {
           this.ionService.showAlert('Error from Server', result.RESPONSE);
         }

@@ -9,6 +9,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 export class NoTrialComponent implements OnInit {
   @Input() details: any;
   @Input() newUser: any;
+  @Input() viewStatus: boolean;
   constructor(
     private router: Router,
     private iab: InAppBrowser

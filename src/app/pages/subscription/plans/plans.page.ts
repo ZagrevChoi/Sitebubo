@@ -73,10 +73,6 @@ export class PlansPage implements OnInit {
     this.navCtrl.back();
   }
 
-  // selectPlan(id, name, price ) {
-  //   this.router.navigate(['detailed-plan'], { queryParams: { planID: id, planName: name, planPrice: price } });
-  // }
-
   // restore() {
   //   this.iap.restorePurchases().then((res) => {
   //     console.log(JSON.stringify(res));

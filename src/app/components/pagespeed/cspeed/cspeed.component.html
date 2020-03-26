@@ -31,7 +31,9 @@
             <ion-label class="display">{{ desktopDisplayData?.real_value }}</ion-label>
             <ion-label class="small"> s</ion-label>
           </div>
-          <ion-label class="difference" [ngClass]="{'positive': desktopDisplayData?.difference?.alert === 'positive', 'equal-color': desktopDisplayData?.difference?.alert === 'equal', 'negative': desktopDisplayData?.difference?.alert === 'negative'}">{{ desktopDisplayData?.difference?.text }}</ion-label>
+          <ion-label class="difference" [ngClass]="{'positive': desktopDisplayData?.difference?.alert === 'positive', 'equal-color': (desktopDisplayData?.difference?.alert === 'equal' || !desktopDisplayData?.difference), 'negative': desktopDisplayData?.difference?.alert === 'negative'}">
+            {{ desktopDisplayData?.difference?.text ? desktopDisplayData?.difference?.text: '+0 (--+%)' }}
+          </ion-label>
         </div>
         <div class="colors">
           <ion-chip class="green-chip"> 
@@ -80,7 +82,9 @@
             <ion-label class="display">{{ mobileDisplayData?.real_value }}</ion-label>
             <ion-label class="small"> s</ion-label>
           </div>
-          <ion-label class="difference" [ngClass]="{'positive': mobileDisplayData?.difference?.alert === 'positive', 'equal-color': mobileDisplayData?.difference?.alert === 'equal', 'negative': mobileDisplayData?.difference?.alert === 'negative'}">{{ mobileDisplayData?.difference?.text }}</ion-label>
+          <ion-label class="difference" [ngClass]="{'positive': mobileDisplayData?.difference?.alert === 'positive', 'equal-color': (mobileDisplayData?.difference?.alert === 'equal' || !mobileDisplayData?.difference), 'negative': mobileDisplayData?.difference?.alert === 'negative'}">
+            {{ mobileDisplayData?.difference?.text ? mobileDisplayData?.difference?.text: '+0 (--+%)' }}
+          </ion-label>
         </div>
         <div class="colors">
           <ion-chip class="green-chip"> 

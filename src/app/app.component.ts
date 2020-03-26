@@ -107,8 +107,8 @@ export class AppComponent {
         });
 
         this.events.subscribe('domainInfo_set', (info) => {
-            this.domainCount = info.current_domains;
             console.log('domainInfo set', info);
+            this.domainCount = info.current_domains;
             this.storage.set('domainInfo', info);
             this.cdr.detectChanges();
         });

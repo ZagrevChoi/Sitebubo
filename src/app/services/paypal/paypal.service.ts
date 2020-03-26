@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { IongadgetService } from '../ionGadgets/iongadget.service';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +8,8 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 export class PaypalService {
 
   constructor(
-    private iab: InAppBrowser
+    private iab: InAppBrowser,
+    private ionService: IongadgetService
   ) { }
 
   async payNow(userID, planID, token, freetrial, type): Promise<any> {
@@ -19,7 +21,7 @@ export class PaypalService {
       }
       const browser = this.iab.create(url, '_blank', 'closebuttoncaption=back');
       browser.on('loadstop').subscribe((result) => {
-          if (result.url === 'https://app.sitebubo.com/payments_pro/paymentsuccess') {
+        if (result.url === 'https://app.sitebubo.com/payments_pro/paymentsuccess') {
           browser.close();
           resolve('success');
         } else if (result.url  === 'https://app.sitebubo.com/payments_pro/paymentfailure') {

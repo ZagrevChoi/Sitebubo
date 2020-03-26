@@ -4,7 +4,7 @@
   <ion-icon class="c-paypal" *ngIf="details.payment_method === 'Paypal'"></ion-icon>
   <ion-icon class="c-inapp" *ngIf="details.payment_method === 'Inapp'"></ion-icon>
   <!-- <ion-label class="c-norfnt" style="margin-top: 15px">{{ details.name }} Plan</ion-label> -->
-  <ion-label class="c-norfnt" style="margin-top: 15px">{{ details.name }} Plan<a (click)="changePlan()">change</a></ion-label>
+  <ion-label class="c-norfnt" style="margin-top: 15px">{{ details.name }} Plan<a *ngIf="viewStatus" (click)="changePlan()">change</a></ion-label>
   <div class="lastpay" *ngIf="details.lastpaymentAmount">
     <ion-label>Last payment:</ion-label>
     <ion-label>{{ details.payment_date }} -  £{{ details.lastpaymentAmount }}</ion-label>
@@ -17,7 +17,7 @@
   <!-- <ion-button *ngIf="!newUser" mode="md" expand="block" class="c-greenButton red" (click)="upgrade()">
     {{ details.id !== 4 ? "Upgrade" : "Change" }}
   </ion-button> -->
-  <div class="c-btmdiv" *ngIf="!details.newUser">
+  <div class="c-btmdiv" *ngIf="!details.newUser && viewStatus">
       <ion-icon class="c-cancel-membership"></ion-icon>
       <ion-label (click)="cancelMemebership()"> Cancel your membership</ion-label>
   </div>

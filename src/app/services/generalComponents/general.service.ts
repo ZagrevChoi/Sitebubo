@@ -27,8 +27,7 @@ import { TermsPage } from 'src/app/pages/modals/terms/terms.page';
 import { GoogleAnalyticsPage } from './../../pages/modals/google-analytics/google-analytics.page';
 import { AllDonePage } from 'src/app/pages/modals/all-done/all-done.page';
 import { ServerMonitorPage } from 'src/app/pages/modals/server-monitor/server-monitor.page';
-// popover
-import { PallDoneComponent } from './../../components/popover/pall-done/pall-done.component';
+
 // plugins
 import { Facebook } from '@ionic-native/facebook/ngx';
 
@@ -152,19 +151,6 @@ export class GeneralService {
       component: PrivacyPage
     });
     return await privacy.present();
-  }
-
-  async openPopOver(location, pdtitle, description) {
-    const popover = await this.popoverCtrl.create({
-      component: PallDoneComponent,
-      componentProps: {
-        title: pdtitle,
-        content: description
-      },
-      event: location,
-      mode: 'ios'
-    });
-    await popover.present();
   }
 
   async showDomainModal(myDomCnt, totalDomCnt) {

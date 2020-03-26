@@ -32,9 +32,7 @@ import { CmalwareComponent } from './security/cmalware/cmalware.component';
 import { CblacklistComponent } from './security/cblacklist/cblacklist.component';
 import { SsecurityComponent } from './skeletons/ssecurity/ssecurity.component';
 import { SdomainListComponent } from './skeletons/sdomain-list/sdomain-list.component';
-import { CgoogleConversionComponent } from './more/cgoogle-conversion/cgoogle-conversion.component';
 import { CgoogleVisitorsComponent } from './more/cgoogle-visitors/cgoogle-visitors.component';
-import { CgoogleAcquistionComponent } from './more/cgoogle-acquistion/cgoogle-acquistion.component';
 import { CdesktopComponent } from './pagespeed/cdesktop/cdesktop.component';
 import { CmobileComponent } from './pagespeed/cmobile/cmobile.component';
 import { RamComponent } from './serverMonitor/ram/ram.component';
@@ -65,9 +63,7 @@ import { SubscriptionPlanComponent } from './subscriptions/subscription-plan/sub
         FreeTrialComponent,
         NoTrialComponent,
         OldFreeComponent,
-        CgoogleConversionComponent,
         CgoogleVisitorsComponent,
-        CgoogleAcquistionComponent,
         CdesktopComponent,
         CmobileComponent,
         RamComponent,
@@ -135,9 +131,7 @@ import { SubscriptionPlanComponent } from './subscriptions/subscription-plan/sub
         FreeTrialComponent,
         NoTrialComponent,
         OldFreeComponent,
-        CgoogleConversionComponent,
         CgoogleVisitorsComponent,
-        CgoogleAcquistionComponent,
         CdesktopComponent,
         CmobileComponent,
         RamComponent,

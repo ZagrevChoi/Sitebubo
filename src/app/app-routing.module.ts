@@ -23,10 +23,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/subscription/plans/plans.module').then( m => m.PlansPageModule)
   },
   {
-    path: 'detailed-plan',
-    loadChildren: () => import('./pages/subscription/detailed-plan/detailed-plan.module').then( m => m.DetailedPlanPageModule)
-  },
-  {
     path: 'add-site',
     loadChildren: () => import('./pages/subscription/add-site/add-site.module').then( m => m.AddSitePageModule)
   },

@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 export class FreeTrialComponent implements OnInit {
   @Input() details: any;
   @Input() newUser: any;
+  @Input() viewStatus: boolean;
   constructor(
     private router: Router
   ) { }

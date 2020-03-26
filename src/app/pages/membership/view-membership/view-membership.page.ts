@@ -22,6 +22,7 @@ export class ViewMembershipPage implements OnInit {
   displayValue = 0;
   plansList: any;
   freeTrialAvailable: boolean;
+  viewStatus = true;
   constructor(
     private ionService: IongadgetService,
     private navCtrl: NavController,
