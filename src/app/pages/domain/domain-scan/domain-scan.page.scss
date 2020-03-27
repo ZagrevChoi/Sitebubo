@@ -61,10 +61,10 @@ ion-content {
 		}
 	}
 	div.results {
+		width: 90%;
 		height: 31%;
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-end;
+		display: block;
+		margin: auto;
 		overflow: scroll;
 		padding-bottom: 30px;
 		touch-action: none;

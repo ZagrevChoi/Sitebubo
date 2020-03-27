@@ -9,6 +9,7 @@ import { GeneralService } from '../../../services/generalComponents/general.serv
 import { StorageService } from './../../../services/storage/storage.service';
 import { AuthApiService } from 'src/app/apis/auth/auth-api.service';
 import { IongadgetService } from 'src/app/services/ionGadgets/iongadget.service';
+import { SignInWithApple } from '@ionic-native/sign-in-with-apple/ngx';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -21,6 +22,7 @@ export class LoginPage implements OnInit {
   deviceType: string;
   readyForSubmit = false;
   facebookReady = false;
+  appleReady = false;
   invalidEmail = false;
   invalidPassword = false;
   validateSigninform: FormGroup;
@@ -47,6 +49,7 @@ export class LoginPage implements OnInit {
     private ionService: IongadgetService,
     private storageService: StorageService,
     private authAPI: AuthApiService,
+    private appleSignin: SignInWithApple
   ) { }
 
   ngOnInit() {
@@ -165,7 +168,6 @@ export class LoginPage implements OnInit {
     });
   }
 
-
   logInFB() {
     this.validateEmail = false;
     this.validatePassword = false;
@@ -212,7 +214,6 @@ export class LoginPage implements OnInit {
   facebookSignUp(email, name) {
     this.authAPI.facebookSignUp(email, name, this.deviceID).subscribe(async (result) => {
       this.facebookReady = true;
-      console.log(result);
       if (result.RESPONSECODE === 1) {
         this.facebookSignIn(email);
       } else if (result.RESPONSE === 'Email Already Exists') {
@@ -229,7 +230,6 @@ export class LoginPage implements OnInit {
 
   facebookSignIn(email) {
     this.authAPI.facebookLogIn(email, this.deviceID).subscribe((result) => {
-      console.log(result);
       this.facebookReady = false;
       if (result.RESPONSECODE === 1) {
         result = result.data;
@@ -254,6 +254,61 @@ export class LoginPage implements OnInit {
     }, err => {
       this.facebookReady = false;
       this.ionService.presentToast('Sign In by Facebook Failed due to bad server');
+    });
+  }
+
+  signInWithApple() {
+    this.appleSignin.signin({requestedScopes: [0, 1]}).then((result) => {
+      this.appleSignUp(result.email, result.fullName.givenName);
+    }).catch(err => {
+      this.ionService.presentToast('Sign in with Apple failed');
+    });
+  }
+
+  appleSignUp(email, username) {
+    this.authAPI.appleSignUp(email, username, this.deviceID)
+    .subscribe((result) => {
+      this.appleReady = true;
+      if (result.RESPONSECODE === 1) {
+        this.appleSignIn(email);
+      } else if (result.RESPONSE === 'Email Already Exists') {
+        this.appleSignIn(email);
+      } else {
+        this.appleReady = false;
+        this.ionService.presentToast(result.RESPONSE);
+      }
+    }, err => {
+      this.appleReady = false;
+      this.ionService.presentToast('Server API Problem');
+    });
+  }
+
+  appleSignIn(email) {
+    this.authAPI.appleSignIn(email, this.deviceID).subscribe((result) => {
+      this.appleReady = false;
+      if (result.RESPONSECODE === 1) {
+        result = result.data;
+        if (result.user.verified === 0) {
+          this.readyForSubmit = false;
+          const navprams: NavigationExtras = {
+            queryParams: {
+              userID: result.user.id
+            }
+          };
+          this.router.navigate(['verifymail'], navprams);
+        } else {
+          this.storageService.setStorage(result).then((res) => {
+            if (res) {
+              this.generalService.defineInitialRoutering();
+            }
+          });
+        }
+      } else {
+        this.ionService.presentToast('Sign In by Apple Failed due to bad response');
+      }
+    }, err => {
+      this.appleReady = false;
+      this.ionService.presentToast('Sign In by Apple Failed due to bad server');
     });
   }
 }

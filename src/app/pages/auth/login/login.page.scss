@@ -101,25 +101,37 @@ ion-content {
             // padding-right: 7px;
           }
         }
-        ion-button.facebook {
-          width: 47%;
-          height: 47px;
-          display: block;
-          margin: auto;
-          --color-activated: white;
-          --border-radius: 30px;
-          --background: #4064AD;
-          --background-activated: rgb(87, 114, 168);
-          --background-focused: rgb(87, 114, 168);
-          --background-hover: rgb(87, 114, 168);
-          text-transform: none;
-          font-size: 15px;
-          font-weight: inherit;
-        }
-        ion-icon.logo-facebook{
-          background-image: url('../../../../assets/icons/facebook-logo.svg');
-          background-repeat: no-repeat;
-          background-size: 100% 100%;
+        .social-buttons {
+          display: flex;
+          justify-content: space-between;
+          ion-button {
+            width: 47%;
+            height: 47px;
+            text-transform: none;
+            font-size: 15px;
+            font-weight: inherit;
+            --border-radius: 30px;
+            &.facebook {
+              --color-activated: white;
+              --background: #4064AD;
+              --background-activated: rgb(87, 114, 168);
+              --background-focused: rgb(87, 114, 168);
+              --background-hover: rgb(87, 114, 168);
+            }
+            &.apple {
+              --color-activated: black;
+              --color: black;
+              --background: rgb(233, 233, 233);
+              --background-activated: lightgray;
+              --background-focused: lightgray;
+              --background-hover: lightgray;
+            }
+          }
+          ion-icon.logo-facebook{
+            background-image: url('../../../../assets/icons/facebook-logo.svg');
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+          }
         }
       }
       div.accident{

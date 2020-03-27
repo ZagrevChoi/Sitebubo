@@ -22,6 +22,7 @@
     <preference name="orientation" value="portrait" />
     <preference name="ShowSplashScreenSpinner" value="false" />
     <preference name="YouTubeDataApiKey" value="AIzaSyCHjrW83Zc1vwk4mzxztYbvk2by0PQZoIE" />
+    <preference name="WKWebViewOnly" value="true" />
     <platform name="android">
         <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application" xmlns:android="http://schemas.android.com/apk/res/android">
             <application android:networkSecurityConfig="@xml/network_security_config" />

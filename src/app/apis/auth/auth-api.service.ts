@@ -43,7 +43,18 @@ export class AuthApiService extends BaseApiService {
   facebookSignUp(email, name, deviceID): any {
     let url = this.auth_url + 'register?';
     url += 'email=' + email + '&name=' + name + '&mobile=000&address=&user_type=Member&status=1&openid=facebook&device_id=' + deviceID;
-    // alert('fb sign up' + url);
+    return this.sendGetRequest(url);
+  }
+
+  appleSignIn(email, deviceID): any {
+    let url = this.auth_url + 'login?';
+    url += 'email=' + email + '&openid=apple&device_id=' + deviceID;
+    return this.sendGetRequest(url);
+  }
+
+  appleSignUp(email, name, deviceID): any {
+    let url = this.auth_url + 'register?';
+    url += 'email=' + email + '&name=' + name + '&mobile=000&address=&user_type=Member&status=1&openid=apple&device_id=' + deviceID;
     return this.sendGetRequest(url);
   }
 
