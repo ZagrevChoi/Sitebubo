@@ -276,11 +276,9 @@ export class SignupPage implements OnInit {
     this.authAPI.facebookSignUp(email, name, this.deviceID).subscribe(async (result) => {
       this.facebookReady = true;
       console.log(result);
-      if (result.RESPONSECODE === 1) {
+      if (result.RESPONSECODE === 1 || result.RESPONSE === 'Email Already Exists') {
         this.facebookSignIn(email);
-      } else if (result.RESPONSE === 'Email Already Exists') {
-        this.facebookSignIn(email);
-      } else {
+      }  else {
         this.facebookReady = false;
         this.ionService.presentToast( result.RESPONSE);
       }
@@ -291,26 +289,27 @@ export class SignupPage implements OnInit {
   }
 
   facebookSignIn(email) {
-    this.authAPI.facebookLogIn(email, this.deviceID).subscribe((user) => {
-      console.log(user);
+    this.authAPI.facebookLogIn(email, this.deviceID).subscribe((result) => {
       this.facebookReady = false;
-      if (user.RESPONSECODE === 1) {
-        if (user.isVerify === '0') {
+      if (result.RESPONSECODE === 1) {
+        result = result.data;
+        if (result.user.verified === 0) {
+          this.readyForSubmit = false;
           const navprams: NavigationExtras = {
             queryParams: {
-              userID: user.id
+              userID: result.user.id
             }
           };
           this.router.navigate(['verifyemail'], navprams);
         } else {
-          this.storageService.setStorage(user).then((result) => {
-            if (result) {
+          this.storageService.setStorage(result).then((res) => {
+            if (res) {
               this.generalService.defineInitialRoutering();
             }
           });
         }
       } else {
-        this.ionService.showAlert('Sign In by Facebook Failed', user.RESPOSNE);
+        this.ionService.showAlert('Sign In by Facebook Failed', result.RESPOSNE);
       }
     }, err => {
       this.facebookReady = false;

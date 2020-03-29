@@ -214,9 +214,7 @@ export class LoginPage implements OnInit {
   facebookSignUp(email, name) {
     this.authAPI.facebookSignUp(email, name, this.deviceID).subscribe(async (result) => {
       this.facebookReady = true;
-      if (result.RESPONSECODE === 1) {
-        this.facebookSignIn(email);
-      } else if (result.RESPONSE === 'Email Already Exists') {
+      if (result.RESPONSECODE === 1 || result.RESPONSE === 'Email Already Exists') {
         this.facebookSignIn(email);
       } else {
         this.facebookReady = false;
@@ -269,6 +267,7 @@ export class LoginPage implements OnInit {
     this.authAPI.appleSignUp(email, username, this.deviceID)
     .subscribe((result) => {
       this.appleReady = true;
+      console.log(JSON.stringify(result));
       if (result.RESPONSECODE === 1) {
         this.appleSignIn(email);
       } else if (result.RESPONSE === 'Email Already Exists') {

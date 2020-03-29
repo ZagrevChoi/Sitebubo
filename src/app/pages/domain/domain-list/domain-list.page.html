@@ -46,7 +46,7 @@
       <ion-icon class='feedback'></ion-icon>
   </ion-fab-button>
 </ion-fab>
-<ion-fab class='add-domain' vertical="bottom" horizontal="end" slot="fixed">
+<ion-fab class='add-domain' vertical="bottom" horizontal="end" slot="fixed" *ngIf="showAddButton">
   <ion-fab-button mode='md' class='add-domain' (click)="addDomain(domainCounts.my_domains, domainCounts.total_domains)">
       <ion-icon name="add" mode='md' class='add-domain'></ion-icon>                 
   </ion-fab-button>

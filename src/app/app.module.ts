@@ -24,6 +24,7 @@ import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player/ngx';
 import { Network } from '@ionic-native/network/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { SignInWithApple } from '@ionic-native/sign-in-with-apple/ngx';
+import { InAppPurchase } from '@ionic-native/in-app-purchase/ngx';
 
 // modals
 import { MyprofilePageModule } from './pages/modals/myprofile/myprofile.module';
@@ -83,6 +84,7 @@ const config: SocketIoConfig = { url: 'https://socket.sitebubo.com', options: {}
     BackgroundMode,
     SocialSharing,
     YoutubeVideoPlayer,
+    InAppPurchase,
     InAppBrowser,
     Network,
     StatusBar,

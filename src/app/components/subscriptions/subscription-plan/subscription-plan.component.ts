@@ -1,11 +1,11 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { PaypalService } from 'src/app/services/paypal/paypal.service';
 import { SubscriptionApiService } from 'src/app/apis/subscription/subscription-api.service';
 import { IongadgetService } from 'src/app/services/ionGadgets/iongadget.service';
 import { Router, NavigationExtras } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { ExDomainsPage } from 'src/app/pages/modals/ex-domains/ex-domains.page';
+import { InAppPurchase } from '@ionic-native/in-app-purchase/ngx';
 
 @Component({
   selector: 'app-subscription-plan',
@@ -24,11 +24,11 @@ export class SubscriptionPlanComponent implements OnInit {
   token: string;
   constructor(
     private storage: Storage,
-    private paypal: PaypalService,
     private subscriptionAPI: SubscriptionApiService,
     private ionService: IongadgetService,
     private router: Router,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private iap: InAppPurchase
   ) { }
 
   ngOnInit() {
@@ -56,9 +56,8 @@ export class SubscriptionPlanComponent implements OnInit {
   }
 
   carryOutPayment(newPlanID, newPlanName, noofDomain, durationType) {
-    console.log(newPlanID, newPlanName, noofDomain, durationType);
+    // console.log(newPlanID, newPlanName, noofDomain, durationType);
     if (this.isNewUser && newPlanID === 1) {
-      console.log('asdfasdfasdf');
       this.subscribeToFreePlan().then((res) => {
         if (res) {
           this.router.navigate(['subscription-welcome'],  {
@@ -72,7 +71,7 @@ export class SubscriptionPlanComponent implements OnInit {
     } else if (newPlanID < this.currentPlanID) {
       this.getDomainsToRemove(newPlanID, newPlanName, noofDomain, durationType);
     } else  {
-      this.gotoPayPal(newPlanID, null, durationType);
+      this.gotoInappPurchase(newPlanID, null, durationType);
     }
   }
 
@@ -88,13 +87,13 @@ export class SubscriptionPlanComponent implements OnInit {
     });
     exDomain.onDidDismiss().then((result) => {
       if (result.role === 'success') {
-        this.gotoPayPal(newPlanID, result.data, durationType);
+        this.gotoInappPurchase(newPlanID, result.data, durationType);
       }
     });
     await exDomain.present();
   }
 
-  gotoPayPal(newPlanID, downgradeData = null, durationType) {
+  async gotoInappPurchase(newPlanID, downgradeData = null, durationType) {
     if (newPlanID === 1) {
       this.ionService.showLoading();
       this.subscribeToFreePlan().then((result) => {
@@ -105,7 +104,7 @@ export class SubscriptionPlanComponent implements OnInit {
               queryParams: {
                 isNewuser: this.isNewUser,
                 oldPlan: this.oldPlanName,
-                platform: 'android',
+                platform: 'ios',
                 status: 'downgrade'
               }
             });
@@ -115,40 +114,51 @@ export class SubscriptionPlanComponent implements OnInit {
         this.ionService.closeLoading();
       });
     } else {
-      this.paypal.payNow(this.userID, newPlanID, this.token, this.freeTrialAvailable, durationType)
-      .then((res) => {
-        this.ionService.closeLoading();
-        if (res === 'success') {
-          if (downgradeData !== null) {
-            this.removeDomains(downgradeData).then( result => {
-              if (result) {
+      let productID: string;
+      if (durationType === 'month') {
+        productID = 'P' + newPlanID + 'M';
+      } else {
+        productID = 'P' + newPlanID + 'A';
+      }
+      await this.iap.getProducts([productID]);
+      this.iap.subscribe(productID).then((data) => {
+          this.ionService.showLoading();
+          this.subscriptionAPI.activateSubscriptionIos(newPlanID, data.transactionId, data.productType, this.userID, this.token)
+          .subscribe((result) => {
+            this.ionService.closeLoading();
+            if (result.RESPONSECODE === 1) {
+              if (downgradeData !== null) {
+                this.removeDomains(downgradeData).then(res => {
+                  const params: NavigationExtras = {
+                    queryParams: {
+                      isNewUser: this.isNewUser,
+                      platform: 'ios',
+                      status: 'downgrade',
+                      oldPlan: this.oldPlanName
+                    }
+                  };
+                  this.router.navigate(['subscription-welcome'], params);
+                });
+              } else {
                 const params: NavigationExtras = {
                   queryParams: {
                     isNewUser: this.isNewUser,
-                    platform: 'android',
-                    status: 'downgrade',
+                    platform: 'ios',
+                    status: 'upgrade',
                     oldPlan: this.oldPlanName
                   }
                 };
                 this.router.navigate(['subscription-welcome'], params);
               }
-            }).catch((err) => {
-              this.ionService.closeLoading();
-              this.ionService.presentToast('Downgrading failed due to server api');
-            });
-          } else {
-            const params: NavigationExtras = {
-              queryParams: {
-                isNewUser: this.isNewUser,
-                platform: 'android',
-                status: 'upgrade',
-                isFreeTrial: this.freeTrialAvailable,
-                oldPlan: this.oldPlanName
-              }
-            };
-            this.router.navigate(['subscription-welcome'], params);
-          }
-        }
+            } else {
+              this.ionService.presentToast('Please try again later. ' + result.RESPONSE );
+            }
+          }, err => {
+            this.ionService.closeLoading();
+            this.ionService.presentToast('Server Api Problem');
+          });
+      }).catch(err => {
+        this.ionService.presentToast('Payment via In app purchase failed. Try again later.');
       });
     }
   }
@@ -185,6 +195,13 @@ export class SubscriptionPlanComponent implements OnInit {
         this.ionService.presentToast('Something might be wrong with the server');
         reject(false);
       });
+    });
+  }
+
+  restore() {
+    this.iap.restorePurchases().then((res) => {
+      console.log(JSON.stringify(res));
+      this.ionService.presentToast('Successfully restored.');
     });
   }
 }

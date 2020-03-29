@@ -444,56 +444,59 @@ export class GeneralService {
 
   async askContinueScanning(key, data) {
     return new Promise(async (resolve) => {
-      let header: string;
-      if (key === 'speed') {
-        if (data.speedtotalscan <= 0) {
-          this.ionService.presentToast('You have exceeded the number of manula scan for the current plan.');
-          resolve(false);
-        } else if (data.speedtotalscan + data.speedscanfinished === 0) {
-          this.askToUpgrade();
-          resolve(false);
-        } else {
-          // tslint:disable-next-line: max-line-length
-          header = 'You have ' + (data.speedtotalscan) + '/' +  (data.speedtotalscan + data.speedscanfinished) + ' scans remaining this month. Would you like to scan this site?';
-          this.lanuchScanningModal(header).then((res) => {
-            resolve(res);
-          });
+      this.storage.get('planInfo').then((info) => {
+        const planID = info.id;
+        let header: string;
+        if (key === 'speed') {
+          if ((data.speedtotalscan + data.speedscanfinished === 0 || data.speedtotalscan <= 0) && planID < 4) {
+            this.askToUpgrade();
+            resolve(false);
+          } else if (planID === 4 && data.speedtotalscan <= 0) {
+            this.ionService.presentToast('You have exceeded the number of manual scans for the current plan.');
+            resolve(false);
+          } else {
+            // tslint:disable-next-line: max-line-length
+            header = 'You have ' + (data.speedtotalscan) + '/' +  (data.speedtotalscan + data.speedscanfinished) + ' scans remaining this month. Would you like to scan this site?';
+            this.lanuchScanningModal(header).then((res) => {
+              resolve(res);
+            });
+          }
+        } else if (key === 'seo') {
+          if ((data.seototalscan + data.seoscanfinished === 0 || data.seototalscan <= 0) && planID < 4) {
+            this.askToUpgrade();
+            resolve(false);
+          } else if (planID === 4 && data.seototalscan <= 0) {
+            this.ionService.presentToast('You have exceeded the number of manual scans for the current plan.');
+            resolve(false);
+          } else {
+            // tslint:disable-next-line: max-line-length
+            header = 'You have ' + (data.seototalscan) + '/' +  (data.seototalscan + data.seoscanfinished) + ' scans remaining this month. Would you like to scan this site?';
+            this.lanuchScanningModal(header).then((res) => {
+              resolve(res);
+            });
+          }
+        } else if (key === 'security') {
+          if ((data.securitytotalscan + data.securityscanfinished === 0 || data.securitytotalscan <= 0) && planID < 4) {
+            this.askToUpgrade();
+            resolve(false);
+          } else if (planID === 4 && data.securitytotalscan <= 0) {
+            this.ionService.presentToast('You have exceeded the number of manual scans for the current plan.');
+            resolve(false);
+          } else {
+            // tslint:disable-next-line: max-line-length
+            header = 'You have ' + (data.securitytotalscan) + '/' +  (data.securitytotalscan + data.securityscanfinished) + ' scans remaining this month. Would you like to scan this site?';
+            this.lanuchScanningModal(header).then((res) => {
+              resolve(res);
+            });
+          }
         }
-      } else if (key === 'seo') {
-        if (data.seototalscan <= 0) {
-          this.ionService.presentToast('You have exceeded the number of manula scan for the current plan.');
-          resolve(false);
-        } else if (data.seototalscan + data.seoscanfinished === 0) {
-          this.askToUpgrade();
-          resolve(false);
-        } else {
-          // tslint:disable-next-line: max-line-length
-          header = 'You have ' + (data.seototalscan) + '/' +  (data.seototalscan + data.seoscanfinished) + ' scans remaining this month. Would you like to scan this site?';
-          this.lanuchScanningModal(header).then((res) => {
-            resolve(res);
-          });
-        }
-      } else if (key === 'security') {
-        if (data.securitytotalscan <= 0) {
-          this.ionService.presentToast('You have exceeded the number of manula scan for the current plan.');
-          resolve(false);
-        } else if (data.securitytotalscan + data.securityscanfinished === 0) {
-          this.askToUpgrade();
-          resolve(false);
-        } else {
-          // tslint:disable-next-line: max-line-length
-          header = 'You have ' + (data.securitytotalscan) + '/' +  (data.securitytotalscan + data.securityscanfinished) + ' scans remaining this month. Would you like to scan this site?';
-          this.lanuchScanningModal(header).then((res) => {
-            resolve(res);
-          });
-        }
-      }
+      });
     });
   }
 
   async askToUpgrade() {
         const action = await this.actionCtrl.create({
-          header: 'You have to upgrade the current subscription plan to enable manual scans. Do you want to upgrade now ?',
+          header: 'You have to upgrade the current subscription plan to increase the number of manual scans. Do you want to upgrade now ?',
           buttons: [
             {
               text: 'Upgrade',

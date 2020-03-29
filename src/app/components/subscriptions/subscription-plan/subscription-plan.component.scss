@@ -146,21 +146,21 @@ ion-list {
         }
       }
     }
-    // ion-button.restore{
-    //   --border-radius: 30px;
-    //   display: block;
-    //   margin: auto;
-    //   margin-top: 20px;
-    //   margin-bottom: 20px;
-    //   width: 60%;
-    //   height: 45px;
-    //   --background: #c7a6ff;
-    //   --background-activated: #caabff;
-    //   --background-focused: #caabff;
-    //   --background-hover: #caabff;
-    //   --color: white;
-    //   --color-activated: white;
-    //   font-weight: bold;
-    //   text-transform: none;
-    // }
   }
+ion-button.restore{
+  --border-radius: 30px;
+  display: block;
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 60%;
+  height: 45px;
+  --background: #c7a6ff;
+  --background-activated: #caabff;
+  --background-focused: #caabff;
+  --background-hover: #caabff;
+  --color: white;
+  --color-activated: white;
+  font-weight: bold;
+  text-transform: none;
+}

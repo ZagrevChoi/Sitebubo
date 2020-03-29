@@ -44,7 +44,6 @@
     "angular2-counto": "^1.2.5",
     "com.bunkerpalace.cordova.YoutubeVideoPlayer": "git+https://github.com/JonSmart/CordovaYoutubeVideoPlayer.git",
     "cordova-admob-sdk": "^0.24.1",
-    "cordova-android": "^8.1.0",
     "cordova-ios": "^5.1.1",
     "cordova-plugin-add-swift-support": "^2.0.2",
     "cordova-plugin-admob-free": "^0.27.0",
@@ -52,7 +51,7 @@
     "cordova-plugin-background-mode": "^0.7.3",
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-dialogs": "^2.0.2",
-    "cordova-plugin-facebook4": "^6.2.0",
+    "cordova-plugin-facebook4": "^6.4.0",
     "cordova-plugin-fcm-with-dependecy-updated": "^4.1.1",
     "cordova-plugin-inappbrowser": "^3.2.0",
     "cordova-plugin-inapppurchase": "^1.2.0",
@@ -69,6 +68,8 @@
     "cordova-sqlite-storage": "^4.0.0",
     "core-js": "^2.5.4",
     "es6-promise-plugin": "^4.2.2",
+    "global": "^4.4.0",
+    "native-run": "^0.3.0",
     "ng-circle-progress": "^1.5.1",
     "ng2-google-charts": "^5.0.0",
     "ngx-socket-io": "^3.0.1",
@@ -118,12 +119,6 @@
         "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
       },
       "cordova-plugin-ionic-keyboard": {},
-      "cordova-plugin-facebook4": {
-        "APP_ID": "783182492160628",
-        "APP_NAME": "Sitebubo Mobile",
-        "FACEBOOK_HYBRID_APP_EVENTS": "false",
-        "FACEBOOK_ANDROID_SDK_VERSION": "5.5.2"
-      },
       "cordova-sqlite-storage": {},
       "cordova-plugin-admob-free": {
         "ADMOB_APP_ID": "ca-app-pub-9386468627439822~7752370850"
@@ -137,7 +132,13 @@
       "cordova-plugin-inappbrowser": {},
       "com.bunkerpalace.cordova.YoutubeVideoPlayer": {},
       "cordova-plugin-inapppurchase": {},
-      "cordova-plugin-sign-in-with-apple": {}
+      "cordova-plugin-sign-in-with-apple": {},
+      "cordova-plugin-facebook4": {
+        "APP_ID": "3311146112248612",
+        "APP_NAME": "Sitebubo",
+        "FACEBOOK_HYBRID_APP_EVENTS": "false",
+        "FACEBOOK_ANDROID_SDK_VERSION": "5.13.0"
+      }
     },
     "platforms": [
       "ios"
