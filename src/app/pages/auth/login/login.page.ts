@@ -213,9 +213,7 @@ export class LoginPage implements OnInit {
     this.authAPI.facebookSignUp(email, name, this.deviceID).subscribe(async (result) => {
       this.facebookReady = true;
       console.log(result);
-      if (result.RESPONSECODE === 1) {
-        this.facebookSignIn(email);
-      } else if (result.RESPONSE === 'Email Already Exists') {
+      if (result.RESPONSECODE === 1 || result.RESPONSE === 'Email Already Exists') {
         this.facebookSignIn(email);
       } else {
         this.facebookReady = false;

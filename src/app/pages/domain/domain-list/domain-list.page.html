@@ -13,9 +13,7 @@
   </ion-toolbar>
 </ion-header>
 <ion-content *ngIf='showContent'>
-  <!-- <app-sdomain-list *ngIf='filterType === 0'></app-sdomain-list> -->
   <ion-label class='noResult' *ngIf='filterType === 1 && !domains'>You have no domains added</ion-label>
-  <!-- <ion-label class='noResult' *ngIf='filterType === 2 && myDomList.length < 1'></ion-label> -->
   <ion-label class='noResult' *ngIf='filterType === 3 && invitedDomList.length < 1'>You have no invited domains added</ion-label>
   <ion-list mode='ios' *ngIf='domains?.length' style="overflow: auto">
     <ion-reorder-group  #group [disabled]='false' (ionItemReorder)="onRenderItems($event)">
@@ -46,7 +44,7 @@
       <ion-icon class='feedback'></ion-icon>
   </ion-fab-button>
 </ion-fab>
-<ion-fab class='add-domain' vertical="bottom" horizontal="end" slot="fixed">
+<ion-fab class='add-domain' vertical="bottom" horizontal="end" slot="fixed" *ngIf="showAddButton">
   <ion-fab-button mode='md' class='add-domain' (click)="addDomain(domainCounts.my_domains, domainCounts.total_domains)">
       <ion-icon name="add" mode='md' class='add-domain'></ion-icon>                 
   </ion-fab-button>

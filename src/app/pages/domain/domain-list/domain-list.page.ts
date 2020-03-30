@@ -19,6 +19,8 @@ export class DomainListPage implements OnInit, OnDestroy {
   token: any;
   userID: any;
   domainCounts: any;
+  planID: number;
+  showAddButton = true;
   domains = [];
   allDomList = [];
   myDomList = [];
@@ -45,6 +47,7 @@ export class DomainListPage implements OnInit, OnDestroy {
 
   async ionViewWillEnter() {
     this.storage.get('planInfo').then((info) => {
+      this.planID = info.id;
       if (info.id  === 1) {
         this.admobservice.showAdmobBanner().then(() => {
         });
@@ -114,13 +117,15 @@ export class DomainListPage implements OnInit, OnDestroy {
       this.invitedDomList = [];
       this.allDomList = [];
       this.domainAPI.getDomainList(this.userID, this.token).subscribe((result) => {
-        console.log(result);
         if (result.RESPONSECODE === 1) {
           this.showContent = true;
           console.log(result.data);
           this.allDomList = result.data;
           this.domainCounts = result.domains;
           this.generalService.restDomainInfo(result.domains);
+          if (result.domains.my_domains === 10 && this.planID === 4) {
+            this.showAddButton = false;
+          }
           if (result.data) {
             this.allDomList.forEach(element => {
               if (element.user_id === this.userID) {
