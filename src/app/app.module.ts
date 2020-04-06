@@ -25,7 +25,7 @@ import { Network } from '@ionic-native/network/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { SignInWithApple } from '@ionic-native/sign-in-with-apple/ngx';
 import { InAppPurchase } from '@ionic-native/in-app-purchase/ngx';
-
+import { BranchIo } from '@ionic-native/branch-io/ngx';
 // modals
 import { MyprofilePageModule } from './pages/modals/myprofile/myprofile.module';
 import { TermsPageModule } from './pages/modals/terms/terms.module';
@@ -75,7 +75,7 @@ const config: SocketIoConfig = { url: 'https://socket.sitebubo.com', options: {}
     ServerMonitorPageModule
   ],
   providers: [
-    // HttpResponse,
+    BranchIo,
     SignInWithApple,
     FCM,
     Facebook,

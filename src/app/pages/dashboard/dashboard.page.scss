@@ -306,6 +306,19 @@ ion-menu {
   }
   &.userSetting {
     ion-content {
+      .askToUpgrade {
+        width: 100%;
+        padding-top: 20px;
+        ion-label.askDes {
+          display: block;
+          text-align: center;
+        }
+        ion-button.upgrade {
+          display: block;
+          width: 70%;
+          margin: 15px auto;
+        }
+      }
       .errorMessage {
         display: block;
         text-align: center;

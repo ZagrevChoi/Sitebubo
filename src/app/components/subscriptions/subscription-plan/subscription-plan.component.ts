@@ -83,7 +83,8 @@ export class SubscriptionPlanComponent implements OnInit {
         currentPlan: this.currnetPlanName,
         allowedCnt: noofDomain,
         reason: false
-      }
+      },
+      swipeToClose: true
     });
     exDomain.onDidDismiss().then((result) => {
       if (result.role === 'success') {

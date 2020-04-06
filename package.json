@@ -28,6 +28,7 @@
     "@ionic-native/admob-free": "^5.19.1",
     "@ionic-native/app-rate": "^5.19.1",
     "@ionic-native/background-mode": "^5.19.1",
+    "@ionic-native/branch-io": "^5.23.0",
     "@ionic-native/core": "^5.0.0",
     "@ionic-native/facebook": "^5.19.1",
     "@ionic-native/fcm": "^5.19.1",
@@ -42,6 +43,7 @@
     "@ionic/angular": "^5.0.0",
     "@ionic/storage": "^2.2.0",
     "angular2-counto": "^1.2.5",
+    "branch-cordova-sdk": "^4.1.3",
     "com.bunkerpalace.cordova.YoutubeVideoPlayer": "git+https://github.com/JonSmart/CordovaYoutubeVideoPlayer.git",
     "cordova-admob-sdk": "^0.24.1",
     "cordova-ios": "^5.1.1",
@@ -138,7 +140,8 @@
         "APP_NAME": "Sitebubo",
         "FACEBOOK_HYBRID_APP_EVENTS": "false",
         "FACEBOOK_ANDROID_SDK_VERSION": "5.13.0"
-      }
+      },
+      "branch-cordova-sdk": {}
     },
     "platforms": [
       "ios"

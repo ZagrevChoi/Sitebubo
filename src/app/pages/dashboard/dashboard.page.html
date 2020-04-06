@@ -250,13 +250,13 @@
             </ion-row>
           </ion-card>
         </ng-template>
-        <ng-template [ngIf]="item === 'domain-expiry'">
+        <ng-template [ngIf] = "item === 'domain-expiry'">
           <ion-card id="domain-expire" class="domain-expire" (click)="jumpToTabs('expire')">
             <ion-reorder></ion-reorder>
             <ion-row>
               <ion-col size="10">
                 <ion-label  class="big-font">DOMAIN EXPIRY</ion-label>
-                <ion-label class="small-font">{{ domainData ? domainData["domain-expiry"]["expiry"] : 0 }} Days</ion-label>
+                <ion-label class="small-font">{{ domainData["domain-expiry"] ? domainData["domain-expiry"]["expiry"] : 0 }} Days</ion-label>
               </ion-col>
               <ion-col size="2">
                 <ion-icon class="d-domainExpire"></ion-icon>
@@ -296,8 +296,12 @@
           </ion-toolbar>
         </ion-header>
       <ion-content>
-        <ion-label *ngIf=" invitedUserList.length === 0 " class="errorMessage">{{ invitedErroMessage }}</ion-label>
-        <ion-list *ngIf=" invitedUserList.length > 0 ">
+        <div class="askToUpgrade" *ngIf="invitableUsers === 0">
+          <ion-label class="askDes">You will have to upgrade to invite other users.</ion-label>
+          <ion-button class="upgrade red" (click)="gotoUpgrade()">Upgrade</ion-button>
+        </div>
+        <ion-label *ngIf=" invitedUserList.length === 0 && invitableUsers > 0" class="errorMessage">{{ invitedErroMessage }}</ion-label>
+        <ion-list *ngIf=" invitedUserList.length > 0 && invitableUsers > 0">
             <ion-item-sliding mode="md" *ngFor="let user of invitedUserList">
               <ion-item-options side="start" *ngIf="user.approved">
                 <ion-item-option class="report" mode="md">

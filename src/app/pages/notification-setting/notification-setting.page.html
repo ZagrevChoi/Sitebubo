@@ -26,7 +26,7 @@
       <ion-list mode="ios">
         <ion-item lines="none" *ngFor="let item of generalSetting | keyvalue">
           <ion-label>{{ item.key | camelCase }}</ion-label>
-          <ion-toggle color="success" (ionChange)="listenGeneralSettings(item.key, $event)"  #general mode="ios"  slot="end" [checked]="item.value"></ion-toggle>
+          <ion-toggle color="success" (ionChange)="listenGeneralSettings(item.key, $event)" mode="ios"  slot="end" [checked]="item.value"></ion-toggle>          
         </ion-item>
       </ion-list>
     </div>

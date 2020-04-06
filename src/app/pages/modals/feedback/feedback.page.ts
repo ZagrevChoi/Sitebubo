@@ -155,7 +155,8 @@ export class FeedbackPage implements OnInit {
 
   async showFeedbackSuccess() {
     const success = await this.modalCtrl.create({
-      component: FeedbackSuccessPage
+      component: FeedbackSuccessPage,
+      swipeToClose: true
     });
     return await success.present();
   }

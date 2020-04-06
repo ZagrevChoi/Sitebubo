@@ -14,6 +14,8 @@ import { StorageService } from './services/storage/storage.service';
 import { IongadgetService } from './services/ionGadgets/iongadget.service';
 import { NetworkService } from './services/network/network.service';
 import { Events } from './services/events/events.service';
+import { BranchIo } from '@ionic-native/branch-io/ngx';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -38,12 +40,13 @@ export class AppComponent {
     private ionService: IongadgetService,
     private storageService: StorageService,
     private network: NetworkService,
-    private fcm: FCM
+    private fcm: FCM,
+    private branchIO: BranchIo
   ) {
-    //   this.treatFCM();
-      this.network.initNetwork();
-      this.listenEvents();
-      this.initializeApp();
+    this.listenBranch();
+    this.network.initNetwork();
+    this.listenEvents();
+    this.initializeApp();
   }
 
   initializeApp() {
@@ -120,17 +123,30 @@ export class AppComponent {
 
     }
 
-    // treatFCM() {
-    //     this.fcm.subscribeToTopic('all');
-    //     this.fcm.onNotification().subscribe((res) => {
-    //         alert(JSON.stringify(res));
-    //         if (res.wasTapped) {
-    //             // alert('tapped===============' +  JSON.stringify(res));
-    //         } else {
-    //             // alert('not tapped===============' + JSON.stringify(res));
-    //         }
-    //     });
-    // }
+    listenBranch() {
+        this.platform.ready().then(() => {
+            this.branchIO.initSession().then((data) => {
+                this.generalService.branchIOTreat(data);
+            });
+            this.platform.resume.subscribe(() => {
+                this.branchIO.initSession().then((data) => {
+                    this.generalService.branchIOTreat(data);
+                 });
+            });
+        });
+    }
+
+    treatFCM() {
+        this.fcm.subscribeToTopic('all');
+        this.fcm.onNotification().subscribe((res) => {
+            alert(JSON.stringify(res));
+            if (res.wasTapped) {
+                // alert('tapped===============' +  JSON.stringify(res));
+            } else {
+                // alert('not tapped===============' + JSON.stringify(res));
+            }
+        });
+    }
 
     openDomainList() {
         this.router.navigate(['domain-list']);

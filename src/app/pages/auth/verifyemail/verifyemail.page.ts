@@ -32,8 +32,6 @@ export class VerifyemailPage implements OnInit {
     this.activatedRoute.queryParams.subscribe(params => {
       console.log(params);
       this.navparams = params;
-      const id = this.navparams.id;
-      const code = this.navparams.code;
       if (params.id) {
         this.ionService.showLoading();
         this.afterVerified = 'showdiv';
