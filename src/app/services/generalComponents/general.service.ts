@@ -445,6 +445,7 @@ export class GeneralService {
   async askContinueScanning(key, data) {
     return new Promise(async (resolve) => {
       this.storage.get('planInfo').then((info) => {
+        const question = 'You have to upgrade the current subscription plan to increase the number of manual scans. Do you want to upgrade now ?';
         const planID = info.id;
         let header: string;
         if (key === 'speed') {
