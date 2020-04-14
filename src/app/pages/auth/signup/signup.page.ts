@@ -6,13 +6,13 @@ import { Md5 } from 'ts-md5/dist/md5';
 // plugins
 import { Facebook } from '@ionic-native/facebook/ngx';
 import { FCM } from '@ionic-native/fcm/ngx';
-import { SignInWithApple } from '@ionic-native/sign-in-with-apple/ngx';
+import { SignInWithApple, ASAuthorizationAppleIDRequest } from '@ionic-native/sign-in-with-apple/ngx';
 // services
 import { GeneralService } from './../../../services/generalComponents/general.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { IongadgetService } from 'src/app/services/ionGadgets/iongadget.service';
 import { AuthApiService } from 'src/app/apis/auth/auth-api.service';
-
+import * as JWT from 'jwt-decode';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.page.html',
@@ -318,8 +318,16 @@ export class SignupPage implements OnInit {
   }
 
   signInWithApple() {
-    this.appleSignin.signin({requestedScopes: [0, 1]}).then((result) => {
-      this.appleSignUp(result.email, result.fullName.givenName);
+    // tslint:disable-next-line: max-line-length
+    this.appleSignin.signin({requestedScopes: 
+      [
+        ASAuthorizationAppleIDRequest.ASAuthorizationScopeEmail, 
+        ASAuthorizationAppleIDRequest.ASAuthorizationScopeFullName
+      ]
+    })
+    .then((result) => {
+      const data = JWT(result.identityToken);
+      this.appleSignUp(data['email'], 'AppleUser');
     }).catch(err => {
       this.ionService.presentToast('Sign in with Apple failed');
     });
@@ -335,7 +343,7 @@ export class SignupPage implements OnInit {
         this.appleSignIn(email);
       } else {
         this.appleReady = false;
-        this.ionService.presentToast(result.RESPONSE);
+        this.ionService.presentToast('Api Subscription Error: ' + result.RESPONSE);
       }
     }, err => {
       this.appleReady = false;

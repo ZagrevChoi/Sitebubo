@@ -60,8 +60,18 @@ export class SubscriptionApiService extends BaseApiService {
       reason: feedback,
       domains_to_remove: JSON.stringify(domains)
     };
-    console.log(postData);
     const url = this.subscription_url + 'downgradeplan';
+    return this.sendPostRequest(url, postData);
+  }
+
+  verifyReceipt(userID, receiptData, tokenValue, productID) {
+    const postData = {
+      user_id: userID,
+      receipt: receiptData,
+      token: tokenValue,
+      subscription_id: productID
+    };
+    const url = this.subscription_url + 'verifyreceipt';
     return this.sendPostRequest(url, postData);
   }
 }

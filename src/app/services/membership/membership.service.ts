@@ -8,6 +8,8 @@ import { GeneralService } from '../generalComponents/general.service';
 import { IongadgetService } from './../ionGadgets/iongadget.service';
 // api
 import { UserApiService } from './../../apis/user/user-api.service';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -19,7 +21,8 @@ export class MembershipService {
     private generalService: GeneralService,
     private ionService: IongadgetService,
     private userAPI: UserApiService,
-    private storage: Storage
+    private storage: Storage,
+    private iab: InAppBrowser
   ) { }
 
   async deleteAccount() {
@@ -77,5 +80,30 @@ export class MembershipService {
       this.generalService.logOut();
     });
     return await modal.present();
+  }
+
+  async confirmToFreePlan(): Promise<any> {
+    return new Promise(async (resolve) => {
+      const action = await this.actionCtrl.create({
+        // tslint:disable-next-line: max-line-length
+        header: 'You will have to cancel the current paid subscription plan manually.',      
+        buttons: [
+          {
+            text: 'Cancel now',
+            handler: () => {
+              const browser = this.iab.create('https://apps.apple.com/account/subscriptions', '_blank');
+              browser.show();
+              browser.on('exit').subscribe(() => {
+                resolve(true);
+              });
+            }
+          }, {
+            text: 'No',
+            role: 'cancel'
+          }
+        ]
+      });
+      await action.present();
+    });
   }
 }

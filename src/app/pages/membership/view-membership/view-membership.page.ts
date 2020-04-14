@@ -90,7 +90,6 @@ export class ViewMembershipPage implements OnInit {
     } else  {
       this.getTransactionHistory().then((result) => {
         if (result) {
-          console.log(result);
           this.displayValue = 4;
         }
       });

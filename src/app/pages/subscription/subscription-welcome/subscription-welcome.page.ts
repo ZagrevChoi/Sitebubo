@@ -57,7 +57,6 @@ export class SubscriptionWelcomePage implements OnInit {
           if (params.isFreeTrial !== undefined) {
             this.isFreeTrial = JSON.parse(params.isFreeTrial);
           }
-          this.platform = params.platform;
           this.status = params.status;
           this.oldPlan = params.oldPlan;
         }
@@ -106,41 +105,19 @@ export class SubscriptionWelcomePage implements OnInit {
 
   }
 
-  defineDisplayAndroid(): any {
-    return new Promise((resolve, reject) => {
-      let temp: number;
-      if (this.newUser && this.subscriptionID === 1) {
-        temp = 1; // new free
-        console.log('free');
-      } else if  (!this.newUser && this.subscriptionID === 1) {
-        temp = 2; // old free
-        console.log('old');
-      } else if (this.subscriptionID > 1 && this.isFreeTrial) {
-        temp = 4; // free trial
-        console.log('trial');
-      } else if ( this.firstPay && this.subscriptionID > 1)  {
-        temp =  3; // first pay
-        console.log('pay');
-      } else {
-        temp = 5; // no trial
-        console.log('no');
-      }
-      resolve(temp);
-    });
-  }
-
   defineDisplayIOS(): any {
     return new Promise((resolve) => {
       let temp: number;
       if (this.newUser && this.subscriptionID === 1) {
         temp = 1;
-      } else if (this.newUser && this.subscriptionID > 1) {
-        temp = 5;
+      } else if (this.subscriptionID > 1 && this.isFreeTrial) {
+        temp = 4;
       } else if (!this.newUser && this.subscriptionID === 1) {
         temp = 2;
       } else {
         temp = 5;
       }
+      resolve(temp);
     });
   }
 
@@ -157,24 +134,16 @@ export class SubscriptionWelcomePage implements OnInit {
             temp.bigprc = arr[0];
             temp.smallprc = arr[1];
             this.details = temp;
-            console.log(this.details);
             this.getTransactionHistory(user.id, user.token).then((res) => {
               if (res === 1) {
                 this.firstPay = true;
               } else {
                 this.firstPay = false;
               }
-              if (this.details.platform  === 'ios') {
-                this.defineDisplayIOS().then((another) => {
-                  this.displayValue = another;
-                  this.cdr.detectChanges();
-                });
-              } else {
-                this.defineDisplayAndroid().then((another) => {
-                  this.displayValue = another;
-                  this.cdr.detectChanges();
-                });
-              }
+              this.defineDisplayIOS().then((another) => {
+                this.displayValue = another;
+                this.cdr.detectChanges();
+              });
             });
         } else {
           this.ionService.showAlert('Error from Server', result.RESPONSE);

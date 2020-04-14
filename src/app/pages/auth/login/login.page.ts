@@ -9,7 +9,10 @@ import { GeneralService } from '../../../services/generalComponents/general.serv
 import { StorageService } from './../../../services/storage/storage.service';
 import { AuthApiService } from 'src/app/apis/auth/auth-api.service';
 import { IongadgetService } from 'src/app/services/ionGadgets/iongadget.service';
-import { SignInWithApple } from '@ionic-native/sign-in-with-apple/ngx';
+import * as JWT from 'jwt-decode';
+// tslint:disable-next-line: max-line-length
+import { SignInWithApple, AppleSignInResponse, AppleSignInErrorResponse, ASAuthorizationAppleIDRequest } from '@ionic-native/sign-in-with-apple/ngx';
+import * as JwtDecode from 'jwt-decode';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -256,10 +259,13 @@ export class LoginPage implements OnInit {
   }
 
   signInWithApple() {
-    this.appleSignin.signin({requestedScopes: [0, 1]}).then((result) => {
-      this.appleSignUp(result.email, result.fullName.givenName);
-    }).catch(err => {
-      this.ionService.presentToast('Sign in with Apple failed');
+    this.appleSignin.signin({
+         requestedScopes: [0,1]
+      }).then((result) => {
+      let data = JWT(result.identityToken);
+      this.appleSignUp(data['email'], 'AppleUser');
+    }).catch((err) => {
+      this.ionService.presentToast('Sign in with Apple failed: ' + JSON.stringify(err));
     });
   }
 
@@ -274,7 +280,7 @@ export class LoginPage implements OnInit {
         this.appleSignIn(email);
       } else {
         this.appleReady = false;
-        this.ionService.presentToast(result.RESPONSE);
+        this.ionService.presentToast('Api Subscription Error: ' + result.RESPONSE);
       }
     }, err => {
       this.appleReady = false;
