@@ -59,6 +59,7 @@ export class SubscriptionWelcomePage implements OnInit {
           }
           this.status = params.status;
           this.oldPlan = params.oldPlan;
+          this.newPlan = params.newPlan + ' Plan';
         }
     });
   }
@@ -122,36 +123,41 @@ export class SubscriptionWelcomePage implements OnInit {
   }
 
   async getPlanInfo() {
-    this.storage.get('userInfo').then((user) => {
-      this.subscriptionAPI.currentSubscription(user.id, user.token).subscribe((result) => {
-        console.log(result.data);
-        if (result.RESPONSECODE === 1) {
-            this.events.publish('planInfo_set', result.data);
-            this.subscriptionID = result.data.id;
-            this.newPlan = result.data.name + ' Plan';
-            const temp = result.data;
-            const arr = temp.price.toString().split('.');
-            temp.bigprc = arr[0];
-            temp.smallprc = arr[1];
-            this.details = temp;
-            this.getTransactionHistory(user.id, user.token).then((res) => {
-              if (res === 1) {
-                this.firstPay = true;
-              } else {
-                this.firstPay = false;
-              }
-              this.defineDisplayIOS().then((another) => {
-                this.displayValue = another;
-                this.cdr.detectChanges();
+    if (this.status === 'pending') {
+      this.displayValue = 0;
+      this.cdr.detectChanges();
+    } else {
+      this.storage.get('userInfo').then((user) => {
+        this.subscriptionAPI.currentSubscription(user.id, user.token).subscribe((result) => {
+          console.log(result.data);
+          if (result.RESPONSECODE === 1) {
+              this.events.publish('planInfo_set', result.data);
+              this.subscriptionID = result.data.id;
+              this.newPlan = result.data.name + ' Plan';
+              const temp = result.data;
+              const arr = temp.price.toString().split('.');
+              temp.bigprc = arr[0];
+              temp.smallprc = arr[1];
+              this.details = temp;
+              this.getTransactionHistory(user.id, user.token).then((res) => {
+                if (res === 1) {
+                  this.firstPay = true;
+                } else {
+                  this.firstPay = false;
+                }
+                this.defineDisplayIOS().then((another) => {
+                  this.displayValue = another;
+                  this.cdr.detectChanges();
+                });
               });
-            });
-        } else {
-          this.ionService.showAlert('Error from Server', result.RESPONSE);
-        }
-      }, err => {
-        this.ionService.showAlert('Error from Server', 'Unable to call Server API');
+          } else {
+            this.ionService.showAlert('Error from Server', result.RESPONSE);
+          }
+        }, err => {
+          this.ionService.showAlert('Error from Server', 'Unable to call Server API');
+        });
       });
-    });
+    }
   }
 
   toggleMenu() {

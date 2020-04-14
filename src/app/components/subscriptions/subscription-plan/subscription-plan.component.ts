@@ -118,9 +118,8 @@ export class SubscriptionPlanComponent implements OnInit {
         this.ionService.showLoading();
         this.subscriptionAPI.verifyReceipt(this.userID, data.receipt, this.token, productID)
         .subscribe((result) => {
-          alert(JSON.stringify(result));
           this.ionService.closeLoading();
-          if (result.RESPONSECODE === 1 && result.data.status === 'Success') {
+          if (result.RESPONSECODE === 1) {
             if (downgradeData !== null) {
               this.removeDomains(downgradeData).then(res => {
                 const params: NavigationExtras = {
@@ -147,7 +146,17 @@ export class SubscriptionPlanComponent implements OnInit {
               this.router.navigate(['subscription-welcome'], params);
             }
           } else {
-            this.ionService.presentToast('Please try again later. ' + result.RESPONSE );
+            if (result.RESPONSE === 'Pending') {
+              this.router.navigate(['subscription-welcome'], {
+                queryParams: {
+                  status: 'pending',
+                  oldPlan: this.oldPlanName,
+                  newPlan: this.changeData.newPlanName + ' Plan'
+                }
+              });
+            } else {
+              this.ionService.presentToast('Please try again later. ' + result.RESPONSE );
+            }
           }
         }, err => {
           this.ionService.closeLoading();
@@ -220,6 +229,7 @@ export class SubscriptionPlanComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this.subscriptionAPI.downgradePlan(domainsToRemove.domains, this.userID, this.token, domainsToRemove.feedback)
       .subscribe((res) => {
+        this.ionService.closeLoading();
         if (res.RESPONSECODE === 1) {
           resolve(true);
         } else {
