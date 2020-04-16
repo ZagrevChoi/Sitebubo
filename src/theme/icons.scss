@@ -139,15 +139,15 @@ ion-icon{
   }
   &.d-conversionRate {
     font-size: 45px !important;
-    background-image: url('assets/icons/dashboard/conversion.gif');
+    background-image: url('assets/icons/dashboard/cards/conversion.gif');
   }
   &.d-domainExpire {
     font-size: 45px !important;
-    background-image: url('assets/icons/dashboard/domainexpire.gif');
+    background-image: url('assets/icons/dashboard/cards/domainexpire.gif');
   }
   &.d-fullReport {
     font-size: 45px !important;
-    background-image: url('assets/icons/dashboard/fullReort.gif');
+    background-image: url('assets/icons/dashboard/cards/fullReport.gif');
   }
   &.d-notificationBell {
     background-size: contain !important;
@@ -156,7 +156,7 @@ ion-icon{
   } 
   &.d-seo {
     font-size: 45px !important;
-    background-image: url('assets/icons/dashboard/seo.gif');
+    background-image: url('assets/icons/dashboard/cards/seo.gif');
   }
   &.d-settings {
     font-size: 30px !important;
@@ -164,16 +164,16 @@ ion-icon{
   }
   &.d-siteScore {
     font-size: 45px !important;
-    background-image: url('assets/icons/dashboard/sitespeed.gif');
+    background-image: url('assets/icons/dashboard/cards/sitespeed.gif');
   } 
   &.d-siteUp {
     font-size: 75px !important;
-    background-image: url('assets/icons/dashboard/siteup.gif');
+    background-image: url('assets/icons/dashboard/cards/sitedown.gif');
+    transform: rotate(180deg);
   }
   &.d-siteDown {
     font-size: 75px !important;
-    background-image: url('assets/icons/dashboard/siteup.gif');
-    transform: rotate(180deg);
+    background-image: url('assets/icons/dashboard/cards/sitedown.gif');
   }
   &.n-report {
     // font-size: 75px !important;
@@ -185,15 +185,15 @@ ion-icon{
   }
   &.d-virusfree {
     font-size: 75px !important;
-    background-image: url('assets/icons/dashboard/security_secure.gif');
+    background-image: url('assets/icons/dashboard/cards/security_secure.gif');
   }
   &.d-virusdetected {
     font-size: 75px !important;
-    background-image: url('assets/icons/dashboard/security_notsecure.gif');
+    background-image: url('assets/icons/dashboard/cards/security_notsecure.gif');
   }
   &.d-visitorRate {
     font-size: 45px !important;
-    background-image: url('assets/icons/dashboard/visitors.gif');
+    background-image: url('assets/icons/dashboard/cards/visitors.gif');
   }
   &.activeUser {
     font-size: 45px;

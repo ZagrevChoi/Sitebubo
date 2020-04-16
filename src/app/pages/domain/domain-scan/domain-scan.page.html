@@ -1,21 +1,12 @@
 <ion-content>
   <div class="completed">
-    <img src= "assets/icons/logoAlone.svg" />
-    <ion-label *ngIf="completed"><b>{{ title }} </b>completed</ion-label>
-    <ion-label *ngIf="!completed"><b>{{ title }} </b>in Progress</ion-label>
+    <ion-label *ngIf="completed" class="title"><b>{{ title }} </b>completed</ion-label>
+    <ion-label *ngIf="!completed" class="title"><b>{{ title }} </b>in Progress</ion-label>
   </div>
   <ion-label class="domain_name">{{ domainName }}</ion-label>
-  <div class="img" [ngSwitch]="tempResult?.monitor">
-    <img *ngSwitchCase="'Domain Monitor'" src="assets/imgs/scanMonitors/domainMonitor.png" />
-    <img *ngSwitchCase="'DNS & IP Monitor'" src="assets/imgs/scanMonitors/dnsIpMonitor.png" />
-    <img *ngSwitchCase="'Security Monitor'" src="assets/imgs/scanMonitors/securityMonitor.png" />
-    <img *ngSwitchCase="'Speed Monitor'" src="assets/imgs/scanMonitors/speedMonitor.png" />
-    <img *ngSwitchCase="'Desktop Speed Monitor'" src="assets/imgs/scanMonitors/desktopSpeedMonitor.png" />
-    <img *ngSwitchCase="'Mobile Speed Monitor'" src="assets/imgs/scanMonitors/mobileSpeedMonitor.png" />
-    <img *ngSwitchCase="'Mobile Friendly Monitor'" src="assets/imgs/scanMonitors/mobileFriendlyMonitor.png" />
-    <img *ngSwitchCase="'Uptime Monitor'" src="assets/imgs/scanMonitors/uptimeMonitor.png" />
-    <img *ngSwitchCase="'SEO Monitor'" src="assets/imgs/scanMonitors/seoMonitor.png" />
-    <img *ngSwitchCase="'PDF Site Report'" src="assets/imgs/scanMonitors/pdfMonitor.png" />
+  <!-- <div class="img" [ngSwitch]="tempResult?.monitor"> -->
+  <div class="img">
+    <img src="assets/icons/loader.gif" alt="">
   </div>
   <div class="footer">
     <ion-label class="monitor-name" *ngIf="tempResult?.monitor">{{ tempResult?.monitor }} Scanning</ion-label>

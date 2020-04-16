@@ -3,6 +3,7 @@ import { Storage } from '@ionic/storage';
 import { NavController } from '@ionic/angular';
 import { NotificationApiService } from 'src/app/apis/notification/notification-api.service';
 import { IongadgetService } from 'src/app/services/ionGadgets/iongadget.service';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 @Component({
   selector: 'app-notification-setting',
@@ -20,13 +21,13 @@ export class NotificationSettingPage implements OnInit {
     private storage: Storage,
     private ionService: IongadgetService,
     private navCtrl: NavController,
+    private iab: InAppBrowser
   ) {
   }
 
   ngOnInit() {
     this.initData();
   }
-
 
   ionViewWillEnter() {
   }
@@ -67,19 +68,31 @@ export class NotificationSettingPage implements OnInit {
 
   listenGeneralSettings(key, $event) {
     const value = $event.detail.checked;
-    this.generalSetting[key] = value;
-    console.log(this.generalSetting);
-    this.changeObjectToArray(this.generalSetting).then((res) => {
-      this.notifcationAPI.saveGeneralPermission(this.userID, this.token, JSON.stringify(res)).subscribe((result) => {
-        if (result.RESPONSECODE === 1) {
-          console.log(result);
-        } else {
-          this.ionService.presentToast(result.RESPONSE);
+    if (key === 'slack' && value) {
+      // tslint:disable-next-line: max-line-length
+      const url = 'https://slack.com/oauth/authorize?scope=incoming-webhook,chat:write:bot&client_id=331259634769.1032910496374&state=' + this.userID;
+      const browser = this.iab.create(url, '_blank');
+      browser.show();
+      browser.on('loadstop').subscribe((res) => {
+        if (res.url.includes('https://app.sitebubo.com/api/public/apiusers/slack_redirecturi')) {
+          browser.close();
         }
-      }, err => {
-        this.ionService.presentToast('Server API Problem');
       });
-    });
+    } else {
+      this.generalSetting[key] = value;
+      console.log(this.generalSetting);
+      this.changeObjectToArray(this.generalSetting).then((res) => {
+        this.notifcationAPI.saveGeneralPermission(this.userID, this.token, JSON.stringify(res)).subscribe((result) => {
+          if (result.RESPONSECODE === 1) {
+            console.log(result);
+          } else {
+            this.ionService.presentToast(result.RESPONSE);
+          }
+        }, err => {
+          this.ionService.presentToast('Server API Problem');
+        });
+      });
+    }
   }
 
   listenDomainMonitors(item, key, $event) {

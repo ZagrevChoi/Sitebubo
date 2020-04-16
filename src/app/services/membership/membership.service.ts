@@ -70,7 +70,8 @@ export class MembershipService {
 
   async allDone() {
     const modal = await this.modalCtrl.create({
-      component: AllDonePage
+      component: AllDonePage,
+      swipeToClose: true
     });
     modal.onDidDismiss().then(() => {
       this.generalService.logOut();

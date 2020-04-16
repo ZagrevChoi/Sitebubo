@@ -37,7 +37,7 @@ export class BaseApiService {
     public facebook: Facebook,
     public events: Events
   ) {}
-
+  
   public sendGetRequest(url): Observable<any> {
     console.log(url);
     const response = this.https.get(url).pipe(

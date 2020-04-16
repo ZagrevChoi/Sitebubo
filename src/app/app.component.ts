@@ -6,6 +6,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Storage } from '@ionic/storage';
 import { FCM } from '@ionic-native/fcm/ngx';
 import { Router } from '@angular/router';
+import { BranchIo } from '@ionic-native/branch-io/ngx';
 // api
 import { AuthApiService } from './apis/auth/auth-api.service';
 // services
@@ -38,29 +39,31 @@ export class AppComponent {
     private ionService: IongadgetService,
     private storageService: StorageService,
     private network: NetworkService,
-    private fcm: FCM
+    private fcm: FCM,
+    private branchIO: BranchIo
   ) {
       this.treatFCM();
+      this.listenBranch();
       this.network.initNetwork();
       this.listenEvents();
       this.initializeApp();
-  }
+    }
 
-  initializeApp() {
-    this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
-      this.veryifyToken().then((result) => {
-            if (result) {
-                console.log(result);
-                this.storageService.setStorage(result).then(() => {
-                    this.generalService.defineInitialRoutering();
-                });
-            }
-        }).catch((err) => {
+    initializeApp() {
+        this.platform.ready().then(() => {
+        this.statusBar.styleDefault();
+        this.splashScreen.hide();
+        this.veryifyToken().then((result) => {
+                if (result) {
+                    console.log(result);
+                    this.storageService.setStorage(result).then(() => {
+                        this.generalService.defineInitialRoutering();
+                    });
+                }
+            }).catch((err) => {
+            });
         });
-    });
-  }
+    }
 
     veryifyToken() {
         return new Promise((resolve, reject) => {
@@ -119,12 +122,25 @@ export class AppComponent {
         });
     }
 
+    listenBranch() {
+        this.platform.ready().then(() => {
+            this.branchIO.initSession().then((data) => {
+                this.generalService.branchIOTreat(data);
+            });
+            this.platform.resume.subscribe(() => {
+                this.branchIO.initSession().then((data) => {
+                    this.generalService.branchIOTreat(data);
+                 });
+            });
+        });
+    }
+
     treatFCM() {
         this.fcm.onNotification().subscribe((res) => {
             if (res.wasTapped) {
-                alert('tapped===============' +  JSON.stringify(res));
+                // alert('tapped===============' +  JSON.stringify(res));
             } else {
-                alert('not tapped===============' + JSON.stringify(res));
+                // alert('not tapped===============' + JSON.stringify(res));
             }
         });
     }

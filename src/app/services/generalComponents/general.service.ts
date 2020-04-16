@@ -56,21 +56,24 @@ export class GeneralService {
 
   async openMyProfile() {
     const myProfile = await this.modalCtrl.create({
-      component: MyprofilePage
+      component: MyprofilePage,
+      swipeToClose: true
     });
     return await myProfile.present();
   }
 
   async openFeedback() {
     const feedback = await this.modalCtrl.create({
-        component: FeedbackPage
+        component: FeedbackPage,
+        swipeToClose: true
     });
     return await feedback.present();
   }
 
   async openForgotPassword() {
     const forgot = await this.modalCtrl.create({
-      component: ForgotpasswordPage
+      component: ForgotpasswordPage,
+      swipeToClose: true
     });
     return await forgot.present();
   }
@@ -148,7 +151,8 @@ export class GeneralService {
 
   async openPrivacyPolicy() {
     const privacy = await this.modalCtrl.create({
-      component: PrivacyPage
+      component: PrivacyPage,
+      swipeToClose: true
     });
     return await privacy.present();
   }
@@ -157,7 +161,8 @@ export class GeneralService {
     this.storage.get('userInfo').then(async user => {
       if (myDomCnt < totalDomCnt) {
         const modal = await this.modalCtrl.create({
-          component: AddDomainPage
+          component: AddDomainPage,
+          swipeToClose: true
         });
         return await modal.present();
       } else {
@@ -192,7 +197,8 @@ export class GeneralService {
           domainUserID: domUserID,
           domainName: domName
         },
-        cssClass: 'inviteModal'
+        cssClass: 'inviteModal',
+        swipeToClose: true
       });
       modal.onDidDismiss().then((result) => {
         console.log(result.data);
@@ -208,7 +214,8 @@ export class GeneralService {
 
   async openAllDone() {
     const allDone = await this.modalCtrl.create({
-      component: AllDonePage
+      component: AllDonePage,
+      swipeToClose: true
     });
     allDone.onDidDismiss().then(() => {
       // this.logOut();
@@ -245,7 +252,8 @@ export class GeneralService {
         componentProps: {
           notifications: notificationData
         },
-        cssClass: cssStyle
+        cssClass: cssStyle,
+        swipeToClose: true
       });
       modal.onDidDismiss().then(() => {
         resolve(true);
@@ -294,7 +302,8 @@ export class GeneralService {
           userID: userIDData,
           token: tokenData
         },
-        cssClass: 'googleAnalyticsModal'
+        cssClass: 'googleAnalyticsModal',
+        swipeToClose: true
       });
       modal.onDidDismiss().then((result) => {
         console.log(result.data);
@@ -341,7 +350,8 @@ export class GeneralService {
     return new Promise(async (resolve) => {
       const page = await this.modalCtrl.create({
         component: ServerMonitorPage,
-        cssClass: 'googleAnalyticsModal'
+        cssClass: 'googleAnalyticsModal',
+        swipeToClose: true
       });
       page.onDidDismiss().then((res) => {
         console.log(res.data);
@@ -365,7 +375,8 @@ export class GeneralService {
           reportName: reportNameData,
           factor: factorNum
         },
-        cssClass: 'monitor-issues'
+        cssClass: 'monitor-issues',
+        swipeToClose: true
       });
       if (reportNameData === 'seo') {
         modal.onDidDismiss().then(() => {
@@ -445,12 +456,13 @@ export class GeneralService {
   async askContinueScanning(key, data) {
     return new Promise(async (resolve) => {
       this.storage.get('planInfo').then((info) => {
+        // tslint:disable-next-line: max-line-length
         const question = 'You have to upgrade the current subscription plan to increase the number of manual scans. Do you want to upgrade now ?';
         const planID = info.id;
         let header: string;
         if (key === 'speed') {
           if ((data.speedtotalscan + data.speedscanfinished === 0 || data.speedtotalscan <= 0) && planID < 4) {
-            this.askToUpgrade();
+            this.askToUpgrade(question);
             resolve(false);
           } else if (planID === 4 && data.speedtotalscan <= 0) {
             this.ionService.presentToast('You have exceeded the number of manual scans for the current plan.');
@@ -464,7 +476,7 @@ export class GeneralService {
           }
         } else if (key === 'seo') {
           if ((data.seototalscan + data.seoscanfinished === 0 || data.seototalscan <= 0) && planID < 4) {
-            this.askToUpgrade();
+            this.askToUpgrade(question);
             resolve(false);
           } else if (planID === 4 && data.seototalscan <= 0) {
             this.ionService.presentToast('You have exceeded the number of manual scans for the current plan.');
@@ -478,7 +490,7 @@ export class GeneralService {
           }
         } else if (key === 'security') {
           if ((data.securitytotalscan + data.securityscanfinished === 0 || data.securitytotalscan <= 0) && planID < 4) {
-            this.askToUpgrade();
+            this.askToUpgrade(question);
             resolve(false);
           } else if (planID === 4 && data.securitytotalscan <= 0) {
             this.ionService.presentToast('You have exceeded the number of manual scans for the current plan.');
@@ -495,9 +507,9 @@ export class GeneralService {
     });
   }
 
-  async askToUpgrade() {
+  async askToUpgrade(question) {
         const action = await this.actionCtrl.create({
-          header: 'You have to upgrade the current subscription plan to increase the number of manual scans. Do you want to upgrade now ?',
+          header: question,
           buttons: [
             {
               text: 'Upgrade',
@@ -540,5 +552,20 @@ export class GeneralService {
       });
       await action.present();
     });
+  }
+
+  branchIOTreat(data) {
+    if (data['+clicked_branch_link']) {
+      if (data.action === 'verifiedEmail') {
+        this.router.navigate(['login']);
+        this.ionService.presentToast(`${data.email} is successfully verified.`);
+      } else if (data.action === 'acceptedInvitation') {
+        this.ionService.presentToast(`You have accepted the invitation from ${data.email} for ${data.domainName}.`);
+      } else if (data.action === 'rejectedInvitation') {
+        this.ionService.presentToast(`You have rejected the invitation from ${data.email} for ${data.domainName}.`);
+      } else if (data.action === 'welcome') {
+        this.ionService.presentToast('Welcome to Sitebubo.');
+      }
+    }
   }
 }

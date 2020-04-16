@@ -49,11 +49,4 @@ export class NotificationApiService extends BaseApiService {
     url += 'user_id=' + userID + '&token=' + token + '&monitors=' + monitors + '&domain_id=' + domainID;
     return this.sendGetRequest(url);
   }
-
-  // getDomainScanStatus(params): any {
-  //   // tslint:disable-next-line: max-line-length
-  //   const url = this.server_url + 'cronreportcontroller/webscanstatus/' + params.user_id + '/' + params.domain_name + '/' + params.domain_id;
-  //   console.log(url);
-  //   return this.sendGetRequest(url);
-  // }
 }

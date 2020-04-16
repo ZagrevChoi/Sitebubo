@@ -103,6 +103,7 @@ export class CancelMembershipPage implements OnInit {
         allowedCnt: 1,
         reason: true
       },
+      swipeToClose: true
     });
     exDomain.onDidDismiss().then((result) => {
       if (result.role === 'success') {

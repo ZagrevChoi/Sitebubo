@@ -24,7 +24,7 @@ export class AdmobService {
     return new Promise((resolve, reject) => {
       this.platform.ready().then(async () => {
         await this.admob.banner.config(this.admobConfig);
-        await this.admob.banner.prepare().then(() => {
+        await this.admob.banner.prepare().then((res) => {
           resolve(true);
         }).catch(err => {
           reject(false);
