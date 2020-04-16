@@ -7,6 +7,7 @@ import { SubscriptionApiService } from 'src/app/apis/subscription/subscription-a
 import { TransactionApiService } from 'src/app/apis/transaction/transaction-api.service';
 import { Events } from 'src/app/services/events/events.service';
 import { DomainApiService } from 'src/app/apis/domain/domain-api.service';
+import { ConstantsService } from 'src/app/constants/constants.service';
 
 @Component({
   selector: 'app-subscription-welcome',
@@ -35,7 +36,8 @@ export class SubscriptionWelcomePage implements OnInit {
     private generalService: GeneralService,
     private transactionAPI: TransactionApiService,
     private domainAPI: DomainApiService,
-    private router: Router
+    private router: Router,
+    private constants: ConstantsService
   ) { }
 
   ngOnInit() {
@@ -123,21 +125,22 @@ export class SubscriptionWelcomePage implements OnInit {
   }
 
   async getPlanInfo() {
-    if (this.status === 'pending') {
-      this.displayValue = 0;
-      this.cdr.detectChanges();
-    } else {
       this.storage.get('userInfo').then((user) => {
         this.subscriptionAPI.currentSubscription(user.id, user.token).subscribe((result) => {
-          console.log(result.data);
           if (result.RESPONSECODE === 1) {
               this.events.publish('planInfo_set', result.data);
               this.subscriptionID = result.data.id;
-              this.newPlan = result.data.name + ' Plan';
               const temp = result.data;
-              const arr = temp.price.toString().split('.');
-              temp.bigprc = arr[0];
-              temp.smallprc = arr[1];
+              if (this.status !== 'pending') {
+                const arr = temp.price.toString().split('.');
+                temp.bigprc = arr[0];
+                temp.smallprc = arr[1];
+                this.newPlan = result.data.name + ' Plan';
+              } else {
+                temp.bigprc = this.constants.plans[result.data.pending_productid].price;
+                temp.smallprc = '99';
+                temp.name = this.constants.plans[result.data.pending_productid].label;
+              }
               this.details = temp;
               this.getTransactionHistory(user.id, user.token).then((res) => {
                 if (res === 1) {
@@ -157,7 +160,7 @@ export class SubscriptionWelcomePage implements OnInit {
           this.ionService.showAlert('Error from Server', 'Unable to call Server API');
         });
       });
-    }
+    // }
   }
 
   toggleMenu() {

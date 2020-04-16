@@ -60,14 +60,16 @@ ion-content {
 		width: 100%;
 		img {    
 			height: 90%;
-			width: 100%;
+			width: auto;
 		}
 	}
 	div.results {
 		width: 90%;
 		height: 46%;
-		display: block;
 		margin: auto;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
 		overflow: scroll;
 		padding-bottom: 30px;
 		touch-action: none;

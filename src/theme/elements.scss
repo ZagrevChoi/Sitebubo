@@ -517,11 +517,16 @@ ion-skeleton-text {
 }
 
  div.special {
-   display: flex;
-   align-self: center;
-   align-items: center;
-   justify-content: space-between;
-   line-height: 1.5;
+  display: flex;
+  align-self: center;
+  align-items: center;
+  justify-content: space-between;
+  width: 90%;
+  height: 30px !important;
+  line-height: 1.5;
+  flex-grow: 1;
+  flex-basis: 30px !important; 
+  flex-shrink: 0;
   .check {
     width: 25px;
     height: 20px;
