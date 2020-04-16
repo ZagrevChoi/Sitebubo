@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Events } from '@ionic/angular';
 import { GeneralService } from '../generalComponents/general.service';
+import { Events } from '../events/events.service';
 
 @Injectable({
   providedIn: 'root'

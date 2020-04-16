@@ -293,7 +293,7 @@ ion-menu {
         &.invite {
           font-size: 17px;
           left: 10px;
-          color: #FE7A80;
+          --color: #FE7A80;
           --color-activated: rgb(197, 81, 81);
           z-index: 1;
         }

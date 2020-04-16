@@ -50,7 +50,6 @@ export class LoginPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.setHeaderAnimation();
     this.initForm();
     this.getToken();
   }
@@ -76,17 +75,6 @@ export class LoginPage implements OnInit {
         }
       });
     });
-  }
-
-  setHeaderAnimation() {
-    // this.keyboard.onKeyboardWillShow().subscribe(() => {
-    //   document.getElementById('logo').style.display = 'none';
-    //   document.getElementById('login').style.minHeight = '100vh';
-    // });
-    // this.keyboard.onKeyboardWillHide().subscribe(() => {
-    //   document.getElementById('logo').style.display = 'flex';
-    //   document.getElementById('login').style.minHeight = '66vh';
-    // });
   }
 
   initForm() {
@@ -225,9 +213,7 @@ export class LoginPage implements OnInit {
     this.authAPI.facebookSignUp(email, name, this.deviceID).subscribe(async (result) => {
       this.facebookReady = true;
       console.log(result);
-      if (result.RESPONSECODE === 1) {
-        this.facebookSignIn(email);
-      } else if (result.RESPONSE === 'Email Already Exists') {
+      if (result.RESPONSECODE === 1 || result.RESPONSE === 'Email Already Exists') {
         this.facebookSignIn(email);
       } else {
         this.facebookReady = false;

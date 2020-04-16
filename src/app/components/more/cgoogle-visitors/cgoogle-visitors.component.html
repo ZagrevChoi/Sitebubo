@@ -1,60 +1,13 @@
-<!-- <ion-card mode="ios">
-  <ion-label class="date">Start Date: {{ visitorsDetails?.start_date | datetime }}</ion-label>
-  <ion-label class="date">End Date: {{ visitorsDetails?.end_date | datetime }}</ion-label>
-  <ion-list mode="ios">
-    <ion-item>
-      <ion-icon ios="md-person" md="md-person" slot="start"></ion-icon>
-      <ion-label class="title">Users</ion-label>
-      <ion-label class="value">{{ visitorsDetails?.users }}</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-icon ios="md-person-add" md="md-person-add" slot="start"></ion-icon>
-      <ion-label class="title">New Users</ion-label>
-      <ion-label class="value">{{ visitorsDetails?.newusers }}</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-icon class="active-session" ios="ios-chatbubbles" md="ios-chatbubbles" slot="start"></ion-icon>
-      <ion-label class="title">Sessions</ion-label>
-      <ion-label class="value">{{ visitorsDetails?.sessions }}</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-icon class="deactive-session" ios="ios-chatbubbles" md="ios-chatbubbles" slot="start"></ion-icon>
-      <ion-label class="title">No. Sessions per User</ion-label>
-      <ion-label class="value">{{ visitorsDetails?.sessionsperuser }}</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-icon ios="md-eye" md="md-eye" slot="start"></ion-icon>
-      <ion-label class="title">Page Views</ion-label>
-      <ion-label class="value">{{ visitorsDetails?.pageviews }}</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-icon ios="ios-albums" md="ios-albums" slot="start"></ion-icon>
-      <ion-label class="title">Pages/Session</ion-label>
-      <ion-label class="value">{{ visitorsDetails?.pageviewspersession }}</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-icon ios="ios-timer" md="ios-timer" slot="start"></ion-icon>
-      <ion-label class="title">Avg.Session Duration</ion-label>
-      <ion-label class="value">{{ visitorsDetails?.avgsessionduration }}</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-icon ios="md-pulse" md="md-pulse" slot="start"></ion-icon>
-      <ion-label class="title">Bounce Rate</ion-label>
-      <ion-label class="value">{{ visitorsDetails?.bouncerate }}</ion-label>
-    </ion-item>
-  </ion-list>
-</ion-card> -->
-
 <div class="header">
   <ion-button mode="md" class="previous" slot="icon-only" [disabled]="!analyticsDetail?.arrow.prev" (click)="getAnotherResult('prev');">
-    <ion-icon ios="ios-arrow-back" md="ios-arrow-back"></ion-icon>
+    <ion-icon name="arrow-back-outline"></ion-icon>
   </ion-button>
   <div class="dates-compare">
     <ion-label class="last-checked">{{ analyticsDetail?.dates[0].start_date | noyear }} - {{ analyticsDetail?.dates[0].end_date | noyear }}</ion-label>
     <ion-label class="previous-checked" *ngIf="analyticsDetail?.dates[1]">vs {{ analyticsDetail?.dates[1].start_date | noyear }} - {{ analyticsDetail?.dates[1].end_date | noyear }}</ion-label>
   </div>
   <ion-button mode="md" class="next" slot="icon-only" [disabled]="!analyticsDetail?.arrow.next" (click)="getAnotherResult('next');">
-    <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward"></ion-icon>
+    <ion-icon name="arrow-forward-outline"></ion-icon>
   </ion-button>
 </div>
 
@@ -69,17 +22,17 @@
     Audience overview
   </ion-label>
   <ion-segment mode="ios" [value]="audienceFilter" (ionChange)="changeAudienceFilter($event)">
-    <ion-segment-button mode="ios" value="0">
+    <ion-segment-button value="0">
       <ion-label class="sub-label">Users</ion-label>
       <ion-label class="sub-num">{{ analyticsDetail?.users.score }}</ion-label>
       <ion-label class="difference" [ngClass]="{'positive': analyticsDetail?.users?.difference?.alert === 'positive','black':  analyticsDetail?.users?.difference?.alert === 'equal', 'negative': analyticsDetail?.users?.difference?.alert === 'negative'}">{{ analyticsDetail?.users?.difference?.text }}</ion-label>
     </ion-segment-button>
-    <ion-segment-button mode="ios" value="1">
+    <ion-segment-button value="1">
       <ion-label class="sub-label">Sessions</ion-label>
       <ion-label class="sub-num">{{ analyticsDetail?.sessions.score }}</ion-label>
       <ion-label class="difference" [ngClass]="{'positive': analyticsDetail?.sessions?.difference?.alert === 'positive', 'black': analyticsDetail?.sessions?.difference?.alert === 'equal', 'negative': analyticsDetail?.sessions?.difference?.alert === 'negative'}">{{ analyticsDetail?.sessions.difference?.text }}</ion-label>
     </ion-segment-button>
-    <ion-segment-button mode="ios" value="2">
+    <ion-segment-button value="2">
       <ion-label class="sub-label">New Users</ion-label>
       <ion-label class="sub-num">{{ analyticsDetail?.newusers.score }}</ion-label>
       <ion-label class="difference" [ngClass]="{'positive': analyticsDetail?.newusers?.difference?.alert === 'positive', 'black': analyticsDetail?.newusers?.difference?.alert === 'equal', 'negative': analyticsDetail?.newusers?.difference?.alert === 'negative'}">{{ analyticsDetail?.newusers.difference?.text }}</ion-label>
@@ -130,8 +83,8 @@
 
 <ion-card mode="ios" clss="behaviour">
   <ion-label class="label">Behaviour overview</ion-label>
-  <ion-segment mode="ios" [value]="behaviourFilter" (ionChange)="changeBehaviourFilter($event)" scrollable>
-    <ion-segment-button mode="ios" value="0">
+  <ion-segment class="behaviour" mode="ios" [value]="behaviourFilter" (ionChange)="changeBehaviourFilter($event)" scrollable>
+    <ion-segment-button value="0">
       <ion-label class="sub-label">
         Avg. session duration
       </ion-label>
@@ -142,7 +95,7 @@
         {{ analyticsDetail?.avgsessionduration.difference?.text }}
       </ion-label>
     </ion-segment-button>
-    <ion-segment-button mode="ios" value="1">
+    <ion-segment-button value="1">
       <ion-label class="sub-label">
        Bounce rate
       </ion-label>
@@ -153,7 +106,7 @@
         {{ analyticsDetail?.bouncerate.difference?.text  }}
       </ion-label>
     </ion-segment-button>
-    <ion-segment-button mode="ios" value="2">
+    <ion-segment-button value="2">
       <ion-label class="sub-label">
        Page view
       </ion-label>
@@ -164,7 +117,7 @@
         {{ analyticsDetail?.pageviews.difference?.text  }}
       </ion-label>
     </ion-segment-button>
-    <ion-segment-button mode="ios" value="3">
+    <ion-segment-button value="3">
       <ion-label class="sub-label">
         Page/session
       </ion-label>
@@ -175,7 +128,7 @@
         {{ analyticsDetail?.pageviewspersession.difference?.text  }}
       </ion-label>
     </ion-segment-button>
-    <ion-segment-button mode="ios" value="4">
+    <ion-segment-button value="4">
       <ion-label class="sub-label">
         Session per user
       </ion-label>
@@ -259,7 +212,7 @@
 <ion-card mode="ios" clss="goals">
   <ion-label class="label">Goals overview</ion-label>
   <ion-segment mode="ios" [value]="goalFilter" (ionChange)="changeGoalFilter($event)">
-    <ion-segment-button mode="ios" value="0">
+    <ion-segment-button value="0">
       <ion-label class="sub-label">
        Goal conversion rate
       </ion-label>
@@ -270,7 +223,7 @@
         {{ analyticsDetail?.goalconversionrateall.difference?.text }}
       </ion-label>
     </ion-segment-button>
-    <ion-segment-button mode="ios" value="1">
+    <ion-segment-button value="1">
       <ion-label class="sub-label">
        Goal completions
       </ion-label>

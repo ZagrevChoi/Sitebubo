@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { TempService } from './../../../services/temp/temp.service';
 import { GoogleChartInterface } from 'ng2-google-charts/google-charts-interfaces';
@@ -8,8 +8,8 @@ import { MonitorApiService } from 'src/app/apis/monitor/monitor-api.service';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { IongadgetService } from 'src/app/services/ionGadgets/iongadget.service';
 import { Router } from '@angular/router';
-import { Events } from '@ionic/angular';
 import { GeneralService } from 'src/app/services/generalComponents/general.service';
+import { Events } from 'src/app/services/events/events.service';
 
 @Component({
   selector: 'app-cseo',
@@ -35,7 +35,8 @@ export class CseoComponent implements OnInit {
     private iab: InAppBrowser,
     private router: Router,
     private events: Events,
-    private generalService: GeneralService
+    private generalService: GeneralService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -57,13 +58,12 @@ export class CseoComponent implements OnInit {
 
   initData() {
     const params = this.tempService.dashboardParams;
-    this.ionService.showLoading();
     this.monitorAPI.getSeoDetails(this.filter, params.domainName, params.domainUserID, this.userID, this.token)
     .subscribe((result) => {
-      this.ionService.closeLoading();
       console.log(result);
       if (result.RESPONSECODE === 1) {
         this.seoData = result.data;
+        this.cdr.detectChanges();
         this.displayData = result.data.performance[0];
         this.changeStatusBarColor(this.displayData);
         this.drawChart(this.seoData.chart);
@@ -71,7 +71,6 @@ export class CseoComponent implements OnInit {
         this.ionService.presentToast('No data from server.');
       }
     }, err => {
-      this.ionService.closeLoading();
       this.ionService.presentToast('Error from Server Api.');
     });
   }

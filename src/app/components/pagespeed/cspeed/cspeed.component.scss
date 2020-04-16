@@ -158,6 +158,11 @@ mat-expansion-panel {
   }
 }
 
+ion-label.black {
+  font-weight: 500;
+  color: black !important;
+  margin-bottom: 10px;
+}
 ion-label.spec-des {
   padding-left: 11px;
 }
@@ -231,8 +236,10 @@ ion-card.metrics {
 ion-segment.metrics-segment {
   width: 32% !important;
   ion-segment-button {
+    --indicator-color: tranparent;
     border: none;
     --background: lightgray;
+    --background-checked: #3880ff;
     ion-icon {
       background-repeat: no-repeat;
       background-size: 70% 80%;

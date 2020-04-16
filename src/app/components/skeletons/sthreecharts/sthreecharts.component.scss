@@ -1,0 +1,23 @@
+ion-card {
+    ion-card-header {
+        display: flex;
+        justify-content: center;
+        ion-skeleton-text {
+            width: 50%;
+            display: block;
+            margin: auto;
+            height: 20px;
+            text-align: center;
+        }
+    }
+    ion-card-content {
+        padding-top: 20px;
+        display: flex;
+        justify-content: space-around;
+        ion-skeleton-text {
+            height: 90px;
+            width: 90px;
+            border-radius: 50%;
+        }
+    }
+}

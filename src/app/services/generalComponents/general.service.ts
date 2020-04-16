@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppRate } from '@ionic-native/app-rate/ngx';
 import { Storage } from '@ionic/storage';
-import { ModalController, PopoverController, Events, ActionSheetController } from '@ionic/angular';
+import { ModalController, PopoverController, ActionSheetController } from '@ionic/angular';
 // apis
 import { AuthApiService } from './../../apis/auth/auth-api.service';
 import { NotificationApiService } from './../../apis/notification/notification-api.service';
@@ -13,6 +13,7 @@ import { ReportApiService } from './../../apis/report/report-api.service';
 // services
 import { IongadgetService } from '../ionGadgets/iongadget.service';
 import { TempService } from './../temp/temp.service';
+import { Events } from '../events/events.service';
 // modals
 import { MonitorIssuesPage } from './../../pages/modals/monitor-issues/monitor-issues.page';
 import { NotificationListPage } from './../../pages/modals/notification-list/notification-list.page';
@@ -26,8 +27,7 @@ import { TermsPage } from 'src/app/pages/modals/terms/terms.page';
 import { GoogleAnalyticsPage } from './../../pages/modals/google-analytics/google-analytics.page';
 import { AllDonePage } from 'src/app/pages/modals/all-done/all-done.page';
 import { ServerMonitorPage } from 'src/app/pages/modals/server-monitor/server-monitor.page';
-// popover
-import { PallDoneComponent } from './../../components/popover/pall-done/pall-done.component';
+
 // plugins
 import { Facebook } from '@ionic-native/facebook/ngx';
 
@@ -151,19 +151,6 @@ export class GeneralService {
       component: PrivacyPage
     });
     return await privacy.present();
-  }
-
-  async openPopOver(location, pdtitle, description) {
-    const popover = await this.popoverCtrl.create({
-      component: PallDoneComponent,
-      componentProps: {
-        title: pdtitle,
-        content: description
-      },
-      event: location,
-      mode: 'ios'
-    });
-    await popover.present();
   }
 
   async showDomainModal(myDomCnt, totalDomCnt) {
@@ -457,17 +444,80 @@ export class GeneralService {
 
   async askContinueScanning(key, data) {
     return new Promise(async (resolve) => {
-      let header: string;
-      if (key === 'speed') {
-        // tslint:disable-next-line: max-line-length
-        header = 'You have ' + (data.speedtotalscan) + '/' +  (data.speedtotalscan + data.speedscanfinished) + ' scans remaining this month. Would you like to scan this site?';
-      } else if (key === 'seo') {
-        // tslint:disable-next-line: max-line-length
-        header = 'You have ' + (data.seototalscan) + '/' +  (data.seototalscan + data.seoscanfinished) + ' scans remaining this month. Would you like to scan this site?';
-      } else if (key === 'security') {
-        // tslint:disable-next-line: max-line-length
-        header = 'You have ' + (data.securitytotalscan) + '/' +  (data.securitytotalscan + data.securityscanfinished) + ' scans remaining this month. Would you like to scan this site?';
-      }
+      this.storage.get('planInfo').then((info) => {
+        const question = 'You have to upgrade the current subscription plan to increase the number of manual scans. Do you want to upgrade now ?';
+        const planID = info.id;
+        let header: string;
+        if (key === 'speed') {
+          if ((data.speedtotalscan + data.speedscanfinished === 0 || data.speedtotalscan <= 0) && planID < 4) {
+            this.askToUpgrade();
+            resolve(false);
+          } else if (planID === 4 && data.speedtotalscan <= 0) {
+            this.ionService.presentToast('You have exceeded the number of manual scans for the current plan.');
+            resolve(false);
+          } else {
+            // tslint:disable-next-line: max-line-length
+            header = 'You have ' + (data.speedtotalscan) + '/' +  (data.speedtotalscan + data.speedscanfinished) + ' scans remaining this month. Would you like to scan this site?';
+            this.lanuchScanningModal(header).then((res) => {
+              resolve(res);
+            });
+          }
+        } else if (key === 'seo') {
+          if ((data.seototalscan + data.seoscanfinished === 0 || data.seototalscan <= 0) && planID < 4) {
+            this.askToUpgrade();
+            resolve(false);
+          } else if (planID === 4 && data.seototalscan <= 0) {
+            this.ionService.presentToast('You have exceeded the number of manual scans for the current plan.');
+            resolve(false);
+          } else {
+            // tslint:disable-next-line: max-line-length
+            header = 'You have ' + (data.seototalscan) + '/' +  (data.seototalscan + data.seoscanfinished) + ' scans remaining this month. Would you like to scan this site?';
+            this.lanuchScanningModal(header).then((res) => {
+              resolve(res);
+            });
+          }
+        } else if (key === 'security') {
+          if ((data.securitytotalscan + data.securityscanfinished === 0 || data.securitytotalscan <= 0) && planID < 4) {
+            this.askToUpgrade();
+            resolve(false);
+          } else if (planID === 4 && data.securitytotalscan <= 0) {
+            this.ionService.presentToast('You have exceeded the number of manual scans for the current plan.');
+            resolve(false);
+          } else {
+            // tslint:disable-next-line: max-line-length
+            header = 'You have ' + (data.securitytotalscan) + '/' +  (data.securitytotalscan + data.securityscanfinished) + ' scans remaining this month. Would you like to scan this site?';
+            this.lanuchScanningModal(header).then((res) => {
+              resolve(res);
+            });
+          }
+        }
+      });
+    });
+  }
+
+  async askToUpgrade() {
+        const action = await this.actionCtrl.create({
+          header: 'You have to upgrade the current subscription plan to increase the number of manual scans. Do you want to upgrade now ?',
+          buttons: [
+            {
+              text: 'Upgrade',
+              icon: 'happy',
+              handler: () => {
+                this.router.navigate(['plans']);
+              }
+            },
+            {
+              text: 'Cancel',
+              icon: 'hand',
+              role: 'cancel'
+            }
+          ],
+        });
+        await action.present();
+  }
+
+  async lanuchScanningModal(header): Promise<any> {
+    return new Promise(async (resolve) => {
       const action = await this.actionCtrl.create({
         // tslint:disable-next-line: object-literal-shorthand
         header: header,

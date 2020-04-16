@@ -6,7 +6,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class FloatonePipe implements PipeTransform {
 
   transform(numberValue): any {
-    return parseFloat(numberValue).toPrecision(2);
+    if (numberValue) {
+      return numberValue.toFixed(1);
+    }
   }
 
 }

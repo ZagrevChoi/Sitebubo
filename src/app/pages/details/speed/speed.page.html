@@ -1,16 +1,16 @@
 <ion-header class="underHeader">
   <ion-toolbar mode="md" class="toolbar">
       <ion-segment mode="md" [value]="pageType" (ionChange) = "switchPages($event)">
-        <ion-segment-button mode="md" value="1" checked>
+        <ion-segment-button value="1" checked>
           <ion-label>Speed</ion-label>
         </ion-segment-button>
-        <ion-segment-button mode="md" value="2">
+        <ion-segment-button value="2">
           <ion-label>
             Desktop
             <div class="submenu-badge" *ngIf="desktopAlert">{{ desktopAlert }}</div>
           </ion-label>
         </ion-segment-button>
-        <ion-segment-button mode="md" value="3">
+        <ion-segment-button value="3">
           <ion-label>
             Mobile
             <div class="submenu-badge" *ngIf="mobileAlert">{{ mobileAlert }}</div>

@@ -1,0 +1,29 @@
+<ion-card mode="ios" *ngIf="type === 3">
+  <ion-row *ngFor="let item of arrayNumber(8)">
+    <ion-col size="4">
+      <ion-skeleton-text animated></ion-skeleton-text>
+    </ion-col>
+    <ion-col size="4">
+      <ion-skeleton-text animated></ion-skeleton-text>
+    </ion-col>
+    <ion-col size="4">
+      <ion-skeleton-text animated></ion-skeleton-text>
+    </ion-col>
+  </ion-row>
+</ion-card>
+<ion-card mode="ios" *ngIf="type === 4">
+  <ion-row *ngFor="let item of arrayNumber(12)">
+    <ion-col size="3">
+      <ion-skeleton-text animated></ion-skeleton-text>
+    </ion-col>
+    <ion-col size="3">
+      <ion-skeleton-text animated></ion-skeleton-text>
+    </ion-col>
+    <ion-col size="3">
+      <ion-skeleton-text animated></ion-skeleton-text>
+    </ion-col>
+    <ion-col size="3">
+      <ion-skeleton-text animated></ion-skeleton-text>
+    </ion-col>
+  </ion-row>
+</ion-card>

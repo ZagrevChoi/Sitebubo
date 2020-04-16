@@ -10,16 +10,38 @@ ion-header {
   }
 }
 ion-content {
+  --padding-bottom: 20px;
   ion-label {
     display: block;
     &.c-header {
       font-size: 22px;
-      font-weight: 500;
-      margin-bottom: 20px;
+      font-weight: bold;
+      display: block;
+      margin-top: 20px;
+      text-align: center;
     }
     &.c-welcome {
+      display: block;
+      text-align: center;
       font-size: 18px;
-      margin-bottom: 20px;
+      margin: 20px auto;
     }
+    &.c-notice {
+      margin-top: 10px;
+      display: block;
+      text-align: center;
+      font-size: 15px;
+      color: gray;
+    }
+  }
+  .c-greenButton {
+    height: 56px;
+    max-width: 70%;
+    display: block;
+    margin:auto;
+    margin-top: 30px;
+    --border-radius: 30px;
+    text-transform: none;
+    font-size: 20px;
   }
 }

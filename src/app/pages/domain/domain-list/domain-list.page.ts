@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { ActionSheetController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { GeneralService } from './../../../services/generalComponents/general.service';
@@ -7,17 +7,20 @@ import { TempService } from './../../../services/temp/temp.service';
 import { AdmobService } from 'src/app/services/admob/admob.service';
 import { IongadgetService } from 'src/app/services/ionGadgets/iongadget.service';
 import { DomainApiService } from 'src/app/apis/domain/domain-api.service';
+import { SocketService } from 'src/app/services/socket/socket.service';
 
 @Component({
   selector: 'app-domain-list',
   templateUrl: './domain-list.page.html',
   styleUrls: ['./domain-list.page.scss'],
 })
-export class DomainListPage implements OnInit {
+export class DomainListPage implements OnInit, OnDestroy {
   title: any;
   token: any;
   userID: any;
   domainCounts: any;
+  planID: number;
+  showAddButton = true;
   domains = [];
   allDomList = [];
   myDomList = [];
@@ -26,10 +29,7 @@ export class DomainListPage implements OnInit {
   showContent: boolean;
   noResult = 'hidden';
   orders = [];
-  press = {
-    duration: 0,
-    started: false
-  };
+  scanWatchFlag = true;
   constructor(
     private storage: Storage,
     private domainAPI: DomainApiService,
@@ -39,15 +39,17 @@ export class DomainListPage implements OnInit {
     private router: Router,
     private tempService: TempService,
     private cdr: ChangeDetectorRef,
-    private admobservice: AdmobService
+    private admobservice: AdmobService,
+    private socketService: SocketService
   ) {
 
   }
 
   async ionViewWillEnter() {
     this.storage.get('planInfo').then((info) => {
+      this.planID = info.id;
       if (info.id  === 1) {
-        this.admobservice.showAdmobBanner().then(async (result) => {
+        this.admobservice.showAdmobBanner().then(() => {
         });
         this.initData();
       } else {
@@ -61,52 +63,92 @@ export class DomainListPage implements OnInit {
   }
 
   ngOnInit() {
+    this.afterScanFinished = this.afterScanFinished.bind(this);
+  }
+
+  ngOnDestroy() {
+    this.scanWatchFlag = true;
+    this.socketService.removeHandler('scan-status');
   }
 
   async initData() {
-    await this.storage.get('userInfo').then((user) => {
+    await this.storage.get('userInfo').then(async (user) => {
       this.userID = user.id;
       this.token = user.token;
       this.showContent = false;
-      this.getDomainList();
+      await this.getDomainList().then(res => {
+        if (res) {
+         this.watchScanStatus();
+        }
+      });
     });
   }
 
-  getDomainList() {
-    this.ionService.showLoading();
-    this.myDomList = [];
-    this.invitedDomList = [];
-    this.allDomList = [];
-    this.domainAPI.getDomainList(this.userID, this.token).subscribe((result) => {
-      this.showContent = true;
-      this.ionService.closeLoading();
-      if (result.RESPONSECODE === 1) {
-        console.log(result.data);
-        this.allDomList = result.data;
-        this.domainCounts = result.domains;
-        this.generalService.restDomainInfo(result.domains);
-        if (result.data) {
-          this.allDomList.forEach(element => {
-            if (element.user_id === this.userID) {
-              element.type = 'mine';
-              this.myDomList.push(element);
-            } else if (element.user_id !== this.userID) {
-              element.type = 'invited';
-              this.invitedDomList.push(element);
-            }
-          });
-        }
-        this.defineShow();
+  watchScanStatus() {
+    this.myDomList.forEach((element) => {
+      if (!element.is_scanned && this.scanWatchFlag) {
+        console.log(element);
+        const params = {
+          user_id: this.userID,
+          domain_id: element.id,
+          domain_name: element.domain_name
+        };
+        this.socketService.watchScanStatus(params, this.afterScanFinished);
+        this.scanWatchFlag = false;
+      }
+    });
+  }
 
-      } else {
+  afterScanFinished(domainName) {
+    console.log(domainName);
+    this.getDomainList().then((res) => {
+      if (res) {
+        this.cdr.detectChanges();
+        this.ionService.presentToast('Scanning on ' +  domainName + ' is finished.');
+        this.scanWatchFlag = true;
+        this.watchScanStatus();
+      }
+    });
+  }
+
+  getDomainList(): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.myDomList = [];
+      this.invitedDomList = [];
+      this.allDomList = [];
+      this.domainAPI.getDomainList(this.userID, this.token).subscribe((result) => {
+        if (result.RESPONSECODE === 1) {
+          this.showContent = true;
+          console.log(result.data);
+          this.allDomList = result.data;
+          this.domainCounts = result.domains;
+          this.generalService.restDomainInfo(result.domains);
+          if (result.domains.my_domains === 10 && this.planID === 4) {
+            this.showAddButton = false;
+          }
+          if (result.data) {
+            this.allDomList.forEach(element => {
+              if (element.user_id === this.userID) {
+                element.type = 'mine';
+                this.myDomList.push(element);
+              } else if (element.user_id !== this.userID) {
+                element.type = 'invited';
+                this.invitedDomList.push(element);
+              }
+            });
+          }
+          this.defineShow();
+          resolve(true);
+        } else {
           this.ionService.presentToast('Something went wrong with Server');
           this.filterType = 1;
           this.domains = [];
-      }
-    }, err => {
-      this.ionService.closeLoading();
-      this.showContent = true;
-      this.ionService.presentToast('Connection Error from Server');
+        }
+      }, err => {
+        this.showContent = true;
+        this.ionService.presentToast('Connection Error from Server');
+        reject(err);
+      });
     });
   }
 

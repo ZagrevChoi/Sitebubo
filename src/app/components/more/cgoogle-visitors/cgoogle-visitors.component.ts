@@ -62,10 +62,8 @@ export class CgoogleVisitorsComponent implements OnInit, OnDestroy {
 
   getGoogleAnalyticsDetail() {
     const params = this.tempService.dashboardParams;
-    this.ionService.showLoading();
     this.monitorAPI.getGoogleAnalytics(this.filter, params.domainName, params.domainUserID, this.userID, this.token)
     .subscribe((result) => {
-      this.ionService.closeLoading();
       console.log(result);
       if (result.RESPONSECODE === 1) {
         this.analyticsDetail = result.data.analytics;
@@ -75,7 +73,6 @@ export class CgoogleVisitorsComponent implements OnInit, OnDestroy {
         this.ionService.presentToast('Failed: ' + result.RESPONSE);
       }
     }, err => {
-      this.ionService.closeLoading();
       this.ionService.presentToast('Server Api Problem');
     });
   }

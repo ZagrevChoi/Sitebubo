@@ -61,26 +61,42 @@ export class DomainScanPage implements OnInit, OnDestroy {
           return of(x);
         } else {
           return of(x).pipe(
-            concatMap((data) => of(data).pipe(delay(2500)))
+            concatMap((data) => of(data).pipe(delay(800)))
           );
         }
       })
     ).subscribe(data => {
+      console.log(data);
       if (data.monitor === 'Web Site Scanning' && data.status === 'Finished') {
-        this.tempResult = data;
         setTimeout(() => {
           this.defineRoutering();
         }, 1500);
       } else {
-        this.tempResult = data;
         if (data.monitor === 'Web Site Scanning' && data.status === 'Started' ) {
-         this.status.started = true;
+          this.status.started = true;
         } else {
+          this.tempResult = data;
           this.status.process = true;
-          this.doTricksWithUI(data);
+          this.doTricksWithUI();
         }
       }
     });
+  }
+
+  doTricksWithUI() {
+      let interval: number;
+      if (this.action === 'addDomain') {
+        interval = 0.01724;
+      } else if (this.action === 'security-scan') {
+        interval = 0.071423;
+      } else if (this.action === 'speed-scan') {
+        interval = 0.07692;
+      } else if (this.action === 'seo-scan') {
+        interval = 0.041666;
+      }
+      this.percentage  = this.percentage + interval;
+      this.progresShow = this.intparse.transform(this.percentage * 100);
+      this.addNewMonitor();
   }
 
   ngOnDestroy() {
@@ -99,7 +115,6 @@ export class DomainScanPage implements OnInit, OnDestroy {
         });
         this.activatedRoute.queryParams.subscribe(params => {
           if (params) {
-            console.log(params);
             this.action = params.action;
             if (params.action === 'addDomain') {
               const parameter = {
@@ -134,27 +149,6 @@ export class DomainScanPage implements OnInit, OnDestroy {
     });
   }
 
-  doTricksWithUI(data) {
-    console.log(data);
-    if (data.status === 'Started') {
-      this.currentMonitor = data.monitor;
-      this.changelabelOfCurrentMonitor();
-    } else {
-      let interval: number;
-      if (this.action === 'addDomain') {
-        interval = 0.1;
-      } else if (this.action === 'security-scan') {
-        interval = 1;
-      } else if (this.action === 'speed-scan') {
-        interval = 0.3333;
-      } else if (this.action === 'seo-scan') {
-        interval = 0.3333;
-      }
-      this.percentage  = this.percentage + interval;
-      this.progresShow = this.intparse.transform(this.percentage * 100);
-      this.addNewMonitor();
-    }
-  }
 
   changelabelOfCurrentMonitor() {
     setTimeout(() => {
@@ -163,9 +157,10 @@ export class DomainScanPage implements OnInit, OnDestroy {
   }
 
   addNewMonitor() {
-    let ele = `<div class='special'><ion-label class="slide-in-bottom">${ this.tempResult.monitor } ... ${ this.tempResult.result }`;
+    let ele = `<div class='special'><ion-label class="slide-in-bottom">${ this.tempResult.status } ...`;
     ele += `</ion-label>`;
-    ele += `<svg  xmlns="http://www.w3.org/2000/svg" class="check" width="166" height="151" viewBox="0 0 166 150.9">`;
+    // tslint:disable-next-line: max-line-length
+    ele += `<ion-label class="slide-in-bottom">${ this.tempResult.result }<ion-label><svg  xmlns="http://www.w3.org/2000/svg" class="check" width="166" height="151" viewBox="0 0 166 150.9">`;
     ele += `<path d="M0.3 96l62.4 54.1L165.6 0.3"/></svg></div>`;
     this.results.nativeElement.insertAdjacentHTML('beforeend', ele);
   }
@@ -211,66 +206,4 @@ export class DomainScanPage implements OnInit, OnDestroy {
       }, 2000);
     }
   }
-
-  // deleteDomain() {
-  //   this.ionService.showLoading();
-  //   this.domainAPI.deleteDomain(this.domainName, this.userID, this.token).subscribe((result) => {
-  //     this.ionService.closeLoading();
-  //     this.router.navigate(['domain-list'], { replaceUrl: true });
-  //   }, err => {
-  //     console.log(err);
-  //     this.ionService.closeLoading();
-  //     this.router.navigate(['domain-list'], { replaceUrl: true });
-  //   });
-  // }
-
-  // generateReport() {
-    //   this.reportAPI.generateReport(this.domainName, this.userID, this.token).subscribe((result) => {
-      //     if (result.RESPONSECODE ===  1) {
-  //       this.percentage = 100;
-  //       this.completed = true;
-  //     } else {
-  //       this.ionService.presentToast(result.RESPONSE);
-  //       this.deleteDomain();
-  //     }
-  //   }, err => {
-  //     this.ionService.presentToast('Server API Problem');
-  //     this.deleteDomain();
-  //   });
-  // }
-
-  // manualScan() {
-  //   this.reportAPI.
-  //   manualScan(this.tempService.dashboardParams.domainName, this.tempService.dashboardParams.domainUserID, this.userID, this.token)
-  //   .subscribe((result) => {
-  //     if (result.RESPONSECODE === 1) {
-  //       this.percentage = 100;
-  //       this.completed = true;
-  //       if (this.planID === 1) {
-  //         this.admobservice.showInterstitial().then((res) => {
-  //           if (res) {
-  //             setTimeout(() => {
-  //               this.router.navigate(['tabs/seo'], { replaceUrl: true, queryParams: { reload: true } });
-  //             }, 2000);
-  //           }
-  //         });
-  //       } else {
-  //         setTimeout(() => {
-  //           this.router.navigate(['tabs/seo'], { replaceUrl: true, queryParams: { reload: true } });
-  //         }, 2000);
-  //       }
-  //     } else {
-  //       this.ionService.presentToast(result.RESPONSE);
-  //       setTimeout(() => {
-  //         this.router.navigate(['tabs/seo'], { replaceUrl: true });
-  //       }, 2000);
-  //     }
-  //   }, err => {
-  //     this.ionService.presentToast('Server API Problem');
-  //     setTimeout(() => {
-  //       this.router.navigate(['tabs/seo'], { replaceUrl: true });
-  //     }, 2000);
-  //   });
-  // }
-
 }

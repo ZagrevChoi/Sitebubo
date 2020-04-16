@@ -23,7 +23,6 @@ import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player/ngx';
 import { Network } from '@ionic-native/network/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
-import { InAppPurchase } from '@ionic-native/in-app-purchase/ngx';
 // modals
 import { MyprofilePageModule } from './pages/modals/myprofile/myprofile.module';
 import { TermsPageModule } from './pages/modals/terms/terms.module';
@@ -40,15 +39,14 @@ import { AllDonePageModule } from './pages/modals/all-done/all-done.module';
 import { AddDomainPageModule } from './pages/modals/add-domain/add-domain.module';
 import { ServerMonitorPageModule } from './pages/modals/server-monitor/server-monitor.module';
 // popovers
-import { PallDoneComponent } from './components/popover/pall-done/pall-done.component';
 import { OnlytimePipe } from './pipes/onlytime/onlytime.pipe';
 
 
 const config: SocketIoConfig = { url: 'https://socket.sitebubo.com', options: {} };
 
 @NgModule({
-  declarations: [AppComponent, PallDoneComponent, OnlytimePipe],
-  entryComponents: [ PallDoneComponent ],
+  declarations: [AppComponent, OnlytimePipe],
+  entryComponents: [ ],
   imports: [
     HttpClientModule,
     SocketIoModule.forRoot(config),
@@ -84,7 +82,6 @@ const config: SocketIoConfig = { url: 'https://socket.sitebubo.com', options: {}
     YoutubeVideoPlayer,
     InAppBrowser,
     Network,
-    InAppPurchase,
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

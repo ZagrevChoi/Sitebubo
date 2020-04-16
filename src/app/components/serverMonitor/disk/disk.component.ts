@@ -41,12 +41,10 @@ export class DiskComponent implements OnInit {
   }
 
   initData(filter) {
-    this.ionService.showLoading();
     const params = this.tempService.dashboardParams;
     this.monitorAPI.getDiskDetails(filter, params.domainName, params.domainUserID, this.userID, this.token)
     .subscribe((result) => {
       console.log(result);
-      this.ionService.closeLoading();
       if (result.RESPONSECODE === 1) {
         this.diskData = result.data.data;
         this.drawChart(result.data.data.chart);
@@ -55,7 +53,6 @@ export class DiskComponent implements OnInit {
         this.ionService.presentToast('There is no data.');
       }
     }, err => {
-      this.ionService.closeLoading();
       this.ionService.presentToast('Fectching Data failed due to api.');
     });
   }

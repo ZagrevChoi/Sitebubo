@@ -97,25 +97,10 @@ ion-icon{
   &.refresh {
     font-size: 22px !important;
   }
-  &.starter {
-    font-size: 27px !important;
-    background-image: url('assets/icons/subscriptions/plan-starter.svg');
-  }
-  &.small {
-    font-size: 27px !important;
-    background-image: url('assets/icons/subscriptions/plan-small-business.svg');
-  }
-  &.entrepreneur {
-    font-size: 23px !important;
-    background-image: url('assets/icons/subscriptions/plan-entrepreneur.svg');
-  }
-  &.pro-site {
-    font-size: 27px !important;
-    background-image: url('assets/icons/subscriptions/plan-presite-maintainer.svg');
-  }
   &.currentplan-icon {
     font-size: 21px !important;
-    background-image: url('assets/icons/subscriptions/currentPlan.svg');
+    color: white;
+    background-image: url('assets/icons/currentPlan.svg');
   }
   &.c-cancel-membership {
     font-size: 24px !important;

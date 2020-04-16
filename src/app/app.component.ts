@@ -1,5 +1,5 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
-import { Platform, Events } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 // modules
@@ -13,7 +13,7 @@ import { GeneralService } from './services/generalComponents/general.service';
 import { StorageService } from './services/storage/storage.service';
 import { IongadgetService } from './services/ionGadgets/iongadget.service';
 import { NetworkService } from './services/network/network.service';
-
+import { Events } from './services/events/events.service';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -37,8 +37,10 @@ export class AppComponent {
     private cdr: ChangeDetectorRef,
     private ionService: IongadgetService,
     private storageService: StorageService,
-    private network: NetworkService
+    private network: NetworkService,
+    private fcm: FCM
   ) {
+      this.treatFCM();
       this.network.initNetwork();
       this.listenEvents();
       this.initializeApp();
@@ -60,7 +62,7 @@ export class AppComponent {
     });
   }
 
-  veryifyToken() {
+    veryifyToken() {
         return new Promise((resolve, reject) => {
             this.storage.get('userInfo').then((user) => {
                 if (user) {
@@ -105,8 +107,8 @@ export class AppComponent {
         });
 
         this.events.subscribe('domainInfo_set', (info) => {
-            this.domainCount = info.current_domains;
             console.log('domainInfo set', info);
+            this.domainCount = info.current_domains;
             this.storage.set('domainInfo', info);
             this.cdr.detectChanges();
         });
@@ -115,7 +117,16 @@ export class AppComponent {
             this.showMenu = false;
             this.cdr.detectChanges();
         });
+    }
 
+    treatFCM() {
+        this.fcm.onNotification().subscribe((res) => {
+            if (res.wasTapped) {
+                alert('tapped===============' +  JSON.stringify(res));
+            } else {
+                alert('not tapped===============' + JSON.stringify(res));
+            }
+        });
     }
 
     openDomainList() {
@@ -144,7 +155,7 @@ export class AppComponent {
 
     logout() {
         this.generalService.logOut();
-        this.events.publish('log_out');
+        this.events.publish('log_out', true);
     }
 
     ChangePlan() {

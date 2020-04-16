@@ -9,11 +9,11 @@ ion-content {
 	background-repeat: no-repeat;
 	ion-label {
 		&.domain_name {
-			display: flex;
+			display: block;
 			text-align: center;
 			align-items: center;
 			width: 100%;
-			height: 10%;
+			height: 5%;
 			color: white;
 			justify-content: center;
 			font-size: 22px;
@@ -29,10 +29,14 @@ ion-content {
 			position: absolute;
 			top: 0;
 		}
+		&.monitor-name {
+			padding: 5px;
+			background-color: #F66967;
+		}
 	}
 	div.completed {
 		width: 100%;
-		height: 10%;
+		height: 7%;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -57,10 +61,13 @@ ion-content {
 		}
 	}
 	div.results {
-		height: 30%;
+		height: 31%;
 		display: flex;
 		flex-direction: column;
-    justify-content: center;
+		justify-content: flex-end;
+		overflow: scroll;
+		padding-bottom: 30px;
+		touch-action: none;
     svg {
       overflow: visible;
     }
@@ -75,17 +82,19 @@ ion-content {
     }
 	}
 	div.footer {
-		height: 7%;
+		height: 11%;
 		width: 100%;
 		display: flex;
-		justify-content: center;
+		justify-content: space-around;
 		align-items: center;
 		color: white;
 		text-align: center;
 		font-size: 18px;
+		flex-direction: column;
 	}
 	div.status {
-		height: 5%;
+		margin-top: 5%;
+		height: 6%;
 		width: 100%;
 		display: flex;
 		flex-direction: column;

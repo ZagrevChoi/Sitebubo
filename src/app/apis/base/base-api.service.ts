@@ -1,4 +1,3 @@
-import { Events } from '@ionic/angular';
 import { Injectable } from '@angular/core';
 import { map, filter } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -6,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
 import { Facebook } from '@ionic-native/facebook/ngx';
+import { Events } from 'src/app/services/events/events.service';
 
 // tslint:disable-next-line: variable-name
 const server_root = 'https://app.sitebubo.com/api/public/';
@@ -34,8 +34,8 @@ export class BaseApiService {
     public https: HttpClient,
     public router: Router,
     public storage: Storage,
-    public events: Events,
-    public facebook: Facebook
+    public facebook: Facebook,
+    public events: Events
   ) {}
 
   public sendGetRequest(url): Observable<any> {
@@ -62,9 +62,9 @@ export class BaseApiService {
    }
 
    public filterResponse(response) {
-    // response['RESPONSE'] = 'Access denied. Please give me valid token';
     if (response.RESPONSE === 'Access denied. Please give me valid token') {
-      this.events.publish('denied_token');
+      console.log('Denied Token');
+      this.events.publish('denied_token', true);
       this.storage.clear().then(() => {
         this.facebook.logout();
         this.router.navigate(['welcome'], { replaceUrl: true });

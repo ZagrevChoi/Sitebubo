@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Events } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { BaseApiService } from './../base/base-api.service';
 import { Facebook } from '@ionic-native/facebook/ngx';
+import { Events } from 'src/app/services/events/events.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -14,10 +14,10 @@ export class NotificationApiService extends BaseApiService {
     public https: HttpClient,
     public router: Router,
     public storage: Storage,
-    public events: Events,
-    public facebook: Facebook
+    public facebook: Facebook,
+    public events: Events
     ) {
-    super(https, router, storage, events, facebook);
+    super(https, router, storage, facebook, events);
   }
 
   getNotifications(domainName, domainUserID, userID, token): any {
@@ -49,4 +49,11 @@ export class NotificationApiService extends BaseApiService {
     url += 'user_id=' + userID + '&token=' + token + '&monitors=' + monitors + '&domain_id=' + domainID;
     return this.sendGetRequest(url);
   }
+
+  // getDomainScanStatus(params): any {
+  //   // tslint:disable-next-line: max-line-length
+  //   const url = this.server_url + 'cronreportcontroller/webscanstatus/' + params.user_id + '/' + params.domain_name + '/' + params.domain_id;
+  //   console.log(url);
+  //   return this.sendGetRequest(url);
+  // }
 }

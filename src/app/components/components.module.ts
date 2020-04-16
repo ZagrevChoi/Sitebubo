@@ -32,9 +32,7 @@ import { CmalwareComponent } from './security/cmalware/cmalware.component';
 import { CblacklistComponent } from './security/cblacklist/cblacklist.component';
 import { SsecurityComponent } from './skeletons/ssecurity/ssecurity.component';
 import { SdomainListComponent } from './skeletons/sdomain-list/sdomain-list.component';
-import { CgoogleConversionComponent } from './more/cgoogle-conversion/cgoogle-conversion.component';
 import { CgoogleVisitorsComponent } from './more/cgoogle-visitors/cgoogle-visitors.component';
-import { CgoogleAcquistionComponent } from './more/cgoogle-acquistion/cgoogle-acquistion.component';
 import { CdesktopComponent } from './pagespeed/cdesktop/cdesktop.component';
 import { CmobileComponent } from './pagespeed/cmobile/cmobile.component';
 import { RamComponent } from './serverMonitor/ram/ram.component';
@@ -42,6 +40,11 @@ import { CpuComponent } from './serverMonitor/cpu/cpu.component';
 import { DiskComponent } from './serverMonitor/disk/disk.component';
 import { OverviewComponent } from './serverMonitor/overview/overview.component';
 import { NetworkComponent } from './serverMonitor/network/network.component';
+import { SdiagramComponent } from './skeletons/sdiagram/sdiagram.component';
+import { ScardComponent } from './skeletons/scard/scard.component';
+import { SthreechartsComponent } from './skeletons/sthreecharts/sthreecharts.component';
+import { SdatatableComponent } from './skeletons/sdatatable/sdatatable.component';
+import { SubscriptionPlanComponent } from './subscriptions/subscription-plan/subscription-plan.component';
 
 @NgModule({
     declarations: [
@@ -60,9 +63,7 @@ import { NetworkComponent } from './serverMonitor/network/network.component';
         FreeTrialComponent,
         NoTrialComponent,
         OldFreeComponent,
-        CgoogleConversionComponent,
         CgoogleVisitorsComponent,
-        CgoogleAcquistionComponent,
         CdesktopComponent,
         CmobileComponent,
         RamComponent,
@@ -70,6 +71,11 @@ import { NetworkComponent } from './serverMonitor/network/network.component';
         DiskComponent,
         OverviewComponent,
         NetworkComponent,
+        SdiagramComponent,
+        SthreechartsComponent,
+        ScardComponent,
+        SdatatableComponent,
+        SubscriptionPlanComponent,
         CamelCasePipe,
         SmallCasePipe,
         FloatonePipe,
@@ -125,16 +131,19 @@ import { NetworkComponent } from './serverMonitor/network/network.component';
         FreeTrialComponent,
         NoTrialComponent,
         OldFreeComponent,
-        CgoogleConversionComponent,
         CgoogleVisitorsComponent,
-        CgoogleAcquistionComponent,
         CdesktopComponent,
         CmobileComponent,
         RamComponent,
         CpuComponent,
         DiskComponent,
         OverviewComponent,
-        NetworkComponent
+        NetworkComponent,
+        SdiagramComponent,
+        ScardComponent,
+        SthreechartsComponent,
+        SdatatableComponent,
+        SubscriptionPlanComponent
     ]
 })
 export class ComponentsModule {}

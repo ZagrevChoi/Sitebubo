@@ -60,16 +60,27 @@ ion-card {
   }
   ion-segment {
     margin-bottom: 20px;
+    border-radius: 0px;
+    &.behaviour {
+      display: block;
+      white-space: nowrap;
+      ion-segment-button {
+        display: inline-block;
+      }
+    }
     ion-segment-button {
-      --border-radius: 0px;
-      --border-color: lightgray;
+      --border-radius: 0px !important;
+      --border-color: lightgray ;
       --border-width: 0.5px 0px 0.5px 0px;
       padding: 10px;
+      --background-checked: #3880ff;
+      --background: white;
+      --indicator-color: transparent;
       ion-label {
         padding: unset !important;
       }
       &.segment-button-checked {
-        --border-color: #3880ff;
+        --border-color: #3880ff !important;
         ion-label {
           color: white !important;
         }

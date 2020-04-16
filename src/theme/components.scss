@@ -1,6 +1,6 @@
 .c-content {
   text-align: center;
-  padding-top: 40px;
+  padding-top: 20px;
   width: 100%;
   background: white;
   .c-greenButton {
@@ -36,7 +36,7 @@
     display: block;
     &.c-bigfnt {
       font-weight: 500;
-      padding: 20px 0px;
+      padding: 10px 0px 20px 0px;
       font-size: 52px;
     }
     .c-smallfnt {
@@ -61,10 +61,11 @@
     &.c-welcome {
       font-size: 18px;
       margin-bottom: 20px;
+      padding: 0 5%;
     }
     &.c-freecls { 
-      font-weight: 500;
-      padding: 20px;
+      font-weight: bold;
+      padding: 15px;
       font-size: 38px;
     }
     &.c-plancls {

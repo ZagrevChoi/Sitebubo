@@ -1,11 +1,12 @@
-import { Events } from '@ionic/angular';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { GeneralService } from './../../../services/generalComponents/general.service';
 import { IongadgetService } from 'src/app/services/ionGadgets/iongadget.service';
 import { SubscriptionApiService } from 'src/app/apis/subscription/subscription-api.service';
 import { TransactionApiService } from 'src/app/apis/transaction/transaction-api.service';
+import { Events } from 'src/app/services/events/events.service';
+import { DomainApiService } from 'src/app/apis/domain/domain-api.service';
 
 @Component({
   selector: 'app-subscription-welcome',
@@ -21,6 +22,9 @@ export class SubscriptionWelcomePage implements OnInit {
   platform: string;
   status: string;
   details: any;
+  oldPlan: string;
+  newPlan: string;
+  domainCounts: number;
   constructor(
     private activatedRoute: ActivatedRoute,
     private storage: Storage,
@@ -29,12 +33,15 @@ export class SubscriptionWelcomePage implements OnInit {
     private events: Events,
     private cdr: ChangeDetectorRef,
     private generalService: GeneralService,
-    private transactionAPI: TransactionApiService
+    private transactionAPI: TransactionApiService,
+    private domainAPI: DomainApiService,
+    private router: Router
   ) { }
 
   ngOnInit() {
     this.initialize();
     this.getPlanInfo();
+    this.resetDomainInfo();
   }
 
   ionViewWillEnter() {
@@ -52,11 +59,23 @@ export class SubscriptionWelcomePage implements OnInit {
           }
           this.platform = params.platform;
           this.status = params.status;
+          this.oldPlan = params.oldPlan;
         }
     });
   }
 
-  getTransactionHistory(userID, token) {
+  resetDomainInfo() {
+    this.storage.get('userInfo').then((user) => {
+      this.domainAPI.getDomainList(user.id, user.token).subscribe((res) => {
+        if (res.RESPONSECODE === 1) {
+          this.events.publish('domainInfo_set', res);
+          this.domainCounts = res.domains.my_domains;
+        }
+      });
+    });
+  }
+
+  getTransactionHistory(userID, token): any {
     let temp = []; let count = 0;
     this.ionService.showLoading();
     return new Promise((resolve, reject) => {
@@ -70,9 +89,9 @@ export class SubscriptionWelcomePage implements OnInit {
             this.details.payment_method = result.data[0].payment_method;
             temp = result.data;
             temp.forEach((history) => {
-               if (history.free_trial_transaction) {
+              //  if (history.free_trial_transaction) {
                  count ++;
-               }
+              //  }
             });
           }
           resolve(count);
@@ -130,9 +149,9 @@ export class SubscriptionWelcomePage implements OnInit {
       this.subscriptionAPI.currentSubscription(user.id, user.token).subscribe((result) => {
         console.log(result.data);
         if (result.RESPONSECODE === 1) {
-          this.storage.set('planInfo', result.data).then(() => {
             this.events.publish('planInfo_set', result.data);
             this.subscriptionID = result.data.id;
+            this.newPlan = result.data.name + ' Plan';
             const temp = result.data;
             const arr = temp.price.toString().split('.');
             temp.bigprc = arr[0];
@@ -157,7 +176,6 @@ export class SubscriptionWelcomePage implements OnInit {
                 });
               }
             });
-          });
         } else {
           this.ionService.showAlert('Error from Server', result.RESPONSE);
         }
@@ -173,5 +191,13 @@ export class SubscriptionWelcomePage implements OnInit {
 
   openFeedback() {
     this.generalService.openFeedback();
+  }
+
+  gotoAddSite() {
+    this.router.navigate(['add-site']);
+  }
+
+  gotoDomainList() {
+    this.router.navigate(['domain-list']);
   }
 }

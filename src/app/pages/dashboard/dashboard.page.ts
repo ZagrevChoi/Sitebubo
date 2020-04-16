@@ -233,6 +233,8 @@ export class DashboardPage implements OnInit, OnDestroy, AfterViewInit {
       if (result.RESPONSECODE === 1) {
         if (result.data) {
           this.invitedUserList = result.data;
+        } else {
+          this.invitedUserList = [];
         }
         this.invitableUsers = result['invitable-users'];
         this.cdr.detectChanges();
