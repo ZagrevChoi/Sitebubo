@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { PaypalService } from 'src/app/services/paypal/paypal.service';
 import { SubscriptionApiService } from 'src/app/apis/subscription/subscription-api.service';
@@ -6,6 +6,7 @@ import { IongadgetService } from 'src/app/services/ionGadgets/iongadget.service'
 import { Router, NavigationExtras } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { ExDomainsPage } from 'src/app/pages/modals/ex-domains/ex-domains.page';
+import { InAppPurchase2, IAPProduct } from '@ionic-native/in-app-purchase-2/ngx';
 
 @Component({
   selector: 'app-subscription-plan',
@@ -22,17 +23,92 @@ export class SubscriptionPlanComponent implements OnInit {
   isNewUser: boolean;
   userID: number;
   token: string;
+  product: any;
   constructor(
     private storage: Storage,
     private paypal: PaypalService,
     private subscriptionAPI: SubscriptionApiService,
     private ionService: IongadgetService,
     private router: Router,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private iap: InAppPurchase2
   ) { }
 
   ngOnInit() {
     this.initData();
+    this.testInapppurchase();
+  }
+
+  testInapppurchase() {
+    this.iap.validator = 'https://validator.fovea.cc/v1/validate?appName=com.sitebubo.app&apiKey=5f308137-76e7-4d0c-b339-4cfc4b7406ed';
+    this.iap.verbosity = this.iap.INFO;
+    this.iap.sandbox = true;
+    this.iap.register({
+      id: 'p2m',
+      type: this.iap.PAID_SUBSCRIPTION
+    });
+    this.iap.register({
+      id: 'p3m',
+      type: this.iap.PAID_SUBSCRIPTION
+    });
+    this.iap.register({
+      id: 'p4m',
+      type: this.iap.PAID_SUBSCRIPTION
+    });
+    // this.product = this.iap.get('p2m');
+    this.registerHandlersForPurchase('p2m');
+    this.registerHandlersForPurchase('p3m');
+    this.registerHandlersForPurchase('p4m');
+    // restore purchase
+    // this.iap.refresh();
+  }
+
+
+  async checkout(productId) {
+    this.registerHandlersForPurchase(productId);
+    try {
+      const product = await this.iap.get(productId);
+      alert('Line 68: ' + JSON.stringify(product));
+      this.iap.order(productId).then((p) => {
+        alert('Purchase Succesful' + JSON.stringify(p));
+      }).catch((e) => {
+        alert('Error Ordering From Store' + e);
+      });
+    } catch (err) {
+      // alert('Error Ordering ' + JSON.stringify(err));
+    }
+  }
+
+  registerHandlersForPurchase(productId) {
+    const self = this.iap;
+    this.iap.when(productId).updated((product) => {
+      if (product.loaded && product.valid && product.state === self.APPROVED && product.transaction != null) {
+        product.finish();
+      }
+    });
+    this.iap.when(productId).registered((product: IAPProduct) => {
+      alert(JSON.stringify(product));
+      alert(` owned ${product.owned}`);
+    });
+    this.iap.when(productId).owned((product: IAPProduct) => {
+      alert(JSON.stringify(product));
+      alert(` owned ${product.owned}`);
+      product.finish();
+    });
+    this.iap.when(productId).approved((product: IAPProduct) => {
+      alert('approved');
+      product.verify();
+    }).verified((product: IAPProduct) => {
+      product.finish();
+    });
+    this.iap.when(productId).refunded((product: IAPProduct) => {
+      alert(JSON.stringify(product));
+      alert('refunded');
+    });
+    this.iap.when(productId).expired((product: IAPProduct) => {
+      alert(JSON.stringify(product));
+      alert('expired');
+    });
   }
 
   initData() {

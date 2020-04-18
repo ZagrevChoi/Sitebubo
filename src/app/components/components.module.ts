@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { InAppPurchase2 } from '@ionic-native/in-app-purchase-2/ngx';
 // modules
 import { CountoModule } from 'angular2-counto';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -104,6 +105,7 @@ import { SubscriptionPlanComponent } from './subscriptions/subscription-plan/sub
         CountoModule
     ],
     providers: [
+        InAppPurchase2,
         { provide: 'googleChartsVersion', useValue: '46' },
         { provide: 'mapsApiKey', useValue: 'AIzaSyCHjrW83Zc1vwk4mzxztYbvk2by0PQZoIE' }
     ],

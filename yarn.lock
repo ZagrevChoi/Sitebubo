@@ -1057,6 +1057,13 @@
   dependencies:
     "@types/cordova" latest
 
+"@ionic-native/in-app-purchase-2@^5.24.0":
+  version "5.24.0"
+  resolved "https://registry.yarnpkg.com/@ionic-native/in-app-purchase-2/-/in-app-purchase-2-5.24.0.tgz#42eb61691c7544fd9eeff5df0ce7ae8829c2436f"
+  integrity sha512-CX5APfuYub/GaS4lGfZU8bu0DL78TRx4PbbEQSYc+xfFKPtk1HWN8ZCUzZTn7Kcr19fNOAOPfVv01XvcDZ2kgg==
+  dependencies:
+    "@types/cordova" latest
+
 "@ionic-native/network@^5.19.1":
   version "5.23.0"
   resolved "https://registry.yarnpkg.com/@ionic-native/network/-/network-5.23.0.tgz#7c47a71bdbde70b5d18355b7c351f2b612f2a52f"
@@ -2820,6 +2827,11 @@ cordova-plugin-network-information@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/cordova-plugin-network-information/-/cordova-plugin-network-information-2.0.2.tgz#f48a92cbd7cccb63cb0a5e5a00030001b8ac4fea"
   integrity sha512-NwO3qDBNL/vJxUxBTPNOA1HvkDf9eTeGH8JSZiwy1jq2W2mJKQEDBwqWkaEQS19Yd/MQTiw0cykxg5D7u4J6cQ==
+
+cordova-plugin-purchase@^10.0.1:
+  version "10.0.1"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-purchase/-/cordova-plugin-purchase-10.0.1.tgz#ba05a0cdfdd8401e7368ab1666ae2aea2cf2eb4d"
+  integrity sha512-NPObyRuHZFROhzqcmbWVdAUfY/BXQDuQ3QERzz/miCA0v5gM0RQwmlywDQMjvWdMnCa7j6Fu9roC7ONn+fCBaA==
 
 cordova-plugin-splashscreen@^5.0.2:
   version "5.0.3"
