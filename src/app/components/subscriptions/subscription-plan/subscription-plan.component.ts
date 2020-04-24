@@ -39,7 +39,7 @@ export class SubscriptionPlanComponent implements OnInit {
     this.testInapppurchase();
   }
 
-  testInapppurchase() {
+  async testInapppurchase() {
     this.iap.validator = 'https://validator.fovea.cc/v1/validate?appName=com.sitebubo.app&apiKey=5f308137-76e7-4d0c-b339-4cfc4b7406ed';
     this.iap.verbosity = this.iap.INFO;
     this.iap.sandbox = true;
@@ -60,12 +60,11 @@ export class SubscriptionPlanComponent implements OnInit {
     this.registerHandlersForPurchase('p3m');
     this.registerHandlersForPurchase('p4m');
     // restore purchase
-    // this.iap.refresh();
+    this.iap.refresh();
   }
 
-
   async checkout(productId) {
-    this.registerHandlersForPurchase(productId);
+    // this.registerHandlersForPurchase(productId);
     try {
       const product = await this.iap.get(productId);
       alert('Line 68: ' + JSON.stringify(product));
@@ -87,26 +86,27 @@ export class SubscriptionPlanComponent implements OnInit {
       }
     });
     this.iap.when(productId).registered((product: IAPProduct) => {
-      alert(JSON.stringify(product));
+      // alert(JSON.stringify(product));
       alert(` owned ${product.owned}`);
     });
     this.iap.when(productId).owned((product: IAPProduct) => {
-      alert(JSON.stringify(product));
-      alert(` owned ${product.owned}`);
+      // alert(JSON.stringify(product));
+      // alert(` owned ${product.owned}`);
       product.finish();
     });
     this.iap.when(productId).approved((product: IAPProduct) => {
       alert('approved');
       product.verify();
     }).verified((product: IAPProduct) => {
+      alert('verified');
       product.finish();
     });
     this.iap.when(productId).refunded((product: IAPProduct) => {
-      alert(JSON.stringify(product));
+      // alert(JSON.stringify(product));
       alert('refunded');
     });
     this.iap.when(productId).expired((product: IAPProduct) => {
-      alert(JSON.stringify(product));
+      // alert(JSON.stringify(product));
       alert('expired');
     });
   }
