@@ -70,23 +70,6 @@ export class TabsPage implements OnInit, OnDestroy {
     }
   }
 
-  // listenEvents() {
-  //   this.events.subscribe('hide_header', (result) => {
-  //     const tabs = document.getElementById('tabs');
-  //     const header = document.getElementById('header');
-  //     const down = document.getElementsByClassName('underHeader')[0];
-  //     if (result) {
-  //      tabs.classList.add('expanded');
-  //      header.classList.add('hide-header');
-  //      down.classList.add('paddingTop');
-  //     } else {
-  //       tabs.classList.remove('expanded');
-  //       header.classList.remove('hide-header');
-  //       down.classList.remove('paddingTop');
-  //     }
-  //   });
-  // }
-
   toggleMenu() {
     this.ionService.toggleMenu();
   }

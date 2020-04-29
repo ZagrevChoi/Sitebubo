@@ -375,7 +375,7 @@ export class GeneralService {
           reportName: reportNameData,
           factor: factorNum
         },
-        cssClass: 'monitor-issues',
+        // cssClass: 'monitor-issues',
         swipeToClose: true
       });
       if (reportNameData === 'seo') {

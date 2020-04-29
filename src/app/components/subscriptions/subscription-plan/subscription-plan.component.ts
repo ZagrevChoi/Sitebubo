@@ -67,7 +67,6 @@ export class SubscriptionPlanComponent implements OnInit {
     // this.registerHandlersForPurchase(productId);
     try {
       const product = await this.iap.get(productId);
-      alert('Line 68: ' + JSON.stringify(product));
       this.iap.order(productId).then((p) => {
         alert('Purchase Succesful' + JSON.stringify(p));
       }).catch((e) => {
@@ -87,15 +86,14 @@ export class SubscriptionPlanComponent implements OnInit {
     });
     this.iap.when(productId).registered((product: IAPProduct) => {
       // alert(JSON.stringify(product));
-      alert(` owned ${product.owned}`);
+      alert(` registered: ${product}`);
     });
     this.iap.when(productId).owned((product: IAPProduct) => {
       // alert(JSON.stringify(product));
       // alert(` owned ${product.owned}`);
-      product.finish();
+      // product.finish();
     });
     this.iap.when(productId).approved((product: IAPProduct) => {
-      alert('approved');
       product.verify();
     }).verified((product: IAPProduct) => {
       alert('verified');
