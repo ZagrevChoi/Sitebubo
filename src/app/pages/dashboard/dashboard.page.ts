@@ -15,8 +15,6 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { IntparsePipe } from 'src/app/pipes/intparse/intparse.pipe';
 import { ConstantsService } from 'src/app/constants/constants.service';
 
-
-
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.page.html',
@@ -134,7 +132,11 @@ export class DashboardPage implements OnInit, OnDestroy, AfterViewInit {
         this.orders = result.data['monitor-orders'];
         this.cdr.detectChanges();
         this.fullReport = result.data['full-report'].fullreport;
-        this.tempService.saveBrokenLinksCount(result.data['broken-links'].count);
+        if (result.data['broken-links']) {
+          this.tempService.saveBrokenLinksCount(result.data['broken-links'].count);
+        } else {
+          this.tempService.saveBrokenLinksCount(0);
+        }
         if (result.data.server) {
           this.changeStatusBarColor(result.data.server);
         }
@@ -230,7 +232,7 @@ export class DashboardPage implements OnInit, OnDestroy, AfterViewInit {
   getInvitedUserList() {
     this.userAPI.listeInvitedUser(this.domainName, this.userID, this.token).subscribe((result) => {
       console.log(result);
-      if (result.RESPONSECODE === 1) {
+      if (result.RESPONSECODE === 1 && result.RESPONSE !== 'There is no user added') {
         if (result.data) {
           this.invitedUserList = result.data;
         } else {
@@ -241,7 +243,7 @@ export class DashboardPage implements OnInit, OnDestroy, AfterViewInit {
       } else {
         if (result.RESPONSE === 'There is no user added') {
           this.invitableUsers = result['invitable-users'];
-          this.invitedErroMessage = 'There are no users added';
+          this.invitedErroMessage = 'You have no invited users for this domain.';
         } else {
           this.ionService.presentToast(result.RESPONSE);
         }
@@ -250,16 +252,22 @@ export class DashboardPage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   inviteUser() {
-    if (this.invitedUserList.length === 5) {
-      this.ionService.presentToast('Sorry. You are allowed to add only 5 members.');
-      return;
+    if (this.invitedUserList.length >= this.invitableUsers) {
+      // tslint:disable-next-line: max-line-length
+      const question = `Sorry. You are allowed to add only ${this.invitableUsers} members. Please upgrade your current plan to add more users.`;
+      this.generalService.askToUpgrade(question);
+    } else {
+      this.generalService.showInviteUserModal(this.domainUserID, this.domainName).then((result) => {
+        if (result) {
+          this.getInvitedUserList();
+          this.ionService.presentToast('Member has been invited');
+        }
+      });
     }
-    this.generalService.showInviteUserModal(this.domainUserID, this.domainName).then((result) => {
-      if (result) {
-        this.getInvitedUserList();
-        this.ionService.presentToast('Member has been invited');
-      }
-    });
+  }
+
+  gotoUpgrade() {
+    this.router.navigate(['plans']);
   }
 
   async deleteUser(inviteID, inviteName ) {

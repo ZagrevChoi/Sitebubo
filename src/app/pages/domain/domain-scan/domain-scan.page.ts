@@ -184,6 +184,8 @@ export class DomainScanPage implements OnInit, OnDestroy {
 
   defineRoutering() {
     this.completed = true;
+    this.progresShow = 100;
+    this.percentage = 1;
     let route: string;
     if (this.action === 'addDomain') {
       route = 'domain-list';

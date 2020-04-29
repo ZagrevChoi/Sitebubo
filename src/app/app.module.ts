@@ -23,6 +23,7 @@ import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player/ngx';
 import { Network } from '@ionic-native/network/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { BranchIo } from '@ionic-native/branch-io/ngx';
 // modals
 import { MyprofilePageModule } from './pages/modals/myprofile/myprofile.module';
 import { TermsPageModule } from './pages/modals/terms/terms.module';
@@ -73,6 +74,7 @@ const config: SocketIoConfig = { url: 'https://socket.sitebubo.com', options: {}
   ],
   providers: [
     // HttpResponse,
+    BranchIo,
     FCM,
     Facebook,
     AdMobFree,
