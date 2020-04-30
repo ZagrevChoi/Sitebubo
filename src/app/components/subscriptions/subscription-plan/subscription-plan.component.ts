@@ -24,6 +24,9 @@ export class SubscriptionPlanComponent implements OnInit {
   userID: number;
   token: string;
   product: any;
+  productIds = [
+    'p2m', 'p2a', 'p3m', 'p3a', 'p4m', 'p4a'
+  ];
   constructor(
     private storage: Storage,
     private paypal: PaypalService,
@@ -40,72 +43,59 @@ export class SubscriptionPlanComponent implements OnInit {
   }
 
   async testInapppurchase() {
-    this.iap.validator = 'https://validator.fovea.cc/v1/validate?appName=com.sitebubo.app&apiKey=5f308137-76e7-4d0c-b339-4cfc4b7406ed';
+    // this.iap.validator = 'https://validator.fovea.cc/v1/validate?appName=com.sitebubo.app&apiKey=5f308137-76e7-4d0c-b339-4cfc4b7406ed';
     this.iap.verbosity = this.iap.INFO;
     this.iap.sandbox = true;
-    this.iap.register({
-      id: 'p2m',
-      type: this.iap.PAID_SUBSCRIPTION
+    this.productIds.forEach((productId) => {
+      this.iap.register({
+        id: productId,
+        type: this.iap.PAID_SUBSCRIPTION
+      });
+      this.registerHandlersForPurchase(productId);
     });
-    this.iap.register({
-      id: 'p3m',
-      type: this.iap.PAID_SUBSCRIPTION
-    });
-    this.iap.register({
-      id: 'p4m',
-      type: this.iap.PAID_SUBSCRIPTION
-    });
-    // this.product = this.iap.get('p2m');
-    this.registerHandlersForPurchase('p2m');
-    this.registerHandlersForPurchase('p3m');
-    this.registerHandlersForPurchase('p4m');
     // restore purchase
     this.iap.refresh();
   }
 
-  async checkout(productId) {
-    // this.registerHandlersForPurchase(productId);
+  ionViewWillLeave() {
+    this.iap.off(this.registerHandlersForPurchase);
+  }
+
+  checkout(productId) {
     try {
-      const product = await this.iap.get(productId);
+      this.iap.get(productId);
       this.iap.order(productId).then((p) => {
-        alert('Purchase Succesful' + JSON.stringify(p));
+        alert(JSON.stringify(p));
       }).catch((e) => {
-        alert('Error Ordering From Store' + e);
       });
     } catch (err) {
-      // alert('Error Ordering ' + JSON.stringify(err));
     }
   }
 
   registerHandlersForPurchase(productId) {
+    // this.iap.validator = 'https://validator.fovea.cc/v1/validate?appName=com.sitebubo.app&apiKey=5f308137-76e7-4d0c-b339-4cfc4b7406ed';
     const self = this.iap;
-    this.iap.when(productId).updated((product) => {
+    this.iap.once(productId).updated((product) => {
       if (product.loaded && product.valid && product.state === self.APPROVED && product.transaction != null) {
-        product.finish();
+        alert('updated to ' + productId);
       }
     });
-    this.iap.when(productId).registered((product: IAPProduct) => {
-      // alert(JSON.stringify(product));
-      alert(` registered: ${product}`);
+    this.iap.once(productId).owned((product: IAPProduct) => {
+      alert('owned' + JSON.stringify(product));
     });
-    this.iap.when(productId).owned((product: IAPProduct) => {
-      // alert(JSON.stringify(product));
-      // alert(` owned ${product.owned}`);
-      // product.finish();
-    });
-    this.iap.when(productId).approved((product: IAPProduct) => {
-      product.verify();
-    }).verified((product: IAPProduct) => {
-      alert('verified');
+    this.iap.once(productId).approved((product: IAPProduct) => {
       product.finish();
     });
-    this.iap.when(productId).refunded((product: IAPProduct) => {
-      // alert(JSON.stringify(product));
+    this.iap.once(productId).refunded((product: IAPProduct) => {
       alert('refunded');
+      product.finish();
     });
-    this.iap.when(productId).expired((product: IAPProduct) => {
-      // alert(JSON.stringify(product));
-      alert('expired');
+    this.iap.once(productId).expired((product: IAPProduct) => {
+      alert('expired' + productId);
+      product.finish();
+    });
+    this.iap.once(productId).cancelled((product: IAPProduct) => {
+      alert('cancelled' + productId);
     });
   }
 
@@ -130,7 +120,16 @@ export class SubscriptionPlanComponent implements OnInit {
   }
 
   carryOutPayment(newPlanID, newPlanName, noofDomain, durationType) {
-    console.log(newPlanID, newPlanName, noofDomain, durationType);
+    let temp: string;
+    if (durationType === 'month') {
+      temp = 'm';
+    } else {
+      temp = 'a';
+    }
+    temp = 'p' + newPlanID + temp;
+    alert(temp);
+    this.checkout(temp);
+    return;
     if (this.isNewUser && newPlanID === 1) {
       console.log('asdfasdfasdf');
       this.subscribeToFreePlan().then((res) => {
