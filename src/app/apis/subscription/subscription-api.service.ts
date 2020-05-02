@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { BaseApiService } from './../base/base-api.service';
 import { Facebook } from '@ionic-native/facebook/ngx';
 import { Events } from 'src/app/services/events/events.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -21,25 +22,25 @@ export class SubscriptionApiService extends BaseApiService {
     super(https, router, storage, facebook, events);
   }
 
-  getSubscriptionPlan(userID, token): any {
+  getSubscriptionPlan(userID, token): Observable<any> {
     let url = this.subscription_url + 'getsubscription?';
     url += 'user_id=' + userID + '&token=' + token;
     return this.sendGetRequest(url);
   }
 
-  getSubscriptionPlanDetails(subscriptionID, userID, token): any {
+  getSubscriptionPlanDetails(subscriptionID, userID, token): Observable<any> {
     let url = this.subscription_url + 'subscriptiondetails?';
     url  += 'subscription_id=' + subscriptionID + '&user_id=' + userID + '&token=' + token;
     return this.sendGetRequest(url);
   }
 
-  activatefreesubscription(subscriptionID, userID, token): any {
+  activatefreesubscription(subscriptionID, userID, token): Observable<any> {
     let url = this.subscription_url + 'activatefreesubscription?';
     url += 'subscription_id=' + subscriptionID + '&user_id=' + userID + '&token=' + token;
     return this.sendGetRequest(url);
   }
 
-  activateSubscriptionIos(subscriptionID, transactionID, productType, userID, token): any {
+  activateSubscriptionIos(subscriptionID, transactionID, productType, userID, token): Observable<any> {
     let url = this.subscription_url + 'activatesubscriptionios?';
     url += 'subscription_id=' + subscriptionID + '&transaction_id=' + transactionID;
     url += '&producttype=' +  productType;
@@ -47,13 +48,13 @@ export class SubscriptionApiService extends BaseApiService {
     return this.sendGetRequest(url);
   }
 
-  currentSubscription(userID, token): any {
+  currentSubscription(userID, token): Observable<any> {
     let url = this.subscription_url + 'currentsubscription?';
     url += 'user_id=' + userID + '&token=' + token;
     return this.sendGetRequest(url);
   }
 
-  downgradePlan(domains, userID, tokenValue, feedback): any {
+  downgradePlan(domains, userID, tokenValue, feedback): Observable<any> {
     const postData = {
       user_id: userID,
       token: tokenValue,
@@ -62,6 +63,22 @@ export class SubscriptionApiService extends BaseApiService {
     };
     console.log(postData);
     const url = this.subscription_url + 'downgradeplan';
+    return this.sendPostRequest(url, postData);
+  }
+
+  verifyCurrentSubscription(): Observable<any> {
+    let url = this.subscription_url + 'verifysubscriptionbygoogle?';
+    url += 'user_id=' + this.userID + '&token=' + this.token;
+    return  this.sendGetRequest(url);
+  }
+
+  saveSubscriptionDetailByGoogle(receiptData): Observable<any> {
+    const postData = {
+      user_id: this.userID,
+      token: this.token,
+      receipt: receiptData
+    };
+    const url = this.subscription_url + 'savesubscriptiondetailbygoogle';
     return this.sendPostRequest(url, postData);
   }
 }

@@ -14,6 +14,8 @@ import { ReportApiService } from './../../apis/report/report-api.service';
 import { IongadgetService } from '../ionGadgets/iongadget.service';
 import { TempService } from './../temp/temp.service';
 import { Events } from '../events/events.service';
+import { InAppPurchaseService } from '../in-app-purchase/in-app-purchase.service';
+
 // modals
 import { MonitorIssuesPage } from './../../pages/modals/monitor-issues/monitor-issues.page';
 import { NotificationListPage } from './../../pages/modals/notification-list/notification-list.page';
@@ -51,7 +53,8 @@ export class GeneralService {
     private reportAPI: ReportApiService,
     private tempService: TempService,
     private fb: Facebook,
-    private ionService: IongadgetService
+    private ionService: IongadgetService,
+    private purchaseService: InAppPurchaseService
   ) { }
 
   async openMyProfile() {
@@ -89,14 +92,24 @@ export class GeneralService {
   defineInitialRoutering() {
     this.storage.get('userInfo').then(user => {
       if (user) {
-        this.storage.get('planInfo').then(info => {
-          console.log(info);
+        this.storage.get('planInfo').then(async (info) => {
           if (user.new_user && info.id === 0) {
             this.router.navigate(['plans'], { replaceUrl: true });
-          } else if (user.new_user) {
-            this.router.navigate(['add-site'], { replaceUrl: true });
           } else {
-            this.router.navigate(['domain-list'], { replaceUrl: true });
+            if (user.new_user) {
+              this.router.navigate(['add-site'], { replaceUrl: true });
+            } else {
+              this.router.navigate(['domain-list'], { replaceUrl: true });
+            }
+            // const validation = await this.purchaseService.verifyCurrentSubscription();
+            // if (validation) {
+            //   if (user.new_user) {
+            //     this.router.navigate(['add-site'], { replaceUrl: true });
+            //   } else {
+            //     this.router.navigate(['domain-list'], { replaceUrl: true });
+            //   }
+            // } else {
+            // }
           }
         });
       } else {

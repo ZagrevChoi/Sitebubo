@@ -14,7 +14,8 @@ const server_root = 'https://app.sitebubo.com/api/public/';
   providedIn: 'root'
 })
 export class BaseApiService {
-
+  userID: number;
+  token: string;
   // tslint:disable-next-line: variable-name
   public domain_url = server_root + 'apidomain/';
   // tslint:disable-next-line: variable-name
@@ -36,8 +37,13 @@ export class BaseApiService {
     public storage: Storage,
     public facebook: Facebook,
     public events: Events
-  ) {}
-  
+  ) {
+    this.storage.get('userInfo').then((user) => {
+      this.userID = user.id;
+      this.token =  user.token;
+    });
+  }
+
   public sendGetRequest(url): Observable<any> {
     console.log(url);
     const response = this.https.get(url).pipe(

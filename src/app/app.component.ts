@@ -55,7 +55,6 @@ export class AppComponent {
         this.splashScreen.hide();
         this.veryifyToken().then((result) => {
                 if (result) {
-                    console.log(result);
                     this.storageService.setStorage(result).then(() => {
                         this.generalService.defineInitialRoutering();
                     });
