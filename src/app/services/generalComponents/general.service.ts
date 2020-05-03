@@ -15,7 +15,6 @@ import { IongadgetService } from '../ionGadgets/iongadget.service';
 import { TempService } from './../temp/temp.service';
 import { Events } from '../events/events.service';
 import { InAppPurchaseService } from '../in-app-purchase/in-app-purchase.service';
-
 // modals
 import { MonitorIssuesPage } from './../../pages/modals/monitor-issues/monitor-issues.page';
 import { NotificationListPage } from './../../pages/modals/notification-list/notification-list.page';
