@@ -25,9 +25,7 @@ export class SubscriptionPlanComponent implements OnInit {
   userID: number;
   token: string;
   product: any;
-  productIds = [
-    'p2m', 'p2a', 'p3m', 'p3a', 'p4m', 'p4a'
-  ];
+  productIds = [];
   constructor(
     private storage: Storage,
     private paypal: PaypalService,
@@ -43,12 +41,12 @@ export class SubscriptionPlanComponent implements OnInit {
     this.storage.get('userInfo').then((user) => {
       if (user) {
         this.initData();
-        this.testInapppurchase();     
+        // this.testInapppurchase();
       }
     });
   }
 
-  async testInapppurchase() {
+  async listenInapppurchase() {
     // this.iap.validator = 'https://validator.fovea.cc/v1/validate?appName=com.sitebubo.app&apiKey=5f308137-76e7-4d0c-b339-4cfc4b7406ed';
     this.iap.verbosity = this.iap.INFO;
     this.iap.sandbox = true;
@@ -83,26 +81,27 @@ export class SubscriptionPlanComponent implements OnInit {
     const self = this.iap;
     this.iap.once(productId).updated((product) => {
       if (product.loaded && product.valid && product.state === self.APPROVED && product.transaction != null) {
-        alert('updated to ' + productId);
+
       }
     });
     this.iap.once(productId).owned((product: IAPProduct) => {
-      alert('owned' + JSON.stringify(product));
-      this.purchaseService.saveSubscriptionDetailByGoogle(this.userID, this.token, JSON.stringify(product));
+      this.purchaseService.saveSubscriptionDetailByGoogle(this.userID, this.token, JSON.stringify(product))
+      .then((res) => {
+        if (res) {
+          
+        }
+      });
     });
     this.iap.once(productId).approved((product: IAPProduct) => {
       product.finish();
     });
     this.iap.once(productId).refunded((product: IAPProduct) => {
-      alert('refunded');
       product.finish();
     });
     this.iap.once(productId).expired((product: IAPProduct) => {
-      alert('expired' + productId);
       product.finish();
     });
     this.iap.once(productId).cancelled((product: IAPProduct) => {
-      alert('cancelled' + productId);
     });
   }
 
@@ -119,6 +118,9 @@ export class SubscriptionPlanComponent implements OnInit {
       console.log(info);
       if (info) {
         this.currentPlanID = info.id;
+        // this.definePlansList().then(() => {
+        //   this.listenInapppurchase();
+        // });
         this.currnetPlanName = info.name;
         this.oldPlanName = info.name + ' Plan';
         this.daysLeft = info.days_left;
@@ -126,19 +128,31 @@ export class SubscriptionPlanComponent implements OnInit {
     });
   }
 
+  async definePlansList() {
+    return new Promise((resolve) => {
+      for (let i = 2; i < 5; i++) {
+        if (i !== this.currentPlanID) {
+          const temp = 'p' + i + 'm';
+          const temp1 = 'p' + i + 'a';
+          this.productIds.push(temp);
+          this.productIds.push(temp1);
+        }
+      }
+      resolve(true);
+    });
+  }
+
   carryOutPayment(newPlanID, newPlanName, noofDomain, durationType) {
-    let temp: string;
+    let tempPlan: string;
     if (durationType === 'month') {
-      temp = 'm';
+      tempPlan = 'm';
     } else {
-      temp = 'a';
+      tempPlan = 'a';
     }
-    temp = 'p' + newPlanID + temp;
-    alert(temp);
-    this.checkout(temp);
-    return;
+    tempPlan = 'p' + newPlanID + tempPlan;
+    // this.checkout(tempPlan);
+    // return;
     if (this.isNewUser && newPlanID === 1) {
-      console.log('asdfasdfasdf');
       this.subscribeToFreePlan().then((res) => {
         if (res) {
           this.router.navigate(['subscription-welcome'],  {
@@ -152,7 +166,7 @@ export class SubscriptionPlanComponent implements OnInit {
     } else if (newPlanID < this.currentPlanID) {
       this.getDomainsToRemove(newPlanID, newPlanName, noofDomain, durationType);
     } else  {
-      this.gotoPayPal(newPlanID, null, durationType);
+      this.gotoGooglePay(newPlanID, null, durationType);
     }
   }
 
@@ -169,13 +183,13 @@ export class SubscriptionPlanComponent implements OnInit {
     });
     exDomain.onDidDismiss().then((result) => {
       if (result.role === 'success') {
-        this.gotoPayPal(newPlanID, result.data, durationType);
+        this.gotoGooglePay(newPlanID, result.data, durationType);
       }
     });
     await exDomain.present();
   }
 
-  gotoPayPal(newPlanID, downgradeData = null, durationType) {
+  gotoGooglePay(newPlanID, downgradeData = null, durationType) {
     if (newPlanID === 1) {
       this.ionService.showLoading();
       this.subscribeToFreePlan().then((result) => {
