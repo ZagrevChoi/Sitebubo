@@ -72,10 +72,10 @@ export class SubscriptionApiService extends BaseApiService {
     return  this.sendGetRequest(url);
   }
 
-  saveSubscriptionDetailByGoogle(receiptData): Observable<any> {
+  saveSubscriptionDetailByGoogle(userID, tokenData, receiptData): Observable<any> {
     const postData = {
-      user_id: this.userID,
-      token: this.token,
+      user_id: userID,
+      token: tokenData,
       receipt: receiptData
     };
     const url = this.subscription_url + 'savesubscriptiondetailbygoogle';

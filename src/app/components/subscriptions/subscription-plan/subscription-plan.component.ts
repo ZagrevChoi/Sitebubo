@@ -40,8 +40,12 @@ export class SubscriptionPlanComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.initData();
-    this.testInapppurchase();
+    this.storage.get('userInfo').then((user) => {
+      if (user) {
+        this.initData();
+        this.testInapppurchase();     
+      }
+    });
   }
 
   async testInapppurchase() {
@@ -84,6 +88,7 @@ export class SubscriptionPlanComponent implements OnInit {
     });
     this.iap.once(productId).owned((product: IAPProduct) => {
       alert('owned' + JSON.stringify(product));
+      this.purchaseService.saveSubscriptionDetailByGoogle(this.userID, this.token, JSON.stringify(product));
     });
     this.iap.once(productId).approved((product: IAPProduct) => {
       product.finish();

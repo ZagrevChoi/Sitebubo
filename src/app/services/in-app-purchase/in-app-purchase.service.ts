@@ -20,8 +20,8 @@ export class InAppPurchaseService {
     });
   }
 
-  saveSubscriptionDetailByGoogle(receiptData) {
-    this.subscriptionAPI.saveSubscriptionDetailByGoogle(receiptData)
+  saveSubscriptionDetailByGoogle(userID, token, receiptData) {
+    this.subscriptionAPI.saveSubscriptionDetailByGoogle(userID, token, receiptData)
     .subscribe((res) => {
 
     });

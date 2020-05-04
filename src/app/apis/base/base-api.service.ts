@@ -38,10 +38,6 @@ export class BaseApiService {
     public facebook: Facebook,
     public events: Events
   ) {
-    this.storage.get('userInfo').then((user) => {
-      this.userID = user.id;
-      this.token =  user.token;
-    });
   }
 
   public sendGetRequest(url): Observable<any> {
