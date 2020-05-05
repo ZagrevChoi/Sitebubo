@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { TempService } from './../../../services/temp/temp.service';
-import { GoogleChartInterface } from 'ng2-google-charts/google-charts-interfaces';
+import { GoogleChartInterface } from 'ng2-google-charts';
 import { DatetimePipe } from 'src/app/pipes/datetime/datetime.pipe';
 import { ConstantsService } from 'src/app/constants/constants.service';
 import { MonitorApiService } from 'src/app/apis/monitor/monitor-api.service';

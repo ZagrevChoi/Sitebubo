@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { GoogleChartInterface } from 'ng2-google-charts/google-charts-interfaces';
+import { GoogleChartInterface } from 'ng2-google-charts';
 import { Storage } from '@ionic/storage';
 import { IongadgetService } from 'src/app/services/ionGadgets/iongadget.service';
 import { TempService } from 'src/app/services/temp/temp.service';

@@ -5,7 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { MorePageRoutingModule } from './more-routing.module';
 import { MorePage } from './more.page';
 import { ComponentsModule } from 'src/app/components/components.module';
-// import { Ng2GoogleChartsModule } from 'ng2-google-charts';
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 
 @NgModule({
   imports: [
@@ -14,7 +14,7 @@ import { ComponentsModule } from 'src/app/components/components.module';
     IonicModule,
     ComponentsModule,
     MorePageRoutingModule,
-    // Ng2GoogleChartsModule
+    Ng2GoogleChartsModule
   ],
   declarations: [MorePage]
 })

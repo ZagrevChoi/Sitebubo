@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MonitorApiService } from 'src/app/apis/monitor/monitor-api.service';
-import { GoogleChartInterface } from 'ng2-google-charts/google-charts-interfaces';
+import { GoogleChartInterface } from 'ng2-google-charts';
 import { Storage } from '@ionic/storage';
 import { IongadgetService } from 'src/app/services/ionGadgets/iongadget.service';
 import { ActionSheetController } from '@ionic/angular';

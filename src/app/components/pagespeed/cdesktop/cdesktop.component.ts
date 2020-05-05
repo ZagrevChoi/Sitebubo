@@ -3,7 +3,7 @@ import { MonitorApiService } from 'src/app/apis/monitor/monitor-api.service';
 import { IongadgetService } from 'src/app/services/ionGadgets/iongadget.service';
 import { TempService } from 'src/app/services/temp/temp.service';
 import { Storage } from '@ionic/storage';
-import { GoogleChartInterface } from 'ng2-google-charts/google-charts-interfaces';
+import { GoogleChartInterface } from 'ng2-google-charts';
 import { ConstantsService } from 'src/app/constants/constants.service';
 import { DatetimePipe } from 'src/app/pipes/datetime/datetime.pipe';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';

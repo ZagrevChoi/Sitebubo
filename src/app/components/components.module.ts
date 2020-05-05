@@ -90,6 +90,7 @@ import { SubscriptionPlanComponent } from './subscriptions/subscription-plan/sub
         IonicModule,
         RouterModule,
         FormsModule,
+        Ng2GoogleChartsModule,
         NgCircleProgressModule.forRoot({
             radius: 70,
             outerStrokeWidth: 10,
@@ -100,7 +101,6 @@ import { SubscriptionPlanComponent } from './subscriptions/subscription-plan/sub
             showBackground: false,
             startFromZero: false
         }),
-        Ng2GoogleChartsModule,
         MatExpansionModule,
         CountoModule
     ],
