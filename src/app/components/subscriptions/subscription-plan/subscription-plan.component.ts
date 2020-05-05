@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { PaypalService } from 'src/app/services/paypal/paypal.service';
 import { SubscriptionApiService } from 'src/app/apis/subscription/subscription-api.service';
 import { IongadgetService } from 'src/app/services/ionGadgets/iongadget.service';
 import { Router, NavigationExtras } from '@angular/router';
@@ -26,9 +25,9 @@ export class SubscriptionPlanComponent implements OnInit {
   token: string;
   product: any;
   productIds = [];
+  paidPlanDowngradeData: any;
   constructor(
     private storage: Storage,
-    private paypal: PaypalService,
     private subscriptionAPI: SubscriptionApiService,
     private ionService: IongadgetService,
     private router: Router,
@@ -41,16 +40,16 @@ export class SubscriptionPlanComponent implements OnInit {
     this.storage.get('userInfo').then((user) => {
       if (user) {
         this.initData();
-        // this.testInapppurchase();
       }
     });
   }
 
-  async listenInapppurchase() {
+  async listenInapppurchase(productIds) {
+    alert(productIds);
     // this.iap.validator = 'https://validator.fovea.cc/v1/validate?appName=com.sitebubo.app&apiKey=5f308137-76e7-4d0c-b339-4cfc4b7406ed';
     this.iap.verbosity = this.iap.INFO;
     this.iap.sandbox = true;
-    this.productIds.forEach((productId) => {
+    productIds.forEach((productId) => {
       this.iap.register({
         id: productId,
         type: this.iap.PAID_SUBSCRIPTION
@@ -85,10 +84,36 @@ export class SubscriptionPlanComponent implements OnInit {
       }
     });
     this.iap.once(productId).owned((product: IAPProduct) => {
+      alert('owned' + JSON.stringify(product));
       this.purchaseService.saveSubscriptionDetailByGoogle(this.userID, this.token, JSON.stringify(product))
       .then((res) => {
         if (res) {
-          
+          if (this.paidPlanDowngradeData) {
+            this.removeDomains(this.paidPlanDowngradeData).then((result) => {
+              if (result) {
+                const params: NavigationExtras = {
+                  queryParams: {
+                    isNewUser: this.isNewUser,
+                    platform: 'android',
+                    status: 'downgrade',
+                    oldPlan: this.oldPlanName
+                  }
+                };
+                this.router.navigate(['subscription-welcome'], params);
+              }
+            });
+          } else {
+            const params: NavigationExtras = {
+              queryParams: {
+                isNewUser: this.isNewUser,
+                platform: 'android',
+                status: 'upgrade',
+                isFreeTrial: this.freeTrialAvailable,
+                oldPlan: this.oldPlanName
+              }
+            };
+            this.router.navigate(['subscription-welcome'], params);
+          }
         }
       });
     });
@@ -118,9 +143,9 @@ export class SubscriptionPlanComponent implements OnInit {
       console.log(info);
       if (info) {
         this.currentPlanID = info.id;
-        // this.definePlansList().then(() => {
-        //   this.listenInapppurchase();
-        // });
+        this.definePlansList().then((productIds) => {
+          this.listenInapppurchase(productIds);
+        });
         this.currnetPlanName = info.name;
         this.oldPlanName = info.name + ' Plan';
         this.daysLeft = info.days_left;
@@ -130,15 +155,16 @@ export class SubscriptionPlanComponent implements OnInit {
 
   async definePlansList() {
     return new Promise((resolve) => {
+      const productIds = [];
       for (let i = 2; i < 5; i++) {
         if (i !== this.currentPlanID) {
           const temp = 'p' + i + 'm';
           const temp1 = 'p' + i + 'a';
-          this.productIds.push(temp);
-          this.productIds.push(temp1);
+          productIds.push(temp);
+          productIds.push(temp1);
         }
       }
-      resolve(true);
+      resolve(productIds);
     });
   }
 
@@ -150,8 +176,6 @@ export class SubscriptionPlanComponent implements OnInit {
       tempPlan = 'a';
     }
     tempPlan = 'p' + newPlanID + tempPlan;
-    // this.checkout(tempPlan);
-    // return;
     if (this.isNewUser && newPlanID === 1) {
       this.subscribeToFreePlan().then((res) => {
         if (res) {
@@ -164,13 +188,13 @@ export class SubscriptionPlanComponent implements OnInit {
         }
       });
     } else if (newPlanID < this.currentPlanID) {
-      this.getDomainsToRemove(newPlanID, newPlanName, noofDomain, durationType);
+      this.getDomainsToRemove(newPlanID, tempPlan, newPlanName, noofDomain);
     } else  {
-      this.gotoGooglePay(newPlanID, null, durationType);
+      this.gotoGooglePay(tempPlan, null);
     }
   }
 
-  async getDomainsToRemove(newPlanID, newPlanName, noofDomain, durationType) {
+  async getDomainsToRemove(newPlanID, tempPlan, newPlanName, noofDomain) {
     const exDomain = await this.modalCtrl.create({
       component: ExDomainsPage,
       componentProps: {
@@ -183,13 +207,13 @@ export class SubscriptionPlanComponent implements OnInit {
     });
     exDomain.onDidDismiss().then((result) => {
       if (result.role === 'success') {
-        this.gotoGooglePay(newPlanID, result.data, durationType);
+        this.gotoGooglePay(newPlanID, tempPlan, result.data);
       }
     });
     await exDomain.present();
   }
 
-  gotoGooglePay(newPlanID, downgradeData = null, durationType) {
+  gotoGooglePay(newPlanID, tempPlan, downgradeData = null) {
     if (newPlanID === 1) {
       this.ionService.showLoading();
       this.subscribeToFreePlan().then((result) => {
@@ -210,41 +234,45 @@ export class SubscriptionPlanComponent implements OnInit {
         this.ionService.closeLoading();
       });
     } else {
-      this.paypal.payNow(this.userID, newPlanID, this.token, this.freeTrialAvailable, durationType)
-      .then((res) => {
-        this.ionService.closeLoading();
-        if (res === 'success') {
-          if (downgradeData !== null) {
-            this.removeDomains(downgradeData).then( result => {
-              if (result) {
-                const params: NavigationExtras = {
-                  queryParams: {
-                    isNewUser: this.isNewUser,
-                    platform: 'android',
-                    status: 'downgrade',
-                    oldPlan: this.oldPlanName
-                  }
-                };
-                this.router.navigate(['subscription-welcome'], params);
-              }
-            }).catch((err) => {
-              this.ionService.closeLoading();
-              this.ionService.presentToast('Downgrading failed due to server api');
-            });
-          } else {
-            const params: NavigationExtras = {
-              queryParams: {
-                isNewUser: this.isNewUser,
-                platform: 'android',
-                status: 'upgrade',
-                isFreeTrial: this.freeTrialAvailable,
-                oldPlan: this.oldPlanName
-              }
-            };
-            this.router.navigate(['subscription-welcome'], params);
-          }
-        }
-      });
+      this.checkout(tempPlan);
+      if (downgradeData) {
+        this.paidPlanDowngradeData = downgradeData;
+      }
+      // this.paypal.payNow(this.userID, newPlanID, this.token, this.freeTrialAvailable, durationType)
+      // .then((res) => {
+      //   this.ionService.closeLoading();
+      //   if (res === 'success') {
+      //     if (downgradeData !== null) {
+      //       this.removeDomains(downgradeData).then( result => {
+      //         if (result) {
+      //           const params: NavigationExtras = {
+      //             queryParams: {
+      //               isNewUser: this.isNewUser,
+      //               platform: 'android',
+      //               status: 'downgrade',
+      //               oldPlan: this.oldPlanName
+      //             }
+      //           };
+      //           this.router.navigate(['subscription-welcome'], params);
+      //         }
+      //       }).catch((err) => {
+      //         this.ionService.closeLoading();
+      //         this.ionService.presentToast('Downgrading failed due to server api');
+      //       });
+      //     } else {
+      //       const params: NavigationExtras = {
+      //         queryParams: {
+      //           isNewUser: this.isNewUser,
+      //           platform: 'android',
+      //           status: 'upgrade',
+      //           isFreeTrial: this.freeTrialAvailable,
+      //           oldPlan: this.oldPlanName
+      //         }
+      //       };
+      //       this.router.navigate(['subscription-welcome'], params);
+      //     }
+      //   }
+      // });
     }
   }
 
