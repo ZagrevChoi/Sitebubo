@@ -190,7 +190,7 @@ export class SubscriptionPlanComponent implements OnInit {
     } else if (newPlanID < this.currentPlanID) {
       this.getDomainsToRemove(newPlanID, tempPlan, newPlanName, noofDomain);
     } else  {
-      this.gotoGooglePay(tempPlan, null);
+      this.gotoGooglePay(newPlanID, tempPlan, null);
     }
   }
 
