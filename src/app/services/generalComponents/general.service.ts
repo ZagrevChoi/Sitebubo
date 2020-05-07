@@ -100,14 +100,31 @@ export class GeneralService {
             } else {
               this.router.navigate(['domain-list'], { replaceUrl: true });
             }
-            // const validation = await this.purchaseService.verifyCurrentSubscription();
-            // if (validation) {
-            //   if (user.new_user) {
-            //     this.router.navigate(['add-site'], { replaceUrl: true });
+            // this.purchaseService.verifyCurrentSubscription().then((res) => {
+            //   if (res) {
+            //     if (user.new_user) {
+            //       this.router.navigate(['add-site'], { replaceUrl: true });
+            //     } else {
+            //       this.router.navigate(['domain-list'], { replaceUrl: true });
+            //     }
             //   } else {
-            //     this.router.navigate(['domain-list'], { replaceUrl: true });
+            //     this.ionService.presentToast('You have cancelled your subscription plan.');
             //   }
+            // });
+            // if (user.new_user) {
+            //   this.router.navigate(['add-site'], { replaceUrl: true });
             // } else {
+            //   this.purchaseService.verifyCurrentSubscription().then((res) => {
+            //     if (res) {
+            //       this.router.navigate(['domain-list'], { replaceUrl: true });
+            //     } else  {
+                  
+            //     }
+            //   }).catch((err) => {
+            //     this.ionService.presentToast(err);
+            //     this.storage.clear();
+            //     this.router.navigate(['welcome'], { replaceUrl: true });
+            //   });
             // }
           }
         });

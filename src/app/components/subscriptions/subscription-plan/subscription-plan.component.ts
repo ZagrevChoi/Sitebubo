@@ -86,7 +86,7 @@ export class SubscriptionPlanComponent implements OnInit {
     this.iap.once(productId).owned((product: IAPProduct) => {
       this.purchaseService.saveSubscriptionDetailByGoogle(this.userID, this.token, JSON.stringify(product))
       .then((res) => {
-        if (res === 'Success') {
+        if (res.RESPONSE === 'Success') {
           if (this.paidPlanDowngradeData) {
             this.removeDomains(this.paidPlanDowngradeData).then((result) => {
               if (result) {
@@ -107,14 +107,14 @@ export class SubscriptionPlanComponent implements OnInit {
                 isNewUser: this.isNewUser,
                 platform: 'android',
                 status: 'upgrade',
-                isFreeTrial: this.freeTrialAvailable,
+                isFreeTrial: res.free_trail,
                 oldPlan: this.oldPlanName
               }
             };
             this.router.navigate(['subscription-welcome'], params);
           }
         } else {
-          if (res === 'Pending') {
+          if (res.RESPONSE === 'Pending') {
             this.router.navigate(['subscription-welcome'], {
               queryParams: {
                 status: 'pending',
@@ -123,7 +123,7 @@ export class SubscriptionPlanComponent implements OnInit {
               }
             });
           } else {
-
+            this.ionService.presentToast('Invalid Receipt');
           }
         }
       }).catch(() => {
@@ -216,8 +216,7 @@ export class SubscriptionPlanComponent implements OnInit {
         currentPlan: this.currnetPlanName,
         allowedCnt: noofDomain,
         reason: false,
-      },
-      swipeToClose: true
+      }
     });
     exDomain.onDidDismiss().then((result) => {
       if (result.role === 'success') {
