@@ -5,7 +5,8 @@ import { IongadgetService } from 'src/app/services/ionGadgets/iongadget.service'
 import { TransactionApiService } from 'src/app/apis/transaction/transaction-api.service';
 import { GeneralService } from 'src/app/services/generalComponents/general.service';
 import { SubscriptionApiService } from 'src/app/apis/subscription/subscription-api.service';
-import { promise } from 'protractor';
+import { ConstantsService } from 'src/app/constants/constants.service';
+
 
 @Component({
   selector: 'app-view-membership',
@@ -30,7 +31,8 @@ export class ViewMembershipPage implements OnInit {
     private cdr: ChangeDetectorRef,
     private transactionAPI: TransactionApiService,
     private generalService: GeneralService,
-    private subscriptionApi: SubscriptionApiService
+    private subscriptionApi: SubscriptionApiService,
+    private constants: ConstantsService
   ) { }
 
   ngOnInit() {
@@ -41,23 +43,29 @@ export class ViewMembershipPage implements OnInit {
   }
 
   initData() {
-      this.storage.get('userInfo').then((user) => {
-        if (user) {
-          this.userID = user.id;
-          this.token = user.token;
-        }
-      });
-      this.storage.get('planInfo').then((planInfo) => {
-        console.log(planInfo);
-        const temp = planInfo;
+    this.storage.get('userInfo').then((user) => {
+      if (user) {
+        this.userID = user.id;
+        this.token = user.token;
+      }
+    });
+    this.storage.get('planInfo').then((planInfo) => {
+      console.log(planInfo);
+      const temp = planInfo;
+      if (planInfo.pending_productid) {
+        temp.bigprc = this.constants.plans[planInfo.pending_productid].price;
+        temp.smallprc = '99';
+        temp.name = this.constants.plans[planInfo.pending_productid].label;
+      } else {
         const arr = temp.price.toString().split('.');
         temp.bigprc = arr[0];
         temp.smallprc = arr[1];
-        this.planInfo = temp;
-        this.subscriptionID = planInfo.id;
-        this.freeTrial = planInfo.free_trial;
-        this.defineDisplay();
-      });
+      }
+      this.planInfo = temp;
+      this.subscriptionID = planInfo.id;
+      this.freeTrial = planInfo.free_trial;
+      this.defineDisplay();
+    });
   }
 
   getTransactionHistory(): Promise<boolean> {

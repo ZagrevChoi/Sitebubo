@@ -20,16 +20,12 @@ export class InAppPurchaseService {
     });
   }
 
-  saveSubscriptionDetailByGoogle(userID, token, receiptData) {
+  saveSubscriptionDetailByGoogle(userID, token, receiptData): Promise<any> {
     // tslint:disable-next-line: no-shadowed-variable
     return new Promise((resolve, reject) => {
       this.subscriptionAPI.saveSubscriptionDetailByGoogle(userID, token, receiptData)
       .subscribe((res) => {
-        if (res.RESPONSECODE === 1) {
-          resolve(true);
-        } else {
-          reject(false);
-        }
+        resolve(res.RESPONSE);
       }, err => {
         reject(false);
       });

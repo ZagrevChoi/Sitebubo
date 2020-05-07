@@ -19,6 +19,7 @@ export class SubscriptionPlanComponent implements OnInit {
   currentPlanID: number;
   currnetPlanName: string;
   oldPlanName: string;
+  newPlanName: string;
   daysLeft: number;
   isNewUser: boolean;
   userID: number;
@@ -68,7 +69,6 @@ export class SubscriptionPlanComponent implements OnInit {
     try {
       this.iap.get(productId);
       this.iap.order(productId).then((p) => {
-        alert(JSON.stringify(p));
       }).catch((e) => {
       });
     } catch (err) {
@@ -84,10 +84,9 @@ export class SubscriptionPlanComponent implements OnInit {
       }
     });
     this.iap.once(productId).owned((product: IAPProduct) => {
-      alert('owned' + JSON.stringify(product));
       this.purchaseService.saveSubscriptionDetailByGoogle(this.userID, this.token, JSON.stringify(product))
       .then((res) => {
-        if (res) {
+        if (res === 'Success') {
           if (this.paidPlanDowngradeData) {
             this.removeDomains(this.paidPlanDowngradeData).then((result) => {
               if (result) {
@@ -114,7 +113,21 @@ export class SubscriptionPlanComponent implements OnInit {
             };
             this.router.navigate(['subscription-welcome'], params);
           }
+        } else {
+          if (res === 'Pending') {
+            this.router.navigate(['subscription-welcome'], {
+              queryParams: {
+                status: 'pending',
+                oldPlan: this.oldPlanName,
+                newPlan: this.newPlanName + ' Plan'
+              }
+            });
+          } else {
+
+          }
         }
+      }).catch(() => {
+        this.ionService.presentToast('Error happend while subscribing to the new plan.');
       });
     });
     this.iap.once(productId).approved((product: IAPProduct) => {
@@ -169,6 +182,7 @@ export class SubscriptionPlanComponent implements OnInit {
   }
 
   carryOutPayment(newPlanID, newPlanName, noofDomain, durationType) {
+    this.newPlanName = newPlanName;
     let tempPlan: string;
     if (durationType === 'month') {
       tempPlan = 'm';

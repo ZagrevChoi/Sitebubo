@@ -78,7 +78,6 @@ export class SubscriptionApiService extends BaseApiService {
       token: tokenData,
       receipt: receiptData
     };
-    alert('postData' + postData);
     const url = this.subscription_url + 'savesubscriptiondetailbygoogle';
     return this.sendPostRequest(url, postData);
   }
