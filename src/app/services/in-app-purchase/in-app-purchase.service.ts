@@ -14,8 +14,7 @@ export class InAppPurchaseService {
 
   verifyCurrentSubscription(): any {
     return new Promise((resolve, reject) => {
-      this.subscriptionAPI.verifyCurrentSubscription()
-      .subscribe((res) => {
+      this.subscriptionAPI.verifyCurrentSubscription().subscribe((res) => {
         if (res.RESPONSECODE === 1) {
           resolve(true);
         } else {
