@@ -7,7 +7,6 @@ import { ModalController } from '@ionic/angular';
 import { ExDomainsPage } from 'src/app/pages/modals/ex-domains/ex-domains.page';
 import { InAppPurchase2, IAPProduct } from '@ionic-native/in-app-purchase-2/ngx';
 import { InAppPurchaseService } from 'src/app/services/in-app-purchase/in-app-purchase.service';
-
 @Component({
   selector: 'app-subscription-plan',
   templateUrl: './subscription-plan.component.html',
