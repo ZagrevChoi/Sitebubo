@@ -5,7 +5,7 @@ import { MonitorApiService } from 'src/app/apis/monitor/monitor-api.service';
 import { IongadgetService } from 'src/app/services/ionGadgets/iongadget.service';
 import { ConstantsService } from 'src/app/constants/constants.service';
 import { ActionSheetController } from '@ionic/angular';
-import { GoogleChartInterface } from 'ng2-google-charts';
+import { GoogleChartInterface } from 'ng2-google-charts/google-charts-interfaces';
 import { DatetimePipe } from 'src/app/pipes/datetime/datetime.pipe';
 import { Router } from '@angular/router';
 import { GeneralService } from 'src/app/services/generalComponents/general.service';

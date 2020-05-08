@@ -6,7 +6,7 @@ import { TempService } from './../../../services/temp/temp.service';
 import { Storage } from '@ionic/storage';
 import { IongadgetService } from 'src/app/services/ionGadgets/iongadget.service';
 import { MonitorApiService } from 'src/app/apis/monitor/monitor-api.service';
-import { GoogleChartInterface } from 'ng2-google-charts';
+import { GoogleChartInterface } from 'ng2-google-charts/google-charts-interfaces';
 import { NoyearPipe } from 'src/app/pipes/noyear/noyear.pipe';
 import { OnlytimePipe } from 'src/app/pipes/onlytime/onlytime.pipe';
 

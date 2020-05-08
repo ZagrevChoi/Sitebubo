@@ -74,7 +74,7 @@
     "minimist": "^1.2.5",
     "native-run": "^0.3.0",
     "ng-circle-progress": "^1.5.1",
-    "ng2-google-charts": "^6.0.0",
+    "ng2-google-charts": "5.0.0",
     "ngx-socket-io": "^3.0.1",
     "rxjs": "^6.5.5",
     "ts-lib": "^0.0.5",

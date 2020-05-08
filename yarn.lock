@@ -6161,10 +6161,10 @@ ng-circle-progress@^1.5.1:
   dependencies:
     tslib "^1.9.0"
 
-ng2-google-charts@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/ng2-google-charts/-/ng2-google-charts-6.0.0.tgz#2c6175fe67d1d1c75898c0b8ca6c378dc79df5ef"
-  integrity sha512-yjKTfNSmjsrrM83FUFXQk1a9gNKPk76HvdVLVHus9vRpkdeFJLmxyQi4N3axkE0Lb0Eird5Q+AI1YsTxF8vaMA==
+ng2-google-charts@5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/ng2-google-charts/-/ng2-google-charts-5.0.0.tgz#2a4b8f7a040fa96962cb33ea6858d7c68a320300"
+  integrity sha512-8ehbdI3vpY1PT4UMqvNidTxyh4bN/JB1bVbSqnyXLcbBg//kH0vleLCcd4y9c2OTyTmhVobsgqZstcMwLNI9Pg==
 
 ngx-socket-io@^3.0.1:
   version "3.0.1"
