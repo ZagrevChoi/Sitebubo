@@ -77,8 +77,8 @@ export class SubscriptionWelcomePage implements OnInit {
 
   getTransactionHistory(userID, token): any {
     let temp = []; let count = 0;
-    this.ionService.showLoading();
     return new Promise((resolve, reject) => {
+      this.ionService.showLoading();
       this.transactionAPI.getTransactionHistory(userID, token).subscribe(result => {
         this.ionService.closeLoading();
         console.log(result);

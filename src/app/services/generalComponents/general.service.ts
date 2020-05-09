@@ -95,11 +95,11 @@ export class GeneralService {
           if (user.new_user && info.id === 0) {
             this.router.navigate(['plans'], { replaceUrl: true });
           } else {
-            if (user.new_user) {
-              this.router.navigate(['add-site'], { replaceUrl: true });
-            } else {
-              this.router.navigate(['domain-list'], { replaceUrl: true });
-            }
+            // if (user.new_user) {
+            //   this.router.navigate(['add-site'], { replaceUrl: true });
+            // } else {
+            //   this.router.navigate(['domain-list'], { replaceUrl: true });
+            // }
             // this.purchaseService.verifyCurrentSubscription().then((res) => {
             //   if (res) {
             //     if (user.new_user) {
@@ -111,21 +111,25 @@ export class GeneralService {
             //     this.ionService.presentToast('You have cancelled your subscription plan.');
             //   }
             // });
-            // if (user.new_user) {
-            //   this.router.navigate(['add-site'], { replaceUrl: true });
-            // } else {
-            //   this.purchaseService.verifyCurrentSubscription().then((res) => {
-            //     if (res) {
-            //       this.router.navigate(['domain-list'], { replaceUrl: true });
-            //     } else  {
-                  
-            //     }
-            //   }).catch((err) => {
-            //     this.ionService.presentToast(err);
-            //     this.storage.clear();
-            //     this.router.navigate(['welcome'], { replaceUrl: true });
-            //   });
-            // }
+            if (user.new_user) {
+              this.router.navigate(['add-site'], { replaceUrl: true });
+            } else {
+              if (info.id === 1) {
+                this.router.navigate(['domain-list'], { replaceUrl: true });
+              } else {
+                this.purchaseService.verifyCurrentSubscription(user.id, user.token).then((res) => {
+                  if (res) {
+                    this.router.navigate(['domain-list'], { replaceUrl: true });
+                  } else  {
+
+                  }
+                }).catch((err) => {
+                  this.ionService.presentToast(err);
+                  this.storage.clear();
+                  this.router.navigate(['welcome'], { replaceUrl: true });
+                });
+              }
+            }
           }
         });
       } else {

@@ -8,6 +8,7 @@ import { ExDomainsPage } from 'src/app/pages/modals/ex-domains/ex-domains.page';
 import { InAppPurchase2, IAPProduct } from '@ionic-native/in-app-purchase-2/ngx';
 import { InAppPurchaseService } from 'src/app/services/in-app-purchase/in-app-purchase.service';
 
+
 @Component({
   selector: 'app-subscription-plan',
   templateUrl: './subscription-plan.component.html',
@@ -84,8 +85,10 @@ export class SubscriptionPlanComponent implements OnInit {
       }
     });
     this.iap.once(productId).owned((product: IAPProduct) => {
+      this.ionService.showLoading();
       this.purchaseService.saveSubscriptionDetailByGoogle(this.userID, this.token, JSON.stringify(product))
       .then((res) => {
+        this.ionService.closeLoading();
         if (res.RESPONSE === 'Success') {
           if (this.paidPlanDowngradeData) {
             this.removeDomains(this.paidPlanDowngradeData).then((result) => {
@@ -124,9 +127,11 @@ export class SubscriptionPlanComponent implements OnInit {
             });
           } else {
             this.ionService.presentToast('Invalid Receipt');
+            this.getDomainsToRemove(1, 'Free Plan', 'Free', 1);
           }
         }
-      }).catch(() => {
+      }).catch((err) => {
+        this.ionService.closeLoading();
         this.ionService.presentToast('Error happend while subscribing to the new plan.');
       });
     });
@@ -307,7 +312,6 @@ export class SubscriptionPlanComponent implements OnInit {
   }
 
   removeDomains(domainsToRemove): Promise<boolean> {
-    this.ionService.showLoading();
     return new Promise((resolve, reject) => {
       this.subscriptionAPI.downgradePlan(domainsToRemove.domains, this.userID, this.token, domainsToRemove.feedback)
       .subscribe((res) => {
@@ -317,7 +321,6 @@ export class SubscriptionPlanComponent implements OnInit {
           this.ionService.presentToast(res.RESPONSE);
         }
       }, err => {
-        this.ionService.closeLoading();
         this.ionService.presentToast('Something might be wrong with the server');
         reject(false);
       });
