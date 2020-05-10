@@ -15,6 +15,7 @@ import { IongadgetService } from '../ionGadgets/iongadget.service';
 import { TempService } from './../temp/temp.service';
 import { Events } from '../events/events.service';
 import { InAppPurchaseService } from '../in-app-purchase/in-app-purchase.service';
+import { StorageService } from '../storage/storage.service';
 // modals
 import { MonitorIssuesPage } from './../../pages/modals/monitor-issues/monitor-issues.page';
 import { NotificationListPage } from './../../pages/modals/notification-list/notification-list.page';
@@ -53,7 +54,8 @@ export class GeneralService {
     private tempService: TempService,
     private fb: Facebook,
     private ionService: IongadgetService,
-    private purchaseService: InAppPurchaseService
+    private purchaseService: InAppPurchaseService,
+    private storageService: StorageService
   ) { }
 
   async openMyProfile() {
@@ -121,7 +123,25 @@ export class GeneralService {
                   if (res) {
                     this.router.navigate(['domain-list'], { replaceUrl: true });
                   } else  {
-
+                    alert('You have cancelled your paid subscription plan.');
+                    this.purchaseService.getDomainsToRemove('Free Plan', 1, false)
+                    .then((resultData) => {
+                      this.purchaseService.removeDomains(resultData, user.id, user.token).then(() => {
+                        this.ionService.showLoading();
+                        this.subscriptionAPI.activatefreesubscription(1, user.id, user.token)
+                        .subscribe((result) => {
+                          this.ionService.closeLoading();
+                          if (result.RESPONSECODE === 1) {
+                            this.rebuildInfo();
+                          } else {
+                            this.ionService.presentToast('Couldn\'t downgrde to Free Plan');
+                          }
+                        }, err => {
+                          this.ionService.closeLoading();
+                          this.ionService.presentToast('Sever Api Problem');
+                        });
+                      });
+                    });
                   }
                 }).catch((err) => {
                   this.ionService.presentToast(err);
@@ -134,6 +154,16 @@ export class GeneralService {
         });
       } else {
         this.router.navigate(['welcome']);
+      }
+    });
+  }
+
+  rebuildInfo() {
+    this.purchaseService.veryifyToken().then((result) => {
+      if (result) {
+        this.storageService.setStorage(result).then(() => {
+          this.defineInitialRoutering();
+        });
       }
     });
   }

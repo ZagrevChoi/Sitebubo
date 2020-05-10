@@ -69,7 +69,6 @@ export class SubscriptionApiService extends BaseApiService {
   verifyCurrentSubscription(userID, token): Observable<any> {
     let url = this.subscription_url + 'verifysubscriptionbygoogle?';
     url += 'user_id=' + userID + '&token=' + token;
-    alert(url);
     return  this.sendGetRequest(url);
   }
 
