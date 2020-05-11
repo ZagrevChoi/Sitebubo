@@ -122,7 +122,7 @@ export class IongadgetService {
 
   async closeLoading() {
     this.isLoading = false;
-    return await this.loadingCtrl.dismiss().then();
+    await this.loadingCtrl.dismiss();
   }
 
   toggleMenu() {

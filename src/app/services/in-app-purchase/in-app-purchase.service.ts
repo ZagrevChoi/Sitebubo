@@ -34,7 +34,6 @@ export class InAppPurchaseService {
   verifyCurrentSubscription(userID, token): any {
     return new Promise((resolve, reject) => {
       this.subscriptionAPI.verifyCurrentSubscription(userID, token).subscribe((res) => {
-        alert(JSON.stringify(res));
         if (res.RESPONSECODE === 1) {
           resolve(true);
         } else {
@@ -47,7 +46,6 @@ export class InAppPurchaseService {
   }
 
   saveSubscriptionDetailByGoogle(userID, token, receiptData): Promise<any> {
-    // tslint:disable-next-line: no-shadowed-variable
     return new Promise((resolve, reject) => {
       this.subscriptionAPI.saveSubscriptionDetailByGoogle(userID, token, receiptData)
       .subscribe((res) => {
@@ -94,8 +92,10 @@ export class InAppPurchaseService {
 
   removeDomains(domainsToRemove, userID, token): Promise<boolean> {
     return new Promise((resolve, reject) => {
+      this.ionService.showLoading();
       this.subscriptionAPI.downgradePlan(domainsToRemove.domains, userID, token, domainsToRemove.feedback)
-      .subscribe((res) => {
+      .subscribe(async (res) => {
+        await this.ionService.closeLoading();
         if (res.RESPONSECODE === 1) {
           resolve(true);
         } else {
@@ -129,5 +129,19 @@ export class InAppPurchaseService {
             }
         });
     });
-}
+  }
+
+  cancelPreviousPlan(userID, token): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.ionService.showLoading();
+      this.subscriptionAPI.cancelPreviousGoogleSubscription(userID, token)
+      .subscribe(async (result) => {
+        await this.ionService.closeLoading();
+        resolve(true);
+      }, err => {
+        this.ionService.closeLoading();
+        reject(false);
+      });
+    });
+  }
 }

@@ -81,4 +81,10 @@ export class SubscriptionApiService extends BaseApiService {
     const url = this.subscription_url + 'savesubscriptiondetailbygoogle';
     return this.sendPostRequest(url, postData);
   }
+
+  cancelPreviousGoogleSubscription(userID, token) {
+    let url = this.subscription_url + 'cancelpurchasebygoogle?';
+    url += 'user_id=' + userID + '&token=' + token;
+    return this.sendGetRequest(url);
+  }
 }

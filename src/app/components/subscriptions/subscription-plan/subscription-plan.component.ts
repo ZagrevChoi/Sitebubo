@@ -39,6 +39,9 @@ export class SubscriptionPlanComponent implements OnInit {
     this.initData();
   }
 
+  ionViewWillEnter() {
+  }
+
   async listenInapppurchase(productIds) {
     // this.iap.validator = 'https://validator.fovea.cc/v1/validate?appName=com.sitebubo.app&apiKey=5f308137-76e7-4d0c-b339-4cfc4b7406ed';
     this.iap.verbosity = this.iap.INFO;
@@ -77,10 +80,8 @@ export class SubscriptionPlanComponent implements OnInit {
       }
     });
     this.iap.once(productId).owned((product: IAPProduct) => {
-      this.ionService.showLoading();
       this.purchaseService.saveSubscriptionDetailByGoogle(this.userID, this.token, JSON.stringify(product))
       .then((res) => {
-        this.ionService.closeLoading();
         if (res.RESPONSE === 'Success') {
           if (this.paidPlanDowngradeData) {
             this.purchaseService.removeDomains(this.paidPlanDowngradeData, this.userID, this.token).then((result) => {
@@ -118,11 +119,7 @@ export class SubscriptionPlanComponent implements OnInit {
               }
             });
           } else {
-            // this.ionService.presentToast('Invalid Receipt');
-            // this.purchaseService.getDomainsToRemove(1, 'Free Plan', true)
-            // .then((resultData) => {
-            //   this.gotoGooglePay(1, null, resultData);
-            // });
+            this.ionService.closeLoading();
           }
         }
       }).catch((err) => {
@@ -131,6 +128,7 @@ export class SubscriptionPlanComponent implements OnInit {
       });
     });
     this.iap.once(productId).approved((product: IAPProduct) => {
+      alert('approved' + product.id);
       product.finish();
     });
     this.iap.once(productId).refunded((product: IAPProduct) => {
@@ -140,7 +138,7 @@ export class SubscriptionPlanComponent implements OnInit {
       product.finish();
     });
     this.iap.once(productId).cancelled((product: IAPProduct) => {
-      alert('cancelled' + product.id);
+      product.finish();
     });
   }
 
@@ -157,7 +155,6 @@ export class SubscriptionPlanComponent implements OnInit {
       if (info) {
         this.currentPlanID = info.id;
         this.definePlansList().then((productIds) => {
-          alert(productIds);
           this.listenInapppurchase(productIds);
         });
         this.oldPlanName = info.name + ' Plan';
@@ -181,7 +178,20 @@ export class SubscriptionPlanComponent implements OnInit {
     });
   }
 
-  carryOutPayment(newPlanID, newPlanName, noofDomain, durationType) {
+  cancelPreviousPlan(): Promise<boolean> {
+    // tslint:disable-next-line: no-shadowed-variable
+    return new Promise((resolve) => {
+      this.purchaseService.cancelPreviousPlan(this.userID, this.token)
+      .then((res) => {
+        resolve(true);
+      });
+    });
+  }
+
+  async carryOutPayment(newPlanID, newPlanName, noofDomain, durationType) {
+    if (!this.isNewUser) {
+      await this.cancelPreviousPlan();
+    }
     this.newPlanName = newPlanName;
     let tempPlan: string;
     if (durationType === 'month') {
@@ -215,11 +225,7 @@ export class SubscriptionPlanComponent implements OnInit {
 
   gotoGooglePay(newPlanID, tempPlan, downgradeData = null) {
     if (newPlanID === 1) {
-      this.purchaseService.cancelSubscription().then((mayFree) => {
-        this.ionService.showLoading();
-        if (mayFree) {
           this.subscribeToFreePlan().then((result) => {
-            this.ionService.closeLoading();
             if (result) {
               this.purchaseService.removeDomains(downgradeData, this.userID, this.token).then((res) => {
                 this.router.navigate(['subscription-welcome'], {
@@ -233,13 +239,7 @@ export class SubscriptionPlanComponent implements OnInit {
               });
             }
           }).catch((err) => {
-            this.ionService.closeLoading();
           });
-        } else {
-          this.ionService.closeLoading();
-          this.ionService.presentToast('We cannot downgrade to free plan unless you cancel the current plan');
-        }
-      });
     } else {
       this.checkout(tempPlan);
       if (downgradeData) {
@@ -251,8 +251,10 @@ export class SubscriptionPlanComponent implements OnInit {
   subscribeToFreePlan(): Promise<boolean> {
     return new Promise((resolve, reject) => {
       this.storage.get('userInfo').then((user) => {
+        this.ionService.showLoading();
         this.subscriptionAPI.activatefreesubscription(1, user.id, user.token)
-        .subscribe((result) => {
+        .subscribe(async (result) => {
+          await this.ionService.closeLoading();
           console.log(result);
           if (result.RESPONSECODE === 1) {
             resolve(true);
@@ -261,6 +263,7 @@ export class SubscriptionPlanComponent implements OnInit {
             reject(false);
           }
         }, err => {
+          this.ionService.closeLoading();
           this.ionService.presentToast('Free Plan activation failed.');
         });
       });

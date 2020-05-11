@@ -25,10 +25,13 @@ export class PlansPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.initData();
   }
 
   ionViewWillEnter() {
+    this.initData();
+  }
+
+  initData() {
     this.storage.get('userInfo').then((user) => {
       this.newUser = user.new_user;
       this.activatedRoute.queryParams.subscribe((params) => {
@@ -36,24 +39,18 @@ export class PlansPage implements OnInit {
           this.newUser = params.newUser;
         }
       });
-    });
-  }
-
-  initData() {
-    this.storage.get('userInfo').then((user) => {
       if (user) {
-        console.log(user.new_user);
         this.getSubscriptions(user.id, user.token);
       } else {
         this.router.navigate(['welcome'], { replaceUrl: true });
       }
     });
+    this.storage.get('userInfo').then((user) => {
+    });
   }
 
-  async getSubscriptions(userID, token) {
-      this.ionService.showLoading();
-      await this.subscriptionApi.getSubscriptionPlan(userID, token).subscribe(async (plans) => {
-        this.ionService.closeLoading();
+  getSubscriptions(userID, token) {
+      this.subscriptionApi.getSubscriptionPlan(userID, token).subscribe(async (plans) => {
         if (plans.RESPONSECODE === 1) {
           console.log(plans);
           this.plansList = plans.data.plan.reverse();
@@ -64,7 +61,6 @@ export class PlansPage implements OnInit {
         }
       }, err => {
         console.log(err);
-        this.ionService.closeLoading();
         this.ionService.showAlert('Connection Error to the Server', 'Couldnot fetch the plans');
       });
   }
