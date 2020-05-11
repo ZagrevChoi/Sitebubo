@@ -168,18 +168,6 @@ export class GeneralService {
     });
   }
 
-  restDomainInfo(result) {
-    const domain = {
-      current_domains: result.domains,
-      my_domains: result.my_domains,
-      invited_domains: result.invited_domains
-    };
-
-    this.storage.set('domainInfo', domain).then(() => {
-      this.events.publish('domainInfo_set', domain);
-    });
-  }
-
   logOut() {
     this.storage.get('userInfo').then((user) => {
       if (user) {

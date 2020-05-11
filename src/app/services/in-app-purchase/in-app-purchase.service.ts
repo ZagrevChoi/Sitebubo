@@ -47,10 +47,13 @@ export class InAppPurchaseService {
 
   saveSubscriptionDetailByGoogle(userID, token, receiptData): Promise<any> {
     return new Promise((resolve, reject) => {
+      this.ionService.showLoading();
       this.subscriptionAPI.saveSubscriptionDetailByGoogle(userID, token, receiptData)
       .subscribe((res) => {
+        this.ionService.closeLoading();
         resolve(res);
       }, err => {
+        this.ionService.closeLoading();
         reject(false);
       });
     });

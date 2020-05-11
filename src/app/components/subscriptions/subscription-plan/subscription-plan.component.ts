@@ -15,7 +15,7 @@ import { InAppPurchaseService } from 'src/app/services/in-app-purchase/in-app-pu
 export class SubscriptionPlanComponent implements OnInit {
   @Input() plansList: Array<any>;
   @Input() freeTrialAvailable: boolean;
-  currentPlanID: number;
+  @Input() currentPlanID: number;
   currnetPlanName: string;
   oldPlanName: string;
   newPlanName: string;
@@ -33,14 +33,30 @@ export class SubscriptionPlanComponent implements OnInit {
     private router: Router,
     private iap: InAppPurchase2,
     private purchaseService: InAppPurchaseService
-  ) { }
+    ) { }
 
-  ngOnInit() {
-    this.initData();
-  }
+    ngOnInit() {
+      this.initData();
+    }
 
-  ionViewWillEnter() {
-  }
+    initData() {
+      this.storage.get('userInfo').then((user) => {
+        if (user) {
+          this.isNewUser = user.new_user;
+          this.userID = user.id;
+          this.token = user.token;
+        }
+      });
+      this.storage.get('planInfo').then((info) => {
+        if (info) {
+          this.definePlansList().then((productIds) => {
+            this.listenInapppurchase(productIds);
+          });
+          this.oldPlanName = info.name + ' Plan';
+          this.daysLeft = info.days_left;
+        }
+      });
+    }
 
   async listenInapppurchase(productIds) {
     // this.iap.validator = 'https://validator.fovea.cc/v1/validate?appName=com.sitebubo.app&apiKey=5f308137-76e7-4d0c-b339-4cfc4b7406ed';
@@ -128,7 +144,6 @@ export class SubscriptionPlanComponent implements OnInit {
       });
     });
     this.iap.once(productId).approved((product: IAPProduct) => {
-      alert('approved' + product.id);
       product.finish();
     });
     this.iap.once(productId).refunded((product: IAPProduct) => {
@@ -142,26 +157,6 @@ export class SubscriptionPlanComponent implements OnInit {
     });
   }
 
-  initData() {
-    this.storage.get('userInfo').then((user) => {
-      if (user) {
-        this.isNewUser = user.new_user;
-        this.userID = user.id;
-        this.token = user.token;
-      }
-    });
-    this.storage.get('planInfo').then((info) => {
-      console.log(info);
-      if (info) {
-        this.currentPlanID = info.id;
-        this.definePlansList().then((productIds) => {
-          this.listenInapppurchase(productIds);
-        });
-        this.oldPlanName = info.name + ' Plan';
-        this.daysLeft = info.days_left;
-      }
-    });
-  }
 
   async definePlansList() {
     return new Promise((resolve) => {
@@ -189,7 +184,7 @@ export class SubscriptionPlanComponent implements OnInit {
   }
 
   async carryOutPayment(newPlanID, newPlanName, noofDomain, durationType) {
-    if (!this.isNewUser) {
+    if (newPlanID === 1 && !this.isNewUser) {
       await this.cancelPreviousPlan();
     }
     this.newPlanName = newPlanName;
@@ -233,7 +228,8 @@ export class SubscriptionPlanComponent implements OnInit {
                     isNewuser: this.isNewUser,
                     oldPlan: this.oldPlanName,
                     platform: 'android',
-                    status: 'downgrade'
+                    status: 'downgrade',
+                    newPlan: 'Free Plan'
                   }
                 });
               });

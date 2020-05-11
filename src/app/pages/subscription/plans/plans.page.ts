@@ -15,6 +15,7 @@ export class PlansPage implements OnInit {
   plansList: any;
   plat: string;
   freeTrialAvailable: boolean;
+  currentPlanID: number;
   constructor(
     private storage: Storage,
     private router: Router,
@@ -33,20 +34,23 @@ export class PlansPage implements OnInit {
 
   initData() {
     this.storage.get('userInfo').then((user) => {
-      this.newUser = user.new_user;
-      this.activatedRoute.queryParams.subscribe((params) => {
-        if (params.newUser !== undefined) {
-          this.newUser = params.newUser;
-        }
-      });
       if (user) {
+        this.newUser = user.new_user;
         this.getSubscriptions(user.id, user.token);
       } else {
         this.router.navigate(['welcome'], { replaceUrl: true });
       }
     });
-    this.storage.get('userInfo').then((user) => {
+    this.storage.get('planInfo').then((info) => {
+      if (info) {
+        this.currentPlanID = info.id;
+      }
     });
+    // this.activatedRoute.queryParams.subscribe((params) => {
+    //   if (params.newUser !== undefined) {
+    //     this.newUser = params.newUser;
+    //   }
+    // });
   }
 
   getSubscriptions(userID, token) {
