@@ -24,6 +24,7 @@ export class ViewMembershipPage implements OnInit {
   plansList: any;
   freeTrialAvailable: boolean;
   viewStatus = true;
+  currentPlanID: number;
   constructor(
     private ionService: IongadgetService,
     private navCtrl: NavController,
@@ -50,6 +51,7 @@ export class ViewMembershipPage implements OnInit {
       }
     });
     this.storage.get('planInfo').then((planInfo) => {
+      this.currentPlanID = planInfo.id;
       console.log(planInfo);
       const temp = planInfo;
       if (planInfo.pending_productid) {

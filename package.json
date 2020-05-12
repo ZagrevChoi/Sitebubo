@@ -44,6 +44,7 @@
     "cc.fovea.cordova.purchase": "^10.1.1",
     "com.bunkerpalace.cordova.YoutubeVideoPlayer": "git+https://github.com/JonSmart/CordovaYoutubeVideoPlayer.git",
     "cordova-admob-sdk": "^0.24.1",
+    "cordova-android": "^8.1.0",
     "cordova-plugin-add-swift-support": "^2.0.2",
     "cordova-plugin-admob-free": "^0.27.0",
     "cordova-plugin-androidx": "^1.0.2",
@@ -149,6 +150,8 @@
       "cordova-plugin-androidx": {},
       "cordova-plugin-androidx-adapter": {}
     },
-    "platforms": []
+    "platforms": [
+      "android"
+    ]
   }
 }
