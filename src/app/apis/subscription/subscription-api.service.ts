@@ -72,6 +72,17 @@ export class SubscriptionApiService extends BaseApiService {
     return  this.sendGetRequest(url);
   }
 
+  verifypurchasetokenbygoogle(userID, tokenData, purchaseToken, subscriptionID) {
+    const postData = {
+      user_id: userID,
+      token: tokenData,
+      purchase_token: purchaseToken,
+      subscription_id: subscriptionID
+    };
+    const url = this.subscription_url + 'verifypurchasetokenbygoogle';
+    return this.sendPostRequest(url, postData);
+  }
+
   saveSubscriptionDetailByGoogle(userID, tokenData, receiptData): Observable<any> {
     const postData = {
       user_id: userID,

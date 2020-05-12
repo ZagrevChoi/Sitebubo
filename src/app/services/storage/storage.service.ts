@@ -23,7 +23,7 @@ export class StorageService {
 
   restDomainInfo(result) {
     const domain = {
-      current_domains: result.domains,
+      current_domains: result.current_domains ? result.current_domains : result.domains,
       my_domains: result.my_domains,
       invited_domains: result.invited_domains
     };

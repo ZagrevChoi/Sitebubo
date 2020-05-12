@@ -120,7 +120,8 @@ export class GeneralService {
                 this.router.navigate(['domain-list'], { replaceUrl: true });
               } else {
                 this.purchaseService.verifyCurrentSubscription(user.id, user.token).then((res) => {
-                  if (res) {
+                  alert('General Service 123: ' + JSON.stringify(res));
+                  if (res.RESPONSE === 'Success') {
                     this.router.navigate(['domain-list'], { replaceUrl: true });
                   } else  {
                     alert('You have cancelled your paid subscription plan.');

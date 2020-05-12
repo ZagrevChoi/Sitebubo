@@ -7,6 +7,7 @@ import { ModalController } from '@ionic/angular';
 import { IongadgetService } from '../ionGadgets/iongadget.service';
 import { AuthApiService } from 'src/app/apis/auth/auth-api.service';
 import { Router } from '@angular/router';
+import { promise } from 'protractor';
 
 
 @Injectable({
@@ -34,26 +35,33 @@ export class InAppPurchaseService {
   verifyCurrentSubscription(userID, token): any {
     return new Promise((resolve, reject) => {
       this.subscriptionAPI.verifyCurrentSubscription(userID, token).subscribe((res) => {
-        if (res.RESPONSECODE === 1) {
-          resolve(true);
-        } else {
-          resolve(false);
-        }
+        resolve(res);
       }, err => {
         reject('The api is not working properly at the moment');
       });
     });
   }
 
-  saveSubscriptionDetailByGoogle(userID, token, receiptData): Promise<any> {
+  verifypurchasetokenbygoogle(userID, token, purchaseToken, subscriptionID): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.ionService.showLoading();
+      this.subscriptionAPI.verifypurchasetokenbygoogle(userID, token, purchaseToken, subscriptionID)
+      .subscribe((result) => {
+        resolve(result);
+      });
+    });
+  }
+
+  saveSubscriptionDetailByGoogle(userID, token, receiptData): Promise<boolean> {
+    return new Promise((resolve, reject) => {
       this.subscriptionAPI.saveSubscriptionDetailByGoogle(userID, token, receiptData)
       .subscribe((res) => {
-        this.ionService.closeLoading();
-        resolve(res);
+        alert('Save: ' + res.RESPONSE);
+        if (res.RESPONSECODE  === 1) {
+          resolve(true);
+        } else {
+          reject(false);
+        }
       }, err => {
-        this.ionService.closeLoading();
         reject(false);
       });
     });
