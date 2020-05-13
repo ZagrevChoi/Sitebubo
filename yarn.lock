@@ -1047,10 +1047,10 @@
   dependencies:
     "@types/cordova" latest
 
-"@ionic-native/in-app-purchase-2@^5.24.0":
+"@ionic-native/in-app-purchase@^5.25.0":
   version "5.25.0"
-  resolved "https://registry.yarnpkg.com/@ionic-native/in-app-purchase-2/-/in-app-purchase-2-5.25.0.tgz#e1647416d82461b78982b5520ff08f4cb5e7fa93"
-  integrity sha512-jw/NBBfWdzP+kZM9au9gMTF4+k2kKSuSWOgxb6tny/lods2iCS4tEFDeXX/WYDA4iUe7QeWchqLtRqgR00yqkQ==
+  resolved "https://registry.yarnpkg.com/@ionic-native/in-app-purchase/-/in-app-purchase-5.25.0.tgz#18975e8dbc82f2b0da03e3fee9b293c8aebf6f56"
+  integrity sha512-NgNTsc+hFeynkjpuN/I0E1m2zL6nxitSVdzSP70mddaDef724wIZPktrwjWHmo7WBdvy96h0IuC5pwwWUz3oDw==
   dependencies:
     "@types/cordova" latest
 
@@ -2316,11 +2316,6 @@ caseless@~0.12.0:
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
   integrity sha1-G2gcIf+EAzyCZUMJBolCDRhxUdw=
 
-cc.fovea.cordova.purchase@^10.1.1:
-  version "10.1.1"
-  resolved "https://registry.yarnpkg.com/cc.fovea.cordova.purchase/-/cc.fovea.cordova.purchase-10.1.1.tgz#3456f48524a763c47c0e2e0bee6dbdce1ef293c9"
-  integrity sha512-HjPbXYiG7tXQy/i76gaXo7bmbeURW/agRm4sUpXIQEfJS3JU0oojmFT/oL219ThW/qz3+PuKXcfUxyda9yDdRw==
-
 chalk@^1.1.1, chalk@^1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-1.1.3.tgz#a8115c55e4a702fe4d150abd3872822a7e09fc98"
@@ -2875,6 +2870,11 @@ cordova-plugin-inappbrowser@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/cordova-plugin-inappbrowser/-/cordova-plugin-inappbrowser-3.2.0.tgz#8615e1510dcf796875b420416331b768fee28d86"
   integrity sha512-tYsK0H9M8POmJTVnfyIsiRgoOxnypa9IQIbf/Hsgi7vbgUYRHtBUfvXwq4RhMqLIVrCeJLXF2hTXTDNY0a/eTA==
+
+cordova-plugin-inapppurchase@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-inapppurchase/-/cordova-plugin-inapppurchase-1.2.0.tgz#2f59777ff4e026de04f8a5f4dba7898b63dbd3b3"
+  integrity sha1-L1l3f/TgJt4E+KX026eJi2Pb07M=
 
 cordova-plugin-ionic-keyboard@^2.2.0:
   version "2.2.0"

@@ -16,7 +16,7 @@
     enough peace of mind.
   </ion-label>
   <!-- old user on paid plan Downgraded -->
-  <ion-label class="c-header" *ngIf="!newUser && status === 'downgrade' && !isFreeTrial">Successfully Downgraded!</ion-label>
+  <ion-label class="c-header" *ngIf="!newUser && status === 'downgrade' && !isFreeTrial">Successfully Downgraded</ion-label>
   <ion-label class="c-notice" *ngIf="!newUser && status === 'downgrade' && !isFreeTrial"><b>{{ oldPlan }}</b> to <b>{{ newPlan }}</b></ion-label>
   <ion-label class="c-welcome" style="margin:15px" *ngIf="!newUser && status === 'downgrade'">
     You have now been switched to your new plan

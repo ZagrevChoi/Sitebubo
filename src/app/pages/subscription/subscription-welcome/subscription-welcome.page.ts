@@ -32,11 +32,9 @@ export class SubscriptionWelcomePage implements OnInit {
     private storage: Storage,
     private ionService: IongadgetService,
     private subscriptionAPI: SubscriptionApiService,
-    private events: Events,
     private cdr: ChangeDetectorRef,
     private generalService: GeneralService,
     private transactionAPI: TransactionApiService,
-    private domainAPI: DomainApiService,
     private router: Router,
     private purchaseService: InAppPurchaseService,
     private storageService: StorageService
@@ -97,8 +95,6 @@ export class SubscriptionWelcomePage implements OnInit {
   }
 
   defineDisplay(): any {
-    alert(this.subscriptionID);
-    alert(this.newUser);
     return new Promise((resolve) => {
       let temp: number;
       if (this.newUser && this.subscriptionID === 1) {

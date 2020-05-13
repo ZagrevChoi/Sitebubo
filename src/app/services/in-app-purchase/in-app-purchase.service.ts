@@ -7,7 +7,6 @@ import { ModalController } from '@ionic/angular';
 import { IongadgetService } from '../ionGadgets/iongadget.service';
 import { AuthApiService } from 'src/app/apis/auth/auth-api.service';
 import { Router } from '@angular/router';
-import { promise } from 'protractor';
 
 
 @Injectable({
@@ -55,7 +54,6 @@ export class InAppPurchaseService {
     return new Promise((resolve, reject) => {
       this.subscriptionAPI.saveSubscriptionDetailByGoogle(userID, token, receiptData)
       .subscribe((res) => {
-        alert('Save: ' + res.RESPONSE);
         if (res.RESPONSECODE  === 1) {
           resolve(true);
         } else {
@@ -67,17 +65,17 @@ export class InAppPurchaseService {
     });
   }
 
-  cancelSubscription(): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      const browser = this.iap.create('https://play.google.com/store/account/subscriptions', '_blank');
-      browser.show();
-      browser.on('exit').subscribe(() => {
-        this.verifyCurrentSubscription(this.userID, this.token).then((res) => {
-          resolve(!res);
-        });
-      });
-    });
-  }
+  // cancelSubscription(): Promise<boolean> {
+  //   return new Promise((resolve, reject) => {
+  //     const browser = this.iap.create('https://play.google.com/store/account/subscriptions', '_blank');
+  //     browser.show();
+  //     browser.on('exit').subscribe(() => {
+  //       this.verifyCurrentSubscription(this.userID, this.token).then((res) => {
+  //         resolve(!res);
+  //       });
+  //     });
+  //   });
+  // }
 
   getDomainsToRemove(newPlanName, noofDomain, userClose): Promise<any> {
     return new Promise(async (resolve) => {
@@ -144,10 +142,10 @@ export class InAppPurchaseService {
 
   cancelPreviousPlan(userID, token): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.ionService.showLoading();
+      this.ionService.showSpecificLoading('Cancelling previous plan...');
       this.subscriptionAPI.cancelPreviousGoogleSubscription(userID, token)
-      .subscribe(async (result) => {
-        await this.ionService.closeLoading();
+      .subscribe((result) => {
+        this.ionService.closeLoading();
         resolve(true);
       }, err => {
         this.ionService.closeLoading();
