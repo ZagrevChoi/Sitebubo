@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { SubscriptionApiService } from 'src/app/apis/subscription/subscription-api.service';
-import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { Storage } from '@ionic/storage';
 import { ExDomainsPage } from 'src/app/pages/modals/ex-domains/ex-domains.page';
 import { ModalController } from '@ionic/angular';
@@ -18,7 +17,6 @@ export class InAppPurchaseService {
   currentPlanName: string;
   constructor(
     private subscriptionAPI: SubscriptionApiService,
-    private iap: InAppBrowser,
     private storage: Storage,
     private modalCtrl: ModalController,
     private ionService: IongadgetService,
@@ -52,14 +50,17 @@ export class InAppPurchaseService {
 
   saveSubscriptionDetailByGoogle(userID, token, receiptData): Promise<boolean> {
     return new Promise((resolve, reject) => {
+      this.ionService.showLoading();
       this.subscriptionAPI.saveSubscriptionDetailByGoogle(userID, token, receiptData)
       .subscribe((res) => {
+        this.ionService.showLoading();
         if (res.RESPONSECODE  === 1) {
           resolve(true);
         } else {
           reject(false);
         }
       }, err => {
+        this.ionService.showLoading();
         reject(false);
       });
     });

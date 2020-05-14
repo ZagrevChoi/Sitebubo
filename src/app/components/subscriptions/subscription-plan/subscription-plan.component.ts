@@ -84,7 +84,8 @@ export class SubscriptionPlanComponent implements OnInit, OnChanges {
             queryParams: {
               isNewUser: this.isNewUser,
               status: 'upgrade',
-              oldPlan: this.oldPlanName
+              oldPlan: this.oldPlanName,
+              isFreeTrial: this.freeTrialAvailable
             }
           };
           this.router.navigate(['subscription-welcome'], params);
@@ -235,7 +236,6 @@ export class SubscriptionPlanComponent implements OnInit, OnChanges {
           });
         });
       }
-      
     });
   }
 }

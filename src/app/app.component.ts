@@ -126,9 +126,9 @@ export class AppComponent {
     treatFCM() {
         this.fcm.onNotification().subscribe((res) => {
             if (res.wasTapped) {
-                
+
             } else {
-                
+
             }
         });
     }

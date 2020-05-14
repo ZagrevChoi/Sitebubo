@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { SubscriptionApiService } from 'src/app/apis/subscription/subscription-api.service';
 import { IongadgetService } from 'src/app/services/ionGadgets/iongadget.service';
@@ -19,7 +19,6 @@ export class PlansPage implements OnInit {
   constructor(
     private storage: Storage,
     private router: Router,
-    private activatedRoute: ActivatedRoute,
     private navCtrl: NavController,
     private subscriptionApi: SubscriptionApiService,
     private ionService: IongadgetService,
