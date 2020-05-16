@@ -74,7 +74,7 @@ export class NotificationSettingPage implements OnInit {
       const browser = this.iab.create(url, '_blank');
       browser.show();
       browser.on('loadstop').subscribe((res) => {
-        if (res.url.includes('https://app.sitebubo.com/api/public/apiusers/slack_redirecturi')) {
+        if (res.url.includes('https://api.sitebubo.com/api/public/apiusers/slack_redirecturi')) {
           browser.close();
         }
       });
