@@ -8,8 +8,8 @@ import { Facebook } from '@ionic-native/facebook/ngx';
 import { Events } from 'src/app/services/events/events.service';
 
 // tslint:disable-next-line: variable-name
-const server_root = 'https://api.sitebubo.com/';
-
+const server_root = 'https://sitebubo-api-server.herokuapp.com/';
+// const server_root = 'https:/api.sitebubo.com/';
 @Injectable({
   providedIn: 'root'
 })
