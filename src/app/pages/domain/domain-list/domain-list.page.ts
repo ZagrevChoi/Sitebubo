@@ -8,6 +8,8 @@ import { AdmobService } from 'src/app/services/admob/admob.service';
 import { IongadgetService } from 'src/app/services/ionGadgets/iongadget.service';
 import { DomainApiService } from 'src/app/apis/domain/domain-api.service';
 import { SocketService } from 'src/app/services/socket/socket.service';
+import { DomainService } from 'src/app/services/domain/domain.service';
+import { StorageService } from 'src/app/services/storage/storage.service';
 
 @Component({
   selector: 'app-domain-list',
@@ -40,7 +42,9 @@ export class DomainListPage implements OnInit, OnDestroy {
     private tempService: TempService,
     private cdr: ChangeDetectorRef,
     private admobservice: AdmobService,
-    private socketService: SocketService
+    private socketService: SocketService,
+    private domainService: DomainService,
+    private storageService: StorageService
   ) {
 
   }
@@ -122,7 +126,7 @@ export class DomainListPage implements OnInit, OnDestroy {
           console.log(result.data);
           this.allDomList = result.data;
           this.domainCounts = result.domains;
-          this.generalService.restDomainInfo(result.domains);
+          this.storageService.restDomainInfo(result.domains);
           if (result.domains.my_domains === 10 && this.planID === 4) {
             this.showAddButton = false;
           }
@@ -241,6 +245,14 @@ export class DomainListPage implements OnInit, OnDestroy {
       const message = domName + ' is not scanned yet.';
       this.ionService.presentToast(message);
     }
+  }
+
+  confirmDeletion(domainName) {
+    this.domainService.confirmDeletion(domainName).then((res) => {
+      if (res) {
+        this.deleteDomain(domainName);
+      }
+    });
   }
 
   deleteDomain(domainName) {

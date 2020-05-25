@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar class="modal-toolbar">
     <ion-buttons>
-      <ion-button class="close" mode="ios" (click) = "dismiss()">
+      <ion-button class="close" mode="ios" (click) = "dismiss()" *ngIf="autoClose">
         <ion-icon class="close" name="close-outline" slot="icon-only"></ion-icon>
       </ion-button>
       <ion-title *ngIf="!cancel">Downgrade</ion-title>

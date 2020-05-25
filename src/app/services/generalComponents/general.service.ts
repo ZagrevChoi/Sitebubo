@@ -14,6 +14,8 @@ import { ReportApiService } from './../../apis/report/report-api.service';
 import { IongadgetService } from '../ionGadgets/iongadget.service';
 import { TempService } from './../temp/temp.service';
 import { Events } from '../events/events.service';
+import { InAppPurchaseService } from '../in-app-purchase/in-app-purchase.service';
+import { StorageService } from '../storage/storage.service';
 // modals
 import { MonitorIssuesPage } from './../../pages/modals/monitor-issues/monitor-issues.page';
 import { NotificationListPage } from './../../pages/modals/notification-list/notification-list.page';
@@ -51,7 +53,9 @@ export class GeneralService {
     private reportAPI: ReportApiService,
     private tempService: TempService,
     private fb: Facebook,
-    private ionService: IongadgetService
+    private ionService: IongadgetService,
+    private purchaseService: InAppPurchaseService,
+    private storageService: StorageService
   ) { }
 
   async openMyProfile() {
@@ -89,14 +93,64 @@ export class GeneralService {
   defineInitialRoutering() {
     this.storage.get('userInfo').then(user => {
       if (user) {
-        this.storage.get('planInfo').then(info => {
-          console.log(info);
+        this.storage.get('planInfo').then(async (info) => {
           if (user.new_user && info.id === 0) {
             this.router.navigate(['plans'], { replaceUrl: true });
-          } else if (user.new_user) {
-            this.router.navigate(['add-site'], { replaceUrl: true });
           } else {
-            this.router.navigate(['domain-list'], { replaceUrl: true });
+            // if (user.new_user) {
+            //   this.router.navigate(['add-site'], { replaceUrl: true });
+            // } else {
+            //   this.router.navigate(['domain-list'], { replaceUrl: true });
+            // }
+            // this.purchaseService.verifyCurrentSubscription().then((res) => {
+            //   if (res) {
+            //     if (user.new_user) {
+            //       this.router.navigate(['add-site'], { replaceUrl: true });
+            //     } else {
+            //       this.router.navigate(['domain-list'], { replaceUrl: true });
+            //     }
+            //   } else {
+            //     this.ionService.presentToast('You have cancelled your subscription plan.');
+            //   }
+            // });
+            if (user.new_user) {
+              this.router.navigate(['add-site'], { replaceUrl: true });
+            } else {
+              if (info.id === 1) {
+                this.router.navigate(['domain-list'], { replaceUrl: true });
+              } else {
+                this.purchaseService.verifyCurrentSubscription(user.id, user.token).then((res) => {
+                  alert('General Service 123: ' + JSON.stringify(res));
+                  if (res.RESPONSE === 'Success') {
+                    this.router.navigate(['domain-list'], { replaceUrl: true });
+                  } else  {
+                    alert('You have cancelled your paid subscription plan.');
+                    this.purchaseService.getDomainsToRemove('Free Plan', 1, false)
+                    .then((resultData) => {
+                      this.purchaseService.removeDomains(resultData, user.id, user.token).then(() => {
+                        this.ionService.showLoading();
+                        this.subscriptionAPI.activatefreesubscription(1, user.id, user.token)
+                        .subscribe((result) => {
+                          this.ionService.closeLoading();
+                          if (result.RESPONSECODE === 1) {
+                            this.rebuildInfo();
+                          } else {
+                            this.ionService.presentToast('Couldn\'t downgrde to Free Plan');
+                          }
+                        }, err => {
+                          this.ionService.closeLoading();
+                          this.ionService.presentToast('Sever Api Problem');
+                        });
+                      });
+                    });
+                  }
+                }).catch((err) => {
+                  this.ionService.presentToast(err);
+                  this.storage.clear();
+                  this.router.navigate(['welcome'], { replaceUrl: true });
+                });
+              }
+            }
           }
         });
       } else {
@@ -105,15 +159,13 @@ export class GeneralService {
     });
   }
 
-  restDomainInfo(result) {
-    const domain = {
-      current_domains: result.domains,
-      my_domains: result.my_domains,
-      invited_domains: result.invited_domains
-    };
-
-    this.storage.set('domainInfo', domain).then(() => {
-      this.events.publish('domainInfo_set', domain);
+  rebuildInfo() {
+    this.purchaseService.veryifyToken().then((result) => {
+      if (result) {
+        this.storageService.setStorage(result).then(() => {
+          this.defineInitialRoutering();
+        });
+      }
     });
   }
 

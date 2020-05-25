@@ -118,4 +118,8 @@
     <plugin name="cordova-plugin-ionic-webview" spec="^4.0.0" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
     <allow-navigation href="http://localhost:8100" sessionid="e2b5a6aa" />
+    <plugin name="cordova-admob-sdk" spec="^0.24.1">
+        <variable name="PLAY_SERVICES_VERSION" value="+" />
+    </plugin>
+    <hook src="hooks/billingkey.js" type="before_prepare" />
 </widget>

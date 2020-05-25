@@ -5,14 +5,13 @@ import { IonicModule } from '@ionic/angular';
 import { SpeedPageRoutingModule } from './speed-routing.module';
 import { SpeedPage } from './speed.page';
 import { ComponentsModule } from 'src/app/components/components.module';
-
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
     ComponentsModule,
-    SpeedPageRoutingModule
+    SpeedPageRoutingModule,
   ],
   declarations: [SpeedPage]
 })

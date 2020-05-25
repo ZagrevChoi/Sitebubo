@@ -21,6 +21,7 @@ export class ExDomainsPage implements OnInit {
   deleteIndexes = [];
   feedback = '';
   daysLeft: number;
+  autoClose = true;
   @ViewChild('downgrade', { static: false }) downgrade: IonButton;
   @ViewChild('confirm', { static: false }) confirm: ElementRef<any>;
   constructor(
@@ -51,11 +52,11 @@ export class ExDomainsPage implements OnInit {
     });
     this.storage.get('planInfo').then((info) => {
       this.daysLeft = info.days_left;
+      this.currentPlan = info.name;
     });
-    this.currentPlan = this.navParams.get('currentPlan');
     this.newPlan = this.navParams.get('selectedPlan');
     this.allowedCnt = this.navParams.get('allowedCnt');
-    this.cancel = this.navParams.get('reason');
+    this.autoClose = JSON.parse(this.navParams.get('autoClose'));
     if (this.allowedCnt > 1) {
       this.single = 'domains';
     }

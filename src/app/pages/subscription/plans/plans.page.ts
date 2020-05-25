@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { SubscriptionApiService } from 'src/app/apis/subscription/subscription-api.service';
 import { IongadgetService } from 'src/app/services/ionGadgets/iongadget.service';
@@ -15,45 +15,45 @@ export class PlansPage implements OnInit {
   plansList: any;
   plat: string;
   freeTrialAvailable: boolean;
+  currentPlanID: number;
   constructor(
     private storage: Storage,
     private router: Router,
-    private activatedRoute: ActivatedRoute,
     private navCtrl: NavController,
     private subscriptionApi: SubscriptionApiService,
     private ionService: IongadgetService,
   ) { }
 
   ngOnInit() {
-    this.initData();
   }
 
   ionViewWillEnter() {
-    this.storage.get('userInfo').then((user) => {
-      this.newUser = user.new_user;
-      this.activatedRoute.queryParams.subscribe((params) => {
-        if (params.newUser !== undefined) {
-          this.newUser = params.newUser;
-        }
-      });
-    });
+    this.initData();
   }
 
   initData() {
     this.storage.get('userInfo').then((user) => {
       if (user) {
-        console.log(user.new_user);
+        this.newUser = user.new_user;
         this.getSubscriptions(user.id, user.token);
       } else {
         this.router.navigate(['welcome'], { replaceUrl: true });
       }
     });
+    this.storage.get('planInfo').then((info) => {
+      if (info) {
+        this.currentPlanID = info.id;
+      }
+    });
+    // this.activatedRoute.queryParams.subscribe((params) => {
+    //   if (params.newUser !== undefined) {
+    //     this.newUser = params.newUser;
+    //   }
+    // });
   }
 
-  async getSubscriptions(userID, token) {
-      this.ionService.showLoading();
-      await this.subscriptionApi.getSubscriptionPlan(userID, token).subscribe(async (plans) => {
-        this.ionService.closeLoading();
+  getSubscriptions(userID, token) {
+      this.subscriptionApi.getSubscriptionPlan(userID, token).subscribe(async (plans) => {
         if (plans.RESPONSECODE === 1) {
           console.log(plans);
           this.plansList = plans.data.plan.reverse();
@@ -64,7 +64,6 @@ export class PlansPage implements OnInit {
         }
       }, err => {
         console.log(err);
-        this.ionService.closeLoading();
         this.ionService.showAlert('Connection Error to the Server', 'Couldnot fetch the plans');
       });
   }

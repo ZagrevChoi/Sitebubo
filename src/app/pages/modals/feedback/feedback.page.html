@@ -15,12 +15,9 @@
     <div class="details" *ngFor="let item of questions, let i=index">
       <ion-label slot="start" class="question">{{item.question}}</ion-label>
       <ion-input style="display: none" id="question_{{ i }}">{{ item.id }}</ion-input>
-      <ion-textarea *ngIf="i == 0" #question (ionChange)="validate_form()" (ionBlur)="setValidation($event, true)"
+      <ion-textarea #question (ionChange)="validate_form()" (ionBlur)="setValidation($event, true)"
         (ionFocus)="setValidation($event, false)" id="c_{{ i }}" spellcheck="true" type="text" required rows="4"
-         placeholder="Tell us what you found useful about the app."></ion-textarea>
-      <ion-textarea *ngIf="i == 1" #question (ionChange)="validate_form()" (ionBlur)="setValidation($event, true)"
-      (ionFocus)="setValidation($event, false)" id="c_{{ i }}" spellcheck="true" type="text" required rows="4"
-       placeholder="Tell us what you think we can improve."></ion-textarea>
+      ></ion-textarea>
       <div class="validation-errors" id="validate_{{ i }}" style="display: none">
         <ng-container>
           <div class="error-message">

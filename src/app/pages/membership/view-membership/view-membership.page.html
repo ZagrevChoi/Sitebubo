@@ -12,7 +12,7 @@
   </ion-toolbar>
 </ion-header>
 <ion-content [ngSwitch]="displayValue">
-  <app-subscription-plan *ngSwitchCase="1" [plansList]="plansList" [freeTrialAvailable]="freeTrialAvailable"></app-subscription-plan>
+  <app-subscription-plan *ngSwitchCase="1" [plansList]="plansList" [freeTrialAvailable]="freeTrialAvailable"  [currentPlanID]='currentPlanID'></app-subscription-plan>
   <app-free-trial *ngSwitchCase="2" [details]="planInfo" [viewStatus]="viewStatus"></app-free-trial>
   <app-no-trial *ngSwitchCase="4" [details]="planInfo" [viewStatus]="viewStatus"></app-no-trial>
   <!-- <app-first-pay *ngSwitchCase="3" [details]="planInfo"></app-first-pay> -->

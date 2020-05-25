@@ -16,16 +16,21 @@
     enough peace of mind.
   </ion-label>
   <!-- old user on paid plan Downgraded -->
-  <ion-label class="c-header" *ngIf="!newUser && status === 'downgrade' && !isFreeTrial">Successfully Downgraded!</ion-label>
+  <ion-label class="c-header" *ngIf="!newUser && status === 'downgrade' && !isFreeTrial">Successfully Downgraded</ion-label>
   <ion-label class="c-notice" *ngIf="!newUser && status === 'downgrade' && !isFreeTrial"><b>{{ oldPlan }}</b> to <b>{{ newPlan }}</b></ion-label>
   <ion-label class="c-welcome" style="margin:15px" *ngIf="!newUser && status === 'downgrade'">
     You have now been switched to your new plan
   </ion-label>
   <!-- old user on paid plan Upgraded -->
-  <ion-label class="c-header" *ngIf="!newUser && status === 'upgrade' !isFreeTrial">Successfully Upgraded</ion-label>
+  <ion-label class="c-header" *ngIf="!newUser && status === 'upgrade' && !isFreeTrial">Successfully Upgraded</ion-label>
   <ion-label class="c-notice" *ngIf="!newUser && status === 'upgrade' !isFreeTrial"><b>{{ oldPlan }}</b> to <b>{{ newPlan }}</b></ion-label>
   <ion-label class="c-welcome" style="margin:15px" *ngIf="!newUser && status === 'upgrade'">
     You can now start enjoying the benefilts on your new plan.
+  </ion-label>
+  <!-- pending plan -->
+  <ion-label class="c-header" *ngIf="!newUser && status === 'pending'">{{ newPlan }} is Pending</ion-label>
+  <ion-label class="c-welcome" style="margin:15px" *ngIf="!newUser && status === 'pending'">
+    {{ newPlan }} will become active after {{ oldPlan }} expires on {{ details.next_payment_date }}
   </ion-label>
 
   <app-first-free *ngSwitchCase="1" [details]="details"></app-first-free>
@@ -33,7 +38,6 @@
   <app-first-pay *ngSwitchCase="3" [details]="details"  [newUser]="newUser"></app-first-pay>
   <app-free-trial *ngSwitchCase="4" [details]="details" [newUser]="newUser"></app-free-trial>
   <app-no-trial *ngSwitchCase="5" [details]="details"  [newUser]="newUser"></app-no-trial>
-
   <ion-button *ngIf="newUser || domainCounts === 0" mode="md" size="large"  block id="paypal-checkout" class="c-greenButton red" (click)="gotoAddSite()">
     Get Started
   </ion-button>

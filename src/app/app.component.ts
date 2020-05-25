@@ -15,6 +15,8 @@ import { StorageService } from './services/storage/storage.service';
 import { IongadgetService } from './services/ionGadgets/iongadget.service';
 import { NetworkService } from './services/network/network.service';
 import { Events } from './services/events/events.service';
+import { InAppPurchaseService } from './services/in-app-purchase/in-app-purchase.service';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -32,7 +34,6 @@ export class AppComponent {
     private statusBar: StatusBar,
     private router: Router,
     private storage: Storage,
-    private authAPI: AuthApiService,
     private generalService: GeneralService,
     private events: Events,
     private cdr: ChangeDetectorRef,
@@ -40,7 +41,8 @@ export class AppComponent {
     private storageService: StorageService,
     private network: NetworkService,
     private fcm: FCM,
-    private branchIO: BranchIo
+    private branchIO: BranchIo,
+    private purchaseService: InAppPurchaseService
   ) {
       this.treatFCM();
       this.listenBranch();
@@ -49,43 +51,29 @@ export class AppComponent {
       this.initializeApp();
     }
 
+    ionViewWillEnter() {
+        this.cdr.detectChanges();
+    }
+
     initializeApp() {
         this.platform.ready().then(() => {
-        this.statusBar.styleDefault();
-        this.splashScreen.hide();
-        this.veryifyToken().then((result) => {
+            this.statusBar.styleDefault();
+            this.splashScreen.hide();
+            this.purchaseService.veryifyToken()
+            .then((result) => {
                 if (result) {
-                    console.log(result);
+                    // tslint:disable-next-line: no-string-literal
+                    if (result['user'].terms) {
+                    this.generalService.openTermsAndConditions(true);
+                    }
                     this.storageService.setStorage(result).then(() => {
                         this.generalService.defineInitialRoutering();
                     });
+                } else {
+
                 }
             }).catch((err) => {
-            });
-        });
-    }
 
-    veryifyToken() {
-        return new Promise((resolve, reject) => {
-            this.storage.get('userInfo').then((user) => {
-                if (user) {
-                    this.authAPI.verifyToken(user.token).subscribe((result) => {
-                        if (result.RESPONSECODE === 1) {
-                            this.newUser = result.data.user.new_user;
-                            this.email = result.data.user.email;
-                            this.domainCount = result.data.domain.current_domains;
-                            resolve(result.data);
-                        } else {
-                            this.generalService.logOut();
-                            this.router.navigate(['welcome'], {replaceUrl: true});
-                            reject('error');
-                        }
-                    });
-                } else {
-                    this.generalService.logOut();
-                    this.router.navigate(['welcome'], { replaceUrl: true });
-                    reject('error');
-                }
             });
         });
     }
@@ -138,9 +126,9 @@ export class AppComponent {
     treatFCM() {
         this.fcm.onNotification().subscribe((res) => {
             if (res.wasTapped) {
-                // alert('tapped===============' +  JSON.stringify(res));
+
             } else {
-                // alert('not tapped===============' + JSON.stringify(res));
+
             }
         });
     }
