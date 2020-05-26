@@ -1,0 +1,14 @@
+{
+  "name": "cordova-plugin-apprate",
+  "version": "1.5.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pushandplay/cordova-plugin-apprate"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "*",
+    "grunt-cordovacli": "*"
+  },
+  "types": "./typescript/AppRate.d.ts"
+}
