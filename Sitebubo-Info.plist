@@ -13,7 +13,7 @@
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.sitebubo.app</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -21,7 +21,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>$(MARKETING_VERSION)</string>
+	<string>2.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -29,16 +29,24 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb783182492160628</string>
+				<string>fb3311146112248612</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>branch-cordova-sdk</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>sitebubo</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<string>2.0</string>
 	<key>FacebookAppID</key>
-	<string>783182492160628</string>
+	<string>3311146112248612</string>
 	<key>FacebookDisplayName</key>
-	<string>Sitebubo Mobile</string>
+	<string>Sitebubo</string>
 	<key>FacebookHybridAppEvents</key>
 	<string>false</string>
 	<key>GADApplicationIdentifier</key>
@@ -56,15 +64,12 @@
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
-			<key>akamaihd.net</key>
-			<dict>
-				<key>NSIncludesSubdomains</key>
-				<true/>
-			</dict>
+			<key>m.facebook.com</key>
+			<dict/>
+			<key>graph.facebook.com</key>
+			<dict/>
 			<key>api.facebook.com</key>
 			<dict/>
 			<key>fbcdn.net</key>
@@ -72,18 +77,21 @@
 				<key>NSIncludesSubdomains</key>
 				<true/>
 			</dict>
-			<key>graph.facebook.com</key>
-			<dict/>
-			<key>m.facebook.com</key>
-			<dict/>
+			<key>akamaihd.net</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
 		</dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
 	</dict>
 	<key>NSBluetoothAlwaysUsageDescription</key>
 	<string>All the domain data and options will be fetched from app.sitebubo.com and socket.sitebubo.com.</string>
 	<key>NSMainNibFile</key>
-	<string></string>
+	<string/>
 	<key>NSMainNibFile~ipad</key>
-	<string></string>
+	<string/>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
@@ -108,5 +116,9 @@
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
+	<key>branch_app_domain</key>
+	<string>sitebubo.app.link</string>
+	<key>branch_key</key>
+	<string>key_live_mdPRI9LROBTxTTLXy8msBbgbFCmijKUM</string>
 </dict>
 </plist>
