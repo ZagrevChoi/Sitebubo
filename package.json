@@ -126,7 +126,6 @@
         "ANDROID_SUPPORT_V4_VERSION": "24.1.1+"
       },
       "cordova-plugin-inappbrowser": {},
-      "com.bunkerpalace.cordova.YoutubeVideoPlayer": {},
       "cordova-plugin-facebook4": {
         "APP_ID": "3311146112248612",
         "APP_NAME": "Sitebubo",
@@ -150,7 +149,8 @@
       "cordova-plugin-admob-free": {
         "ADMOB_APP_ID": "ca-app-pub-9386468627439822~9520408780",
         "PLAY_SERVICES_VERSION": "+"
-      }
+      },
+      "com.bunkerpalace.cordova.YoutubeVideoPlayer": {}
     },
     "platforms": [
       "android"
