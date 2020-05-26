@@ -41,7 +41,7 @@
     "@ionic/storage": "^2.2.0",
     "angular2-counto": "^1.2.5",
     "branch-cordova-sdk": "^4.1.3",
-    "com.bunkerpalace.cordova.YoutubeVideoPlayer": "git+https://github.com/JonSmart/CordovaYoutubeVideoPlayer.git",
+    "com.bunkerpalace.cordova.YoutubeVideoPlayer": "https://github.com/JonSmart/CordovaYoutubeVideoPlayer",
     "cordova-admob-sdk": "^0.24.1",
     "cordova-android": "^8.1.0",
     "cordova-plugin-add-swift-support": "^2.0.2",
