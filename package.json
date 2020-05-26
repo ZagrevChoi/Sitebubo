@@ -119,9 +119,6 @@
       },
       "cordova-plugin-ionic-keyboard": {},
       "cordova-sqlite-storage": {},
-      "cordova-plugin-admob-free": {
-        "ADMOB_APP_ID": "ca-app-pub-9386468627439822~9520408780"
-      },
       "cordova-plugin-apprate": {},
       "cordova-plugin-network-information": {},
       "cordova-plugin-background-mode": {},
@@ -148,6 +145,10 @@
       "cordova-plugin-androidx-adapter": {},
       "cordova-plugin-inapppurchase": {},
       "cordova-admob-sdk": {
+        "PLAY_SERVICES_VERSION": "+"
+      },
+      "cordova-plugin-admob-free": {
+        "ADMOB_APP_ID": "ca-app-pub-9386468627439822~9520408780",
         "PLAY_SERVICES_VERSION": "+"
       }
     },

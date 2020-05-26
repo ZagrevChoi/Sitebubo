@@ -117,9 +117,13 @@
     <plugin name="cordova-plugin-splashscreen" spec="5.0.2" />
     <plugin name="cordova-plugin-ionic-webview" spec="^4.0.0" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
-    <allow-navigation href="http://localhost:8100" sessionid="e2b5a6aa" />
     <plugin name="cordova-admob-sdk" spec="^0.24.1">
         <variable name="PLAY_SERVICES_VERSION" value="+" />
     </plugin>
+    <plugin name="cordova-plugin-admob-free" spec="^0.27.0">
+        <variable name="ADMOB_APP_ID" value="ca-app-pub-9386468627439822~9520408780" />
+        <variable name="PLAY_SERVICES_VERSION" value="+" />
+    </plugin>
+    <allow-navigation href="http://localhost:8100" sessionid="e2b5a6aa" />
     <hook src="hooks/billingkey.js" type="before_prepare" />
 </widget>
