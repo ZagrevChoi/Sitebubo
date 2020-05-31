@@ -29,13 +29,13 @@
                 <string>com.sitebubo.app</string>
             </array>
         </config-file>
-        <config-file parent="UIBackgroundModes" target="*-Info.plist">
+        <edit-config parent="UIBackgroundModes" target="*-Info.plist">
             <array>
                 <string>fetch</string>
                 <string>processing</string>
                 <string>remote-notification</string>
             </array>
-        </config-file>
+        </edit-config>
         <config-file parent="GADApplicationIdentifier" target="*-Info.plist">
             <string>ca-app-pub-9386468627439822~7752370850</string>
         </config-file>

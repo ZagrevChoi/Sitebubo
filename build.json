@@ -4,7 +4,10 @@
       "developmentTeam": "RRBY77WJ63"
     },
     "release": {
-      "developmentTeam": "RRBY77WJ63"
+      "developmentTeam": "RRBY77WJ63",
+      "buildFlag": [
+        "-UseModernBuildSystem=0"
+      ]
     }
   }
 }

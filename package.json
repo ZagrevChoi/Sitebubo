@@ -46,6 +46,7 @@
     "angular2-counto": "^1.2.5",
     "branch-cordova-sdk": "^4.1.3",
     "cordova-admob-sdk": "^0.24.1",
+    "cordova-ios": "^5.1.1",
     "cordova-plugin-add-swift-support": "^2.0.2",
     "cordova-plugin-admob-free": "^0.27.0",
     "cordova-plugin-androidx": "^1.0.2",
@@ -153,11 +154,13 @@
       },
       "branch-cordova-sdk": {},
       "cordova-plugin-sign-in-with-apple": {},
-      "cordova-plugin-youtube-video-player": {},
       "cordova-admob-sdk": {
         "PLAY_SERVICES_VERSION": "+"
-      }
+      },
+      "cordova-plugin-youtube-video-player": {}
     },
-    "platforms": []
+    "platforms": [
+      "ios"
+    ]
   }
 }
