@@ -71,6 +71,7 @@
     "cordova-plugin-youtube-video-player": "^2.4.0",
     "cordova-promise-polyfill": "0.0.2",
     "cordova-sqlite-storage": "^4.0.0",
+    "cordova-test-plugin": "0.0.10",
     "core-js": "^2.5.4",
     "es6-promise-plugin": "^4.2.2",
     "fs.realpath": "^1.0.0",
