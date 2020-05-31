@@ -176,17 +176,17 @@
 }
 
 
-@keyframes hide-header {
-  0% {
-    transform: translateY(0);
-    opacity: 1;
-  } 
-  100% {
-    transform: translateY(-calc(60px + env(safe-area-inset-top)));
-    opacity: 0;
-    display: none;
-  }
-}
+// @keyframes hide-header {
+//   0% {
+//     transform: translateY(0);
+//     opacity: 1;
+//   } 
+//   100% {
+//     transform: translateY(-calc(60px + env(safe-area-inset-top)));
+//     opacity: 0;
+//     display: none;
+//   }
+// }
 
 @keyframes zoomIn {
   0% {
