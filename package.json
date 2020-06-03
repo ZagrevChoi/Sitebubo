@@ -47,6 +47,9 @@
     "cordova-plugin-admob-free": "^0.27.0",
     "cordova-plugin-androidx": "^1.0.2",
     "cordova-plugin-androidx-adapter": "^1.1.0",
+    "cordova-plugin-appcenter-analytics": "^0.5.1",
+    "cordova-plugin-appcenter-crashes": "^0.5.1",
+    "cordova-plugin-appcenter-shared": "^0.5.1",
     "cordova-plugin-apprate": "^1.5.0",
     "cordova-plugin-background-mode": "^0.7.3",
     "cordova-plugin-device": "^2.0.2",
@@ -150,7 +153,9 @@
         "ADMOB_APP_ID": "ca-app-pub-9386468627439822~9520408780",
         "PLAY_SERVICES_VERSION": "+"
       },
-      "cordova-plugin-youtube-video-player": {}
+      "cordova-plugin-youtube-video-player": {},
+      "cordova-plugin-appcenter-analytics": {},
+      "cordova-plugin-appcenter-crashes": {}
     },
     "platforms": [
       "android"
