@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "api-6917120433863288261-383235",
+  "private_key_id": "2a18a26a365f51b96896a8f9681966d8a841c4d1",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDNdqPofXU1uXjW\nAsHseyInUVAaQGik30SPSQp08MrJ4rRl44+iYq9b4nwQBqsbNPwDTLR7RmwAxRAn\nRn/0DB2LGcmE66JONeuxD039xZF2yeOtvsQgE/vXKYY6RGJsiKUdFPqNIBMQWN+Q\nay0LcfAMw9xpOT0aW6OFKYwtbmol3E7jjwDrvxt457CZhRdvlX4s/UlRFSF2y1cC\nwFxQI5oGmtQuIVj1BtwuAXVsrqypWHOfKEYh+pPAx9W5YkmBbTrWpmIDP7u+ga6k\nJDkzxQaU0PyFEUHF/ldLDFTYZiLft3YA6xHxRrR/HooVnR+oKTvgokxaUCgCFg9x\nFaeHpQvJAgMBAAECggEACT2aPpUR5fIrBJkIJr4c+Z63Fw8phazC9RzIWx0PScgn\n6+MxrRB6KYxEnyXloSofYXicL2Up61jxkoqhq5S16XEl9pPwb0sOiB6Tl+PAWJLY\n6hIH2Rd8/p7P+iPkN1Rn9KhiYmF8agJNP74KPxcHQFO4wITCAkL31j/ZnZt3K6+p\nr7S7bGvickuq8I6reu1kkhUZ9OFaCC1SM1abx+4/ZhH25OIyrUCHhawG5Act/3NY\necYwx/yHDw/DzpZuaJXZtahBIPvjcFdR5V4zyj8Xxq46im4x60foDB1enepN1ea+\nP/8vDX+4AE1vB3gEDgsUgp8xZ+Iwxn4Zm9yKiEEggQKBgQD2gHLDrR1oLvxi5/d0\nFrIZqiwlopzEmqz88rHN12WNUb0OZaBzysszBZKvHGvmOa4e0E9LFZHL4y/LhEc9\nf8VSHQTr2AZiDCoZrOul7v+yKLu9eTPNmoSfddNrMJEGO/1QENnfC8Yhlk+jXO8B\n376Hj6jqjetccooWJq7u89KaYQKBgQDVYWFc+edpXGiy/QTtgu+uurEsispF4ni7\ntyK9U1l9BgrlXhmqMimHLkqCCsWpJ8Oy5zILOzJGwB9eYY3HyCL0XN/iXggcfRQe\np73hnV8O31Y8mcNH1VUJmnkp/TdSNc64ImeG0wW4TELHM79PrMknE0pp6ZyKiQAL\nXAT6FSH6aQKBgQDl7A+f9vRL/i+J7cZBcP30tGbzP8csFv4t/g3c6wGdHFXUfPR5\nrPl2AMe+MCtwlfKUaUbcySSx4ZnuIdb1RR1/JvQ1K81gXOpUApfWsaOswRPEeq3Y\nJD16I0PtYmKTRxdTPDSMOIY5Q+PKg9+nhtRHy7cJ+RBErc2hNbnLxn91YQKBgQC+\nwIZEktdP9h9W2x/7n9Da1+SpWA2JOfMKhKYWsBtQzAUTlPLGln9PbI+I/05CcNze\n4xV2ut2wJ/Ii8nzHu1+cKiau+7aumRZSbUwvE/s1lWxHUoIjhk+1/RUR917sLFP3\ngjIgcicr4WjVIaqF9IYCW5lrYz7hDaYvgXylgBzW+QKBgFGXI5awnmMe3dbPFLmA\n1deWNVRV/MxA6Yz7gIhQBFTNZJ8lbcJ4ySujjPhCWYv+ymojYD0IYv9X4DYGHawu\nI/vwgCVyRj/Um0bwHISacOmBeB3KeO+dt8Fo6o3W8MgDRt8edFhLPkjGT0S47K7J\noBhoCPlOgkDYnixfZM/jXkWK\n-----END PRIVATE KEY-----\n",
+  "client_email": "sitebubo-mobile@api-6917120433863288261-383235.iam.gserviceaccount.com",
+  "client_id": "111697346528778367265",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/sitebubo-mobile%40api-6917120433863288261-383235.iam.gserviceaccount.com"
+}
