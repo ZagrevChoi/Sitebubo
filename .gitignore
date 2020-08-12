@@ -15,7 +15,7 @@ $RECYCLE.BIN/
 *.log
 log.txt
 npm-debug.log*
-
+bitrise.yml
 /.idea
 /.ionic
 /.sass-cache
